@@ -1,0 +1,135 @@
+$color-err: $dark-red;
+$color-focus-input: $dark-gray-80;
+$color-border-input: $dark-gray-20;
+$color-border-block: $dark-gray-20;
+$shadow-block: 0px 0px 25px rgba(0, 0, 0, 0.2);
+$color-text: $dark-gray-90;
+$color-text-button: $dark-gray-90;
+
+.registration {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: $font;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  border: 1px solid $color-border-block;
+  padding: 10px;
+  box-shadow: $shadow-block;
+}
+
+.headerWrapper {
+  margin-bottom: 20px;
+}
+
+.identification {
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+}
+
+.nameWrapper,
+.passwordWrapper,
+.captchaWrapper {
+  margin-bottom: 10px;
+}
+
+.name,
+.passwordOne,
+.passwordTwo,
+.inputCaptcha {
+  padding: 5px;
+  border: 1px solid $color-border-input;
+  color: $color-text;
+  width: 205px;
+  box-sizing: border-box;
+
+  &:focus {
+    border: 1px solid $color-focus-input;
+    outline: 0px;
+    outline-offset: 0px;
+  }
+
+  &Error {
+    border: 1px solid $color-err;
+  }
+}
+
+.captchaWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100px;
+}
+
+.labelCaptcha {
+  margin-top: auto;
+}
+
+.inputCaptcha {
+  margin-top: 10px;
+}
+
+.captcha {
+  margin: auto 0px auto auto;
+}
+
+.resetCode {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border: 0px;
+  background-color: transparent;
+  cursor: pointer;
+
+  &Animation {
+    animation: spin 0.5s linear 0s 1;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.submitWrapper {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  :nth-child(1) {
+    margin-bottom: 15px;
+  }
+
+  :nth-child(2) {
+    margin-bottom: 10px;
+  }
+}
+
+.messageWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.messageText {
+  color: $color-text-button;
+}

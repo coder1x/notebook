@@ -1,0 +1,40 @@
+@import "@styles/variables.scss";
+
+$color-text-button: $dark-gray-90;
+$color-focus-button: #222;
+$background-button: $light-gray;
+$border-button: $pale-gray;
+$background-button-hover: $color-white;
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 5px;
+  background-color: $background-button;
+  border: 1px solid $border-button;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    background-color: $background-button-hover;
+  }
+
+  &:focus {
+    outline: 2px solid $color-focus-button;
+    outline-offset: 5px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
+
+  &Submit {
+    color: $color-text-button;
+  }
+
+  &Interface {
+    color: $color-text-button;
+  }
+}
