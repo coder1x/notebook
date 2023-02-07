@@ -1,208 +1,177 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useState, FC, useCallback } from 'react';
 
-import Button from '@components/button/button';
-import ResetCode from '@components/resetCode/ResetCode';
-import InputCustom from '@components/changeCustom/ChangeCustom';
-import './signUp.scss';
+import { signUpActions } from '@store/slices';
 
-export default function SignUp() {
+import { useTypedSelector } from '@hooks/index';
+
+import { Button, TextField, Captcha } from '@components/index';
+
+function SignUp() {
   const dispatch = useDispatch();
-  const props = useSelector((state: any) => ({
-    token: state.signUp.token,
-    name: state.signUp.name,
-    isName: state.signUp.isName,
-    isCaptcha: state.signUp.isCaptcha,
-    isPassword: state.signUp.isPassword,
-    passwordOne: state.signUp.passwordOne,
-    passwordTwo: state.signUp.passwordTwo,
-    captcha: state.signUp.captcha,
-    modifierName: state.signUp.modifierName,
-    modifierPassword: state.signUp.modifierPassword,
-    modifierCaptcha: state.signUp.modifierCaptcha,
-    message: state.signUp.message,
-    code: state.signUp.code,
-  }));
 
-  const formFields = [props.isName, props.isCaptcha, props.isPassword];
+  const [isValidCaptcha, setIsValidCaptcha] = useState(false);
+
+  const {
+    token,
+    name,
+    errorName,
+    passwordOne,
+    passwordTwo,
+    isErrorPasswordOne,
+    isErrorPasswordTwo,
+    message,
+  } = useTypedSelector((state) => state.signUp);
+
+  const { isErrorCaptcha } = useTypedSelector((state) => state.captcha);
+
+  const formFields = [
+    !errorName,
+    !isErrorCaptcha,
+    !isErrorPasswordOne,
+    !isErrorPasswordTwo,
+    name,
+    passwordOne,
+    passwordTwo,
+    isValidCaptcha,
+  ];
   let isLockSubmit = true;
   if (formFields.every((elem) => elem)) {
     isLockSubmit = false;
   }
 
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // dispatch({
-    //   type: 'CHECK_USER',
-    //   name: event.target.value,
-    // });
-  };
+  const handleNameChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const text = event.target.value.trim();
 
-  const handlePasswordOneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const password = event.target.value;
+      if (!text) {
+        return false;
+      }
 
-    // dispatch({
-    //   type: password ? 'REG_PASSWORD_1' : 'REG_PASSWORD_1_ERROR',
-    //   passwordOne: password,
-    // });
-  };
+      if (text.length > 3) {
+        dispatch(signUpActions.fetchSignUpCheckName(text));
+      } else {
+        dispatch(
+          signUpActions.setRegNameError({
+            name: text,
+            errorName: 'Имя должено быть длинее 3 символов',
+          })
+        );
+      }
 
-  const handlePasswordTwoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const passwordTwo = event.target.value;
-    const status = props.passwordOne === passwordTwo ? 'REG_PASSWORD_2' : 'REG_PASSWORD_2_ERROR';
+      return true;
+    },
+    [dispatch]
+  );
 
-    // dispatch({
-    //   type: status,
-    //   passwordTwo,
-    // });
-  };
+  const handlePasswordOneChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const text = event.target.value.trim();
 
-  const handleCaptchaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // dispatch({
-    //   type: 'CHECK_CAPTCHA',
-    //   captcha: event.target.value,
-    //   token: props.token,
-    // });
-  };
+      if (!text) {
+        return false;
+      }
+
+      if (text.length > 5) {
+        dispatch(signUpActions.setRegPasswordOne(text));
+      } else {
+        dispatch(signUpActions.setRegPasswordOneError(text));
+      }
+
+      return true;
+    },
+    [dispatch]
+  );
+
+  const handlePasswordTwoChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const text = event.target.value.trim();
+
+      if (passwordOne === text) {
+        dispatch(signUpActions.setRegPasswordTwo(text));
+      } else {
+        dispatch(signUpActions.setRegPasswordTwoError(text));
+      }
+    },
+    [dispatch, passwordOne]
+  );
 
   const handleRegistrationClick = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
 
-    if (props.passwordOne === props.passwordTwo) {
-      // dispatch({
-      //   type: 'REGISTRATION_FETCH_REQUESTED',
-      //   name: props.name,
-      //   password: props.passwordOne,
-      //   tokenRegistration: props.token,
-      // });
+    if (passwordOne === passwordTwo) {
+      dispatch(
+        signUpActions.fetchSignUpSubmitForm({
+          name,
+          password: passwordOne,
+          tokenRegistration: token,
+        })
+      );
     } else {
-      // dispatch({
-      //   type: 'REG_PASSWORD_1_ERROR',
-      //   passwordOne: props.passwordOne,
-      // });
+      dispatch(signUpActions.setRegPasswordOneError(passwordOne));
     }
-  };
-
-  const handleResetCodeClick = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-    const buttonReset = event.currentTarget;
-
-    if (buttonReset instanceof HTMLButtonElement) {
-      const svgElement = buttonReset.firstElementChild;
-      // svgElement.classList.add(Style.resetCodeAnimation);
-
-      // svgElement.addEventListener('animationend', () => {
-      //   svgElement.classList.remove(Style.resetCodeAnimation);
-      // });
-    }
-
-    dispatch({
-      type: 'REG_CODE',
-      code: Math.floor(Math.random() * 99999) + 10000,
-    });
   };
 
   const handleSignInClick = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
 
-    dispatch({
-      type: 'REG_REGISTRATION_YES',
-      message: '',
-    });
+    dispatch(signUpActions.setRegRegistrationYes(''));
 
     // Router.push('/');
   };
 
-  // const selectorName = props.modifierName ? `${Style.name} ${Style.nameError}` : Style.name;
-  // const selectorCaptcha = props.modifierCaptcha
-  //   ? `${Style.inputCaptcha} ${Style.inputCaptchaError}`
-  //   : Style.inputCaptcha;
-  // const selectorPasswordOne = props.modifierPassword
-  //   ? `${Style.passwordOne} ${Style.passwordOneError}`
-  //   : Style.passwordOne;
-  // const selectorPasswordTwo = props.modifierPassword
-  //   ? `${Style.passwordTwo} ${Style.passwordTwoError}`
-  //   : Style.passwordTwo;
+  const handleCaptchaStatus = (status: boolean) => {
+    setIsValidCaptcha(status);
+  };
 
   return (
-    <article className={'Style.registration'}>
-      <header className={'Style.headerWrapper'}>
-        <h1 className={'Style.header'}>Регистрация аккаунта</h1>
+    <article className="registration">
+      <header className="registration__header-wrapper">
+        <h1 className="registration__header">Регистрация аккаунта</h1>
       </header>
-      <form className={'Style.form'} method="post">
-        <fieldset className={'Style.identification'}>
-          <div className={'Style.nameWrapper'}>
-            <label className={'Style.label'}>
-              <InputCustom
-                type={'input'}
-                props={{
-                  type: 'text',
-                  placeholder: 'Имя',
-                  name: 'name',
-                  // className: selectorName,
-                }}
-                value={props.name}
-                onChangeCustom={handleNameChange}
-              />
-            </label>
-          </div>
-          <div className={'Style.passwordWrapper'}>
-            <label className={'Style.label'}>
-              <InputCustom
-                type={'input'}
-                props={{
-                  type: 'password',
-                  placeholder: 'Пароль',
-                  name: 'password',
-                  // className: selectorPasswordOne,
-                  autoComplete: 'on',
-                }}
-                value={props.passwordOne}
-                onChangeCustom={handlePasswordOneChange}
-              />
-            </label>
-          </div>
-          <div className={'Style.passwordWrapper'}>
-            <label className={'Style.label'}>
-              <InputCustom
-                type={'input'}
-                props={{
-                  type: 'password',
-                  placeholder: 'Повторить пароль',
-                  name: 'passwordTwo',
-                  // className: selectorPasswordTwo,
-                  autoComplete: 'on',
-                }}
-                value={props.passwordTwo}
-                onChangeCustom={handlePasswordTwoChange}
-              />
-            </label>
-          </div>
-          <div className={'Style.captchaWrapper'}>
-            <img
-              className={'Style.captcha'}
-              src={`https://thylacine.ru/todo/captcha/captcha.php?id=${props.code}&token=${props.token}`}
-              width={'120'}
-              height={'20'}
-              alt={'Капча'}
+      <form className="registration__form" method="post">
+        <fieldset className="registration__identification">
+          <div className="registration__name-wrapper">
+            <TextField
+              type="text"
+              placeholder="Имя"
+              name="name"
+              isError={Boolean(errorName)}
+              message={errorName}
+              value={name}
+              onChangeCustom={handleNameChange}
+              ariaLabel="имя нового пользователя"
             />
-            <button className={'Style.resetCode'} type="submit" onClick={handleResetCodeClick}>
-              <ResetCode />
-            </button>
-            <label className={'Style.labelCaptcha'}>
-              <InputCustom
-                type={'input'}
-                props={{
-                  type: 'text',
-                  placeholder: 'Код с картинки',
-                  name: 'captcha',
-                  // className: selectorCaptcha,
-                }}
-                value={props.captcha}
-                onChangeCustom={handleCaptchaChange}
-              />
-            </label>
+          </div>
+          <div className="registration__password-wrapper">
+            <TextField
+              type="password"
+              placeholder="Пароль"
+              name="password"
+              isError={isErrorPasswordOne}
+              message={isErrorPasswordOne ? 'Пароль должен быть не короче 6 символов' : ''}
+              value={passwordOne}
+              onChangeCustom={handlePasswordOneChange}
+              ariaLabel="пароль"
+            />
+          </div>
+          <div className="registration__password-wrapper">
+            <TextField
+              type="password"
+              placeholder="Повторить пароль"
+              name="passwordTwo"
+              isError={isErrorPasswordTwo}
+              message={isErrorPasswordTwo ? 'Пароли не совпадают' : ''}
+              value={passwordTwo}
+              onChangeCustom={handlePasswordTwoChange}
+              ariaLabel="повторить пароль"
+            />
+          </div>
+          <div className="registration__captcha-wrapper">
+            <Captcha onStatus={handleCaptchaStatus} />
           </div>
         </fieldset>
-        <div className={'Style.submitWrapper'}>
+        <div className="registration__submit-wrapper">
           <Button
             options={{
               type: 'submit',
@@ -210,7 +179,7 @@ export default function SignUp() {
               modifier: 'submit',
               onClick: handleRegistrationClick,
             }}
-            text={'Зарегистрироваться'}
+            text="Зарегистрироваться"
           />
           <Button
             options={{
@@ -218,13 +187,15 @@ export default function SignUp() {
               modifier: 'submit',
               onClick: handleSignInClick,
             }}
-            text={'Войти'}
+            text="Войти"
           />
         </div>
       </form>
-      <div className={'Style.messageWrapper'}>
-        <p className={'Style.messageText'}>{props.message}</p>
+      <div className="registration__message-wrapper">
+        <p className="registration__message-text">{message}</p>
       </div>
     </article>
   );
 }
+
+export default SignUp;

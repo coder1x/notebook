@@ -29,6 +29,18 @@
       "@components/*": [
         "src/components/*"
       ],
+      "@pages/*": [
+        "src/pages/*"
+      ],
+      "@api/*": [
+        "src/api/*"
+      ],
+      "@store/*": [
+        "src/store/*"
+      ],
+      "@hooks/*": [
+        "src/hooks/*"
+      ],
       "@shared/*": [
         "src/shared/*"
       ],

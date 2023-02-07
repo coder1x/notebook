@@ -2,26 +2,26 @@ import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 
-// import { trelloAdapterListsReducer, trelloAdapterCardsReducer } from './slices';
+import { signUpReducer, captchaReducer } from './slices';
 
-// import mySaga from './saga/saga';
+import mySaga from './saga/saga';
 
-// const sagaMiddleware = createSagaMiddleware();
+const sagaMiddleware = createSagaMiddleware();
 
-// const rootReducer = combineReducers({
-//   trelloCard: trelloCardReducer,
-//   trelloMembers: trelloMembersReducer,
-// });
+const rootReducer = combineReducers({
+  signUp: signUpReducer,
+  captcha: captchaReducer,
+});
 
-// const store = configureStore({
-//   reducer: rootReducer,
-//   middleware: (getDefaultMiddleware) =>
-//     getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
-// });
-// sagaMiddleware.run(mySaga);
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
+});
+sagaMiddleware.run(mySaga);
 
-// type RootState = ReturnType<typeof store.getState>;
+type RootState = ReturnType<typeof store.getState>;
 
-// export { rootReducer };
-// export type { RootState };
-// export default store;
+export { rootReducer };
+export type { RootState };
+export default store;

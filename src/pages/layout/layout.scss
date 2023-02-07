@@ -1,0 +1,18 @@
+.home-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.todo {
+  width: 100%;
+  max-width: $max-wrapper;
+  min-height: 200px;
+  margin: 0 auto;
+  padding: 10px;
+  margin-top: 20px;
+  box-sizing: border-box;
+
+  @include media-breakpoint-down($xs) {
+    padding: 0px;
+  }
+}

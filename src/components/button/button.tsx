@@ -1,30 +1,25 @@
 import { createElement } from 'react';
 
-import './button.scss';
-
-export default function Button(props: any) {
+const Button = (props: any) => {
   const { options } = props;
+  const optionsClone = { ...options };
+  const type: 'submit' | 'interface' = optionsClone.modifier ?? 'interface';
 
-  let selector = ''; // Style.button
-  const type = options.modifier ?? 'interface';
+  delete optionsClone.modifier;
 
-  switch (type) {
-    case 'submit':
-      selector = ''; // Style.buttonSubmit
-      break;
-    case 'interface':
-      selector = ''; // Style.buttonInterface
-      break;
-    default:
-      break;
-  }
+  const modifier = {
+    submit: ' button__submit',
+    interface: ' button__interface',
+  };
 
   return createElement(
     'button',
     {
-      ...options,
-      className: `${'Style.button'} ${selector}`,
+      ...optionsClone,
+      className: `${'button'}${modifier[type] ?? ''}`,
     },
     props.text
   );
-}
+};
+
+export default Button;

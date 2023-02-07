@@ -21,6 +21,7 @@ class Throttle {
     this.action = action;
     this.customEvent = 'EventThrottleCustom';
     this.sleep = sleep;
+    // eslint-disable-next-line prettier/prettier
     this.onChange = onChange ?? (() => { });
     this.optimized();
   }

@@ -1,13 +1,15 @@
-import Header from '@components/header/Header';
-import Footer from '@components/footer/Footer';
+// import SignInPage from '@components/';
+import SignUp from '@components/signUp/SignUp';
+import Layout from '@pages/layout/Layout';
+
+// Регистрация пользователя в TODO
+// Вход в приложение TODO
 
 function Main() {
   return (
-    <>
-      <Header />
-      <main className="index-content">Тело</main>
-      <Footer />
-    </>
+    <Layout>
+      <SignUp />
+    </Layout>
   );
 }
 

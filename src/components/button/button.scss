@@ -1,5 +1,3 @@
-@import "@styles/variables.scss";
-
 $color-text-button: $dark-gray-90;
 $color-focus-button: #222;
 $background-button: $light-gray;
@@ -30,11 +28,11 @@ $background-button-hover: $color-white;
     opacity: 0.6;
   }
 
-  &Submit {
+  &__submit {
     color: $color-text-button;
   }
 
-  &Interface {
+  &__interface {
     color: $color-text-button;
   }
 }

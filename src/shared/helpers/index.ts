@@ -1,4 +1,4 @@
 import Throttle from '@helpers/throttle/Throttle';
+import { getToken, resetCode } from './generationToken/generationToken';
 
-// eslint-disable-next-line import/prefer-default-export
-export { Throttle };
+export { Throttle, getToken, resetCode };
