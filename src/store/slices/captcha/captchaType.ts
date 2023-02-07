@@ -2,9 +2,5 @@ type State = {
   isErrorCaptcha: boolean;
 };
 
-type Data = {
-  captcha: string;
-  token: string;
-};
-
-export type { State, Data };
+// eslint-disable-next-line import/prefer-default-export
+export type { State };

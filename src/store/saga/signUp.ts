@@ -11,12 +11,12 @@ type DataRegistration = {
 
 function* fetchRegistration(action: any) {
   try {
-    const { name, password, tokenRegistration } = action.payload;
+    const { name, password } = action.payload;
 
     const data: DataRegistration = yield call(registration, {
       name,
       password,
-      tokenRegistration,
+      tokenRegistration: localStorage.getItem('registrationToken'),
     });
 
     if (data.isRegistered) {

@@ -1,12 +1,12 @@
 type State = {
-  isPassword: boolean;
-  isErrorPasswordOne: boolean;
-  isErrorPasswordTwo: boolean;
   message: string;
-  passwordOne: string;
-  passwordTwo: string;
-  token: string;
+  // token: string;
+};
+
+type Data = {
+  name: string;
+  password: string;
 };
 
 // eslint-disable-next-line import/prefer-default-export
-export type { State };
+export type { State, Data };

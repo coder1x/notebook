@@ -4,10 +4,12 @@ function resetCode(min = 10000, max = 99999) {
 
 function generationHashCode(code: string) {
   return String(
-    code.split('').reduce((a, b) => {
-      a = (a << 5) - a + b.charCodeAt(0);
-      return a & a;
-    }, 0)
+    Math.abs(
+      code.split('').reduce((a, b) => {
+        a = (a << 5) - a + b.charCodeAt(0);
+        return a & a;
+      }, 0)
+    )
   );
 }
 

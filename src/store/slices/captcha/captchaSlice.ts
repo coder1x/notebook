@@ -15,7 +15,7 @@ const captcha = createSlice({
     setReset(state) {
       state.isErrorCaptcha = false;
     },
-    fetchCheckCaptcha(state, action: PayloadAction<Type.Data>) {
+    fetchCheckCaptcha(state, action: PayloadAction<string>) {
       state.isErrorCaptcha = false;
     },
   },

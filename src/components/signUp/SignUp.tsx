@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { useState, FC, useCallback } from 'react';
+import { useState, FC, useCallback, useEffect } from 'react';
 
 import { signUpActions, nameValidatorActions } from '@store/slices';
 
@@ -11,28 +11,43 @@ const SignUp: FC = () => {
   const dispatch = useDispatch();
 
   const [isValidCaptcha, setIsValidCaptcha] = useState(false);
+  const [passwordOne, setPasswordOne] = useState('');
+  const [passwordTwo, setPasswordTwo] = useState('');
+  const [isErrorPasswordOne, setIsErrorPasswordOne] = useState(false);
+  const [isErrorPasswordTwo, setIsErrorPasswordTwo] = useState(false);
+  const [isLockSubmit, setIsLockSubmit] = useState(true);
 
-  const { token, passwordOne, passwordTwo, isErrorPasswordOne, isErrorPasswordTwo, message } =
-    useTypedSelector((state) => state.signUp);
-
+  const { message } = useTypedSelector((state) => state.signUp);
   const { name, errorName } = useTypedSelector((state) => state.nameValidator);
-
   const { isErrorCaptcha } = useTypedSelector((state) => state.captcha);
 
-  const formFields = [
-    !errorName,
-    !isErrorCaptcha,
-    !isErrorPasswordOne,
-    !isErrorPasswordTwo,
+  useEffect(() => {
+    const formFields = [
+      !errorName,
+      !isErrorCaptcha,
+      !isErrorPasswordOne,
+      !isErrorPasswordTwo,
+      name,
+      passwordOne,
+      passwordTwo,
+      isValidCaptcha,
+    ];
+
+    if (formFields.every((elem) => elem)) {
+      setIsLockSubmit(false);
+    } else {
+      setIsLockSubmit(true);
+    }
+  }, [
+    errorName,
+    isErrorCaptcha,
+    isErrorPasswordOne,
+    isErrorPasswordTwo,
+    isValidCaptcha,
     name,
     passwordOne,
     passwordTwo,
-    isValidCaptcha,
-  ];
-  let isLockSubmit = true;
-  if (formFields.every((elem) => elem)) {
-    isLockSubmit = false;
-  }
+  ]);
 
   const handleNameChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,52 +73,39 @@ const SignUp: FC = () => {
     [dispatch]
   );
 
-  const handlePasswordOneChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const text = event.target.value.trim();
+  const handlePasswordOneChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const text = event.target.value.trim();
 
-      if (!text) {
-        return false;
-      }
+    if (!text) {
+      return false;
+    }
 
-      if (text.length > 5) {
-        dispatch(signUpActions.setRegPasswordOne(text));
-      } else {
-        dispatch(signUpActions.setRegPasswordOneError(text));
-      }
+    setIsErrorPasswordOne(text.length < 5);
 
-      return true;
-    },
-    [dispatch]
-  );
+    setPasswordOne(text);
+
+    return true;
+  }, []);
 
   const handlePasswordTwoChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const text = event.target.value.trim();
 
-      if (passwordOne === text) {
-        dispatch(signUpActions.setRegPasswordTwo(text));
-      } else {
-        dispatch(signUpActions.setRegPasswordTwoError(text));
-      }
+      setPasswordTwo(text);
+
+      setIsErrorPasswordTwo(passwordOne !== text);
     },
-    [dispatch, passwordOne]
+    [passwordOne]
   );
 
   const handleRegistrationClick = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-
-    if (passwordOne === passwordTwo) {
-      dispatch(
-        signUpActions.fetchSignUpSubmitForm({
-          name,
-          password: passwordOne,
-          tokenRegistration: token,
-        })
-      );
-    } else {
-      dispatch(signUpActions.setRegPasswordOneError(passwordOne));
-    }
+    dispatch(
+      signUpActions.fetchSignUpSubmitForm({
+        name,
+        password: passwordOne,
+      })
+    );
   };
 
   const handleSignInClick = (event: React.MouseEvent<HTMLElement>) => {

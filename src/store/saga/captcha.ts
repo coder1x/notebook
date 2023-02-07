@@ -3,17 +3,19 @@ import { buffers } from 'redux-saga';
 
 import { checkCaptcha } from '@api/index';
 
-import { captchaActions, captchaType } from '@store/slices';
+import { captchaActions } from '@store/slices';
 
 type Data = {
   isCaptchaPassed?: boolean;
 };
 
-function* fetchCheckCaptcha(action: captchaType.Data) {
+function* fetchCheckCaptcha(text: string) {
   try {
-    const { captcha, token } = action;
-
-    const data: Data = yield call(checkCaptcha, captcha, token);
+    const data: Data = yield call(
+      checkCaptcha,
+      text,
+      String(localStorage.getItem('registrationToken'))
+    );
 
     if (!data.isCaptchaPassed) {
       yield put(captchaActions.setCaptchaError());
@@ -31,10 +33,7 @@ function* sagaCheckCaptcha() {
   while (true) {
     const { payload } = yield take(fetchType);
 
-    yield call(fetchCheckCaptcha, {
-      captcha: payload.captcha,
-      token: payload.token,
-    });
+    yield call(fetchCheckCaptcha, payload);
   }
 }
 

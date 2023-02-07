@@ -21,7 +21,6 @@ const Captcha: FC<Props> = ({ onStatus }) => {
   const [captchaText, setCaptchaText] = useState('');
   const [code, setCode] = useState(resetCode());
 
-  const { token } = useTypedSelector((state) => state.signUp);
   const { isErrorCaptcha } = useTypedSelector((state) => state.captcha);
 
   const handleButtonAnimationEnd = () => {
@@ -39,12 +38,7 @@ const Captcha: FC<Props> = ({ onStatus }) => {
       const text = event.target.value.trim();
 
       if (text.length === 6) {
-        dispatch(
-          captchaActions.fetchCheckCaptcha({
-            captcha: text,
-            token,
-          })
-        );
+        dispatch(captchaActions.fetchCheckCaptcha(text));
         setCaptchaText(text);
       }
 
@@ -52,7 +46,7 @@ const Captcha: FC<Props> = ({ onStatus }) => {
         event.target.value = text.replace(/.$/g, '');
       }
     },
-    [dispatch, token]
+    [dispatch]
   );
 
   const handleResetCodeClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -65,7 +59,7 @@ const Captcha: FC<Props> = ({ onStatus }) => {
     onStatus(false);
   };
 
-  const urlParams = `?id=${code}&token=${token}`;
+  const urlParams = `?id=${code}&token=${localStorage.getItem('registrationToken')}`;
 
   return (
     <div className="captcha">
