@@ -1,27 +1,21 @@
 import { useDispatch } from 'react-redux';
 import { useState, FC, useCallback } from 'react';
 
-import { signUpActions } from '@store/slices';
+import { signUpActions, nameValidatorActions } from '@store/slices';
 
 import { useTypedSelector } from '@hooks/index';
 
 import { Button, TextField, Captcha } from '@components/index';
 
-function SignUp() {
+const SignUp: FC = () => {
   const dispatch = useDispatch();
 
   const [isValidCaptcha, setIsValidCaptcha] = useState(false);
 
-  const {
-    token,
-    name,
-    errorName,
-    passwordOne,
-    passwordTwo,
-    isErrorPasswordOne,
-    isErrorPasswordTwo,
-    message,
-  } = useTypedSelector((state) => state.signUp);
+  const { token, passwordOne, passwordTwo, isErrorPasswordOne, isErrorPasswordTwo, message } =
+    useTypedSelector((state) => state.signUp);
+
+  const { name, errorName } = useTypedSelector((state) => state.nameValidator);
 
   const { isErrorCaptcha } = useTypedSelector((state) => state.captcha);
 
@@ -49,10 +43,10 @@ function SignUp() {
       }
 
       if (text.length > 3) {
-        dispatch(signUpActions.fetchSignUpCheckName(text));
+        dispatch(nameValidatorActions.fetchNameValidator(text));
       } else {
         dispatch(
-          signUpActions.setRegNameError({
+          nameValidatorActions.setNameValidatorError({
             name: text,
             errorName: 'Имя должено быть длинее 3 символов',
           })
@@ -115,7 +109,7 @@ function SignUp() {
   const handleSignInClick = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
 
-    dispatch(signUpActions.setRegRegistrationYes(''));
+    dispatch(signUpActions.setSignUpRegistration(''));
 
     // Router.push('/');
   };
@@ -191,11 +185,13 @@ function SignUp() {
           />
         </div>
       </form>
-      <div className="registration__message-wrapper">
-        <p className="registration__message-text">{message}</p>
-      </div>
+      {message && (
+        <div className="registration__message-wrapper">
+          <p className="registration__message-text">{message}</p>
+        </div>
+      )}
     </article>
   );
-}
+};
 
 export default SignUp;

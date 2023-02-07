@@ -26,7 +26,6 @@ const TextField: FC<Props> = ({
   // eslint-disable-next-line prettier/prettier
   onChange = () => { },
 }) => {
-  console.log('TextField');
   return (
     <div className="text-field">
       <ChangeCustom

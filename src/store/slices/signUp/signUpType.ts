@@ -1,10 +1,8 @@
 type State = {
-  errorName: string;
   isPassword: boolean;
   isErrorPasswordOne: boolean;
   isErrorPasswordTwo: boolean;
   message: string;
-  name: string;
   passwordOne: string;
   passwordTwo: string;
   token: string;

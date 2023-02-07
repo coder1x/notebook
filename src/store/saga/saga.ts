@@ -1,27 +1,11 @@
-import { buffers } from 'redux-saga';
+import { all } from 'redux-saga/effects';
 
-import { takeLeading, all, take, call, actionChannel } from 'redux-saga/effects';
-
-import { signUpActions } from '@store/slices';
-import { fetchRegistration, fetchCheckName } from './signUp';
+import sagaRegistration from './signUp';
+import sagaCheckUser from './nameValidator';
 import sagaCheckCaptcha from './captcha';
 
-function* checkUser() {
-  const fetchType = signUpActions.fetchSignUpCheckName.type;
-  yield actionChannel(fetchType, buffers.sliding(5));
-
-  while (true) {
-    const { payload } = yield take(fetchType);
-    yield call(fetchCheckName, payload);
-  }
-}
-
-function* registration() {
-  yield takeLeading(signUpActions.fetchSignUpSubmitForm.type, fetchRegistration);
-}
-
 function* mySaga() {
-  yield all([checkUser(), sagaCheckCaptcha(), registration()]);
+  yield all([sagaCheckUser(), sagaCheckCaptcha(), sagaRegistration()]);
 }
 
 export default mySaga;

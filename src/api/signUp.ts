@@ -1,9 +1,5 @@
 import makeRequest from './makeRequest';
 
-function checkName(name: string) {
-  return makeRequest(`checkName.php?name=${name}`);
-}
-
 function registration(data: any) {
   const options = {
     method: 'POST',
@@ -16,4 +12,4 @@ function registration(data: any) {
   return makeRequest('registration.php', options);
 }
 
-export { checkName, registration };
+export default registration;
