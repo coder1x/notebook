@@ -1,65 +1,67 @@
-import React from 'react';
+import { FC, createElement, KeyboardEvent, memo, useEffect, useRef } from 'react';
 
 type Props = {
   type: 'input' | 'textarea';
   value: string | number;
-  props?: Object;
+  attributes?: Object;
   onChangeCustom?: Function;
 };
 
-type ValueElement = {
-  value: string | number;
-};
+const ChangeCustom: FC<Props> = ({ type, value, attributes, onChangeCustom }) => {
+  const prevValue = useRef('');
+  const nativeElement = useRef(null);
 
-export default class ChangeCustom extends React.Component<Props> {
-  nativeElement = React.createRef();
+  useEffect(() => {
+    const input: unknown = nativeElement.current;
+    const valueField = String(value);
+    const isNewValue = prevValue.current !== valueField;
+    const typeElement = input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement;
 
-  componentDidUpdate(prevProps: ValueElement) {
-    const input: unknown = this.nativeElement.current;
-    const { value } = this.props;
-    const isNewValue = prevProps.value !== value;
-
-    if (!(input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement)) return;
-
-    if (isNewValue || value !== input.value) {
-      input.value = String(value);
-    }
-  }
-
-  checkChange = (event: FocusEvent | React.KeyboardEvent) => {
-    const element = event.target;
-    const value = this.props.value.toString();
-
-    if (!this.props) {
+    if (!typeElement) {
       return;
     }
+
+    if (isNewValue || valueField !== input.value) {
+      input.value = valueField;
+    }
+
+    prevValue.current = valueField;
+  }, [value]);
+
+  const checkChange = (event: FocusEvent | KeyboardEvent) => {
+    const element = event.target;
+    const valueField = String(value);
 
     if (!(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) {
       return;
     }
 
-    if (this.props.onChangeCustom instanceof Function) {
-      if (value !== element.value) {
-        this.props.onChangeCustom(event);
+    if (onChangeCustom instanceof Function) {
+      if (valueField !== element.value) {
+        onChangeCustom(event);
       }
     }
   };
 
-  render() {
-    return React.createElement(this.props.type, {
-      ...{
-        defaultValue: this.props.value,
-        onBlur: (event: FocusEvent) => {
-          this.checkChange(event);
-        },
-        onKeyUp: (event: React.KeyboardEvent) => {
-          if (event.key === 'Enter') {
-            this.checkChange(event);
-          }
-        },
-        ref: this.nativeElement,
-      },
-      ...(this.props.props ?? {}),
-    });
-  }
-}
+  const handleElementBlur = (event: FocusEvent) => {
+    checkChange(event);
+  };
+
+  const handleElementKeyUp = (event: KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      checkChange(event);
+    }
+  };
+
+  return createElement(type, {
+    ...{
+      defaultValue: value,
+      onBlur: handleElementBlur,
+      onKeyUp: handleElementKeyUp,
+    },
+    ref: nativeElement,
+    ...(attributes ?? {}),
+  });
+};
+
+export default ChangeCustom;

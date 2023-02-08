@@ -52,12 +52,13 @@ const Captcha: FC<Props> = forwardRef(({ onStatus }, ref) => {
 
       if (text.length === 6) {
         dispatch(captchaActions.fetchCheckCaptcha(text));
-        setCaptchaText(text);
       }
 
       if (text.length > 6) {
         event.target.value = text.replace(/.$/g, '');
       }
+
+      setCaptchaText(event.target.value);
     },
     [dispatch]
   );

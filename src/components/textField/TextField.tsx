@@ -30,7 +30,7 @@ const TextField: FC<Props> = ({
     <div className="text-field">
       <ChangeCustom
         type="input"
-        props={{
+        attributes={{
           type,
           placeholder,
           name,
