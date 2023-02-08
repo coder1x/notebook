@@ -127,9 +127,14 @@ const SignUp: FC = () => {
     // Router.push('/');
   };
 
-  const handleCaptchaStatus = useCallback((status: boolean) => {
-    setIsValidCaptcha(status);
-  }, []);
+  const handleCaptchaStatus = useCallback(
+    (status: boolean) => {
+      if (isValidCaptcha !== status) {
+        setIsValidCaptcha(status);
+      }
+    },
+    [isValidCaptcha]
+  );
 
   const messageWrapperModifier = isRegistrationError ? ' registration__message-wrapper_error' : '';
 

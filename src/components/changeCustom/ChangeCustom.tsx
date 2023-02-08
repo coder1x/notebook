@@ -1,4 +1,4 @@
-import { FC, createElement, KeyboardEvent, memo, useEffect, useRef } from 'react';
+import { FC, createElement, KeyboardEvent, useEffect, useRef } from 'react';
 
 type Props = {
   type: 'input' | 'textarea';

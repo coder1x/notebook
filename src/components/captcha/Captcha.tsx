@@ -50,17 +50,23 @@ const Captcha: FC<Props> = forwardRef(({ onStatus }, ref) => {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const text = event.target.value.trim();
 
-      if (text.length === 6) {
+      const { length } = text;
+
+      if (length === 6) {
         dispatch(captchaActions.fetchCheckCaptcha(text));
       }
 
-      if (text.length > 6) {
+      if (length > 6) {
         event.target.value = text.replace(/.$/g, '');
+      }
+
+      if (length < 6) {
+        onStatus(false);
       }
 
       setCaptchaText(event.target.value);
     },
-    [dispatch]
+    [dispatch, onStatus]
   );
 
   const handleResetCodeClick = (event: React.MouseEvent<HTMLElement>) => {
