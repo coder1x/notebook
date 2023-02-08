@@ -6,14 +6,14 @@ $background-button-hover: $color-white;
 
 .button {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   width: 100%;
   padding: 5px;
+  white-space: nowrap;
   background-color: $background-button;
   border: 1px solid $border-button;
   cursor: pointer;
-  white-space: nowrap;
 
   &:hover {
     background-color: $background-button-hover;

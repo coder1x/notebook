@@ -2,23 +2,23 @@ $color-err: $dark-red;
 $color-focus-input: $dark-gray-80;
 $color-border-input: $dark-gray-20;
 $color-border-block: $dark-gray-20;
-$shadow-block: 0px 0px 25px rgba(0, 0, 0, 0.2);
+$shadow-block: 0 0 25px rgb(0 0 0 / 20%);
 $color-text: $dark-gray-90;
 $color-text-button: $dark-gray-90;
 
 .registration {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  font-family: $font;
+  justify-content: center;
   width: 100%;
   max-width: 300px;
   margin: 0 auto;
-  border: 1px solid $color-border-block;
   padding: 10px;
-  box-shadow: $shadow-block;
+  font-family: $font;
   background-color: $color-white;
+  border: 1px solid $color-border-block;
+  box-shadow: $shadow-block;
 
   &__header-wrapper {
     margin-bottom: 20px;
@@ -29,12 +29,12 @@ $color-text-button: $dark-gray-90;
   }
 
   &__identification {
-    padding: 0;
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 0;
     border: 0;
   }
 
@@ -45,11 +45,11 @@ $color-text-button: $dark-gray-90;
   }
 
   &__submit-wrapper {
-    margin-top: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    margin-top: 10px;
 
     :nth-child(1) {
       margin-bottom: 15px;
@@ -62,10 +62,10 @@ $color-text-button: $dark-gray-90;
 
   &__message-wrapper {
     display: flex;
-    justify-content: center;
     align-items: center;
-    min-height: 40px;
+    justify-content: center;
     width: 100%;
+    min-height: 40px;
     border-bottom: 3px solid #b3ea70;
 
     &_error {

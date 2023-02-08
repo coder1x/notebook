@@ -8,21 +8,21 @@ $color-error: $dark-red;
   font-family: $font;
 
   &__input {
-    padding: 5px;
-    border: 1px solid $color-border-input;
-    color: $color-text;
-    width: 205px;
     box-sizing: border-box;
+    width: 205px;
+    padding: 5px;
+    color: $color-text;
+    border: 1px solid $color-border-input;
 
     &::placeholder {
-      font-size: 13px;
       color: #b3b3b3;
+      font-size: 13px;
     }
 
     &:focus {
       border: 1px solid $color-focus-input;
-      outline: 0px;
-      outline-offset: 0px;
+      outline: 0;
+      outline-offset: 0;
     }
 
     &_error {
@@ -32,24 +32,24 @@ $color-error: $dark-red;
 
   &__message-wrapper {
     position: absolute;
-    width: 100%;
     top: 40px;
     left: 50%;
-    transform: translate(-50%);
+    z-index: 1;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
     background-color: #fcf9eb;
     border: 1px solid #eee0a0;
-    padding: 10px;
-    box-sizing: border-box;
-    z-index: 1;
+    transform: translate(-50%);
 
     &::after {
-      content: "";
       position: absolute;
       top: -20px;
       left: 50%;
-      transform: translate(-50%);
       border: 10px solid transparent;
       border-bottom: 10px solid #eee0a0;
+      transform: translate(-50%);
+      content: '';
     }
   }
 

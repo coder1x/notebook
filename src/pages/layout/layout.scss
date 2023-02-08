@@ -4,15 +4,15 @@
 }
 
 .todo {
+  box-sizing: border-box;
   width: 100%;
   max-width: $max-wrapper;
   min-height: 200px;
   margin: 0 auto;
-  padding: 10px;
   margin-top: 20px;
-  box-sizing: border-box;
+  padding: 10px;
 
   @include media-breakpoint-down($xs) {
-    padding: 0px;
+    padding: 0;
   }
 }

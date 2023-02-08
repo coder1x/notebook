@@ -1,7 +1,16 @@
-import { createElement } from 'react';
+import { createElement, FC } from 'react';
 
-const Button = (props: any) => {
-  const { options } = props;
+type Props = {
+  options: {
+    type: string;
+    disabled?: boolean;
+    modifier?: 'submit' | 'interface';
+    onClick: Function;
+  };
+  text: string;
+};
+
+const Button: FC<Props> = ({ options, text }) => {
   const optionsClone = { ...options };
   const type: 'submit' | 'interface' = optionsClone.modifier ?? 'interface';
 
@@ -18,7 +27,7 @@ const Button = (props: any) => {
       ...optionsClone,
       className: `${'button'}${modifier[type] ?? ''}`,
     },
-    props.text
+    text
   );
 };
 
