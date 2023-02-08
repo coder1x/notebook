@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { useState, FC, useEffect, useCallback } from 'react';
+import { useState, FC, useEffect, useCallback, forwardRef, useImperativeHandle, Ref } from 'react';
 
 import { captchaActions } from '@store/slices';
 
@@ -11,9 +11,10 @@ import { resetCode } from '@helpers/index';
 
 type Props = {
   onStatus: (data: boolean) => void;
+  ref: Ref<unknown> | undefined;
 };
 
-const Captcha: FC<Props> = ({ onStatus }) => {
+const Captcha: FC<Props> = forwardRef(({ onStatus }, ref) => {
   const dispatch = useDispatch();
 
   const [isReset, setIsReset] = useState(false);
@@ -22,6 +23,18 @@ const Captcha: FC<Props> = ({ onStatus }) => {
   const [code, setCode] = useState(resetCode());
 
   const { isErrorCaptcha } = useTypedSelector((state) => state.captcha);
+
+  const clearData = () => {
+    setIsReset(true);
+    setCode(resetCode());
+    setCaptchaText('');
+    dispatch(captchaActions.setReset());
+    onStatus(false);
+  };
+
+  useImperativeHandle(ref, () => {
+    return { clearData };
+  });
 
   const handleButtonAnimationEnd = () => {
     setIsReset(false);
@@ -52,11 +65,7 @@ const Captcha: FC<Props> = ({ onStatus }) => {
   const handleResetCodeClick = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
 
-    setIsReset(true);
-    setCode(resetCode());
-    setCaptchaText('');
-    dispatch(captchaActions.setReset());
-    onStatus(false);
+    clearData();
   };
 
   const urlParams = `?id=${code}&token=${localStorage.getItem('registrationToken')}`;
@@ -127,6 +136,6 @@ const Captcha: FC<Props> = ({ onStatus }) => {
       </div>
     </div>
   );
-};
+});
 
 export default Captcha;

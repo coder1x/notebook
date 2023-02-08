@@ -1,6 +1,6 @@
 type State = {
   message: string;
-  // token: string;
+  isRegistrationError: boolean;
 };
 
 type Data = {

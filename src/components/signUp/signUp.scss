@@ -66,6 +66,11 @@ $color-text-button: $dark-gray-90;
     align-items: center;
     min-height: 40px;
     width: 100%;
+    border-bottom: 3px solid #b3ea70;
+
+    &_error {
+      border-bottom: 3px solid #eae470;
+    }
   }
 
   &__message-text {

@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { useState, FC, useCallback, useEffect } from 'react';
+import { useState, FC, useCallback, useEffect, useRef, MutableRefObject } from 'react';
 
 import { signUpActions, nameValidatorActions } from '@store/slices';
 
@@ -17,7 +17,9 @@ const SignUp: FC = () => {
   const [isErrorPasswordTwo, setIsErrorPasswordTwo] = useState(false);
   const [isLockSubmit, setIsLockSubmit] = useState(true);
 
-  const { message } = useTypedSelector((state) => state.signUp);
+  const captchaRef: MutableRefObject<null | { clearData: () => void }> = useRef(null);
+
+  const { message, isRegistrationError } = useTypedSelector((state) => state.signUp);
   const { name, errorName } = useTypedSelector((state) => state.nameValidator);
   const { isErrorCaptcha } = useTypedSelector((state) => state.captcha);
 
@@ -33,11 +35,7 @@ const SignUp: FC = () => {
       isValidCaptcha,
     ];
 
-    if (formFields.every((elem) => elem)) {
-      setIsLockSubmit(false);
-    } else {
-      setIsLockSubmit(true);
-    }
+    setIsLockSubmit(!formFields.every((elem) => elem));
   }, [
     errorName,
     isErrorCaptcha,
@@ -48,6 +46,18 @@ const SignUp: FC = () => {
     passwordOne,
     passwordTwo,
   ]);
+
+  useEffect(() => {
+    if (!isRegistrationError && message) {
+      setPasswordOne('');
+      setPasswordTwo('');
+      dispatch(nameValidatorActions.setNameValidator(''));
+      const ref = captchaRef.current;
+      if (ref) {
+        ref.clearData();
+      }
+    }
+  }, [dispatch, isRegistrationError, message]);
 
   const handleNameChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,7 +90,7 @@ const SignUp: FC = () => {
       return false;
     }
 
-    setIsErrorPasswordOne(text.length < 5);
+    setIsErrorPasswordOne(text.length < 6);
 
     setPasswordOne(text);
 
@@ -100,6 +110,7 @@ const SignUp: FC = () => {
 
   const handleRegistrationClick = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
+
     dispatch(
       signUpActions.fetchSignUpSubmitForm({
         name,
@@ -116,9 +127,11 @@ const SignUp: FC = () => {
     // Router.push('/');
   };
 
-  const handleCaptchaStatus = (status: boolean) => {
+  const handleCaptchaStatus = useCallback((status: boolean) => {
     setIsValidCaptcha(status);
-  };
+  }, []);
+
+  const messageWrapperModifier = isRegistrationError ? ' registration__message-wrapper_error' : '';
 
   return (
     <article className="registration">
@@ -164,7 +177,7 @@ const SignUp: FC = () => {
             />
           </div>
           <div className="registration__captcha-wrapper">
-            <Captcha onStatus={handleCaptchaStatus} />
+            <Captcha ref={captchaRef} onStatus={handleCaptchaStatus} />
           </div>
         </fieldset>
         <div className="registration__submit-wrapper">
@@ -188,7 +201,7 @@ const SignUp: FC = () => {
         </div>
       </form>
       {message && (
-        <div className="registration__message-wrapper">
+        <div className={`registration__message-wrapper${messageWrapperModifier}`}>
           <p className="registration__message-text">{message}</p>
         </div>
       )}

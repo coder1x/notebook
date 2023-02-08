@@ -4,7 +4,7 @@ import * as Type from './signUpType';
 
 const initialState: Type.State = {
   message: '',
-  // token: getToken(),
+  isRegistrationError: false,
 };
 
 localStorage.setItem('registrationToken', getToken());
@@ -15,6 +15,11 @@ const signUp = createSlice({
   reducers: {
     setSignUpRegistration(state, action: PayloadAction<string>) {
       state.message = action.payload;
+      state.isRegistrationError = false;
+    },
+    setSignUpRegistrationError(state, action: PayloadAction<string>) {
+      state.message = action.payload;
+      state.isRegistrationError = true;
     },
     fetchSignUpSubmitForm(state, action: PayloadAction<Type.Data>) {
       state.message = '';

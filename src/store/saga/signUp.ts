@@ -22,7 +22,7 @@ function* fetchRegistration(action: any) {
     if (data.isRegistered) {
       yield put(signUpActions.setSignUpRegistration('Вы зарегистрированы.'));
     } else {
-      yield put(signUpActions.setSignUpRegistration('Ошибка регистрации.'));
+      yield put(signUpActions.setSignUpRegistrationError('Ошибка регистрации.'));
       throw new Error('Ошибка регистрации.');
     }
   } catch (error) {
