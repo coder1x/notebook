@@ -1,7 +1,6 @@
 $color-focus-input: $dark-gray-80;
 $color-border-input: $dark-gray-20;
 $color-text: $dark-gray-90;
-$color-error: $dark-red;
 
 .text-field {
   position: relative;
@@ -15,7 +14,7 @@ $color-error: $dark-red;
     border: 1px solid $color-border-input;
 
     &::placeholder {
-      color: #b3b3b3;
+      color: $color-placeholder;
       font-size: 13px;
     }
 
@@ -26,7 +25,7 @@ $color-error: $dark-red;
     }
 
     &_error {
-      border: 1px solid #edcb37;
+      border: 1px solid $color-error;
     }
   }
 
@@ -38,18 +37,19 @@ $color-error: $dark-red;
     box-sizing: border-box;
     width: 100%;
     padding: 10px;
-    background-color: #fcf9eb;
-    border: 1px solid #eee0a0;
+    background-color: $background-message;
+    border: 1px solid $color-border-message;
     transform: translate(-50%);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 26%);
 
     &::after {
       position: absolute;
       top: -20px;
       left: 50%;
       border: 10px solid transparent;
-      border-bottom: 10px solid #eee0a0;
+      border-bottom: 10px solid $color-border-message;
       transform: translate(-50%);
-      content: '';
+      content: "";
     }
   }
 

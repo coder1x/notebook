@@ -66,10 +66,10 @@ $color-text-button: $dark-gray-90;
     justify-content: center;
     width: 100%;
     min-height: 40px;
-    border-bottom: 3px solid #b3ea70;
+    border-bottom: 3px solid $color-successful;
 
     &_error {
-      border-bottom: 3px solid #eae470;
+      border-bottom: 3px solid $color-error;
     }
   }
 

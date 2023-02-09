@@ -41,10 +41,18 @@ $orange-80: rgb(245 108 48);
 $orange-75: rgb(245 124 72);
 $dark-red: #7a1a1a;
 
+$color-error: #eae470;
+$color-successful: #b3ea70;
+$color-border-message: #fcf9eb;
+$background-message: #fcf9eb;
+$color-placeholder: #b3b3b3;
+
+$color-focus-button: #222;
+
 //------------- FONTS ------------
 
 $font: verdana, arial, sans-serif;
-$font-title: 'arial black', 'britannic bold', 'impact';
+$font-title: "arial black", "britannic bold", "impact";
 $font-code: consolas, monospace;
 $font-quote: sans-serif, arial, verdana;
 
