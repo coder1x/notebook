@@ -27,6 +27,7 @@
     grid-row: 1 / 2;
     grid-column: 2 / 3;
     margin: auto;
+    filter: blur(1px);
   }
 
   &__reset-icon {

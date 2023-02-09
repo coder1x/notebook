@@ -16,6 +16,8 @@ import { Button, TextField, Captcha } from '@components/index';
 const SignUp: FC = () => {
   const dispatch = useDispatch();
 
+  document.title = 'Регистрация аккаунта';
+
   const [isValidCaptcha, setIsValidCaptcha] = useState(false);
   const [passwordOne, setPasswordOne] = useState('');
   const [passwordTwo, setPasswordTwo] = useState('');
