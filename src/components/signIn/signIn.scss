@@ -1,0 +1,87 @@
+$color-err: $dark-red;
+$color-focus-input: $dark-gray-80;
+$color-border-input: $dark-gray-20;
+$color-border-block: $dark-gray-20;
+$shadow-block: 0px 0px 25px rgba(0, 0, 0, 0.2);
+$color-text: $dark-gray-90;
+
+.authorization {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: $font;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  border: 1px solid $color-border-block;
+  padding: 10px;
+  box-shadow: $shadow-block;
+  background-color: $color-white;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__header-wrapper {
+    margin-bottom: 20px;
+  }
+
+  &__identification {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 0;
+    padding: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  &__data-text {
+    margin-bottom: 20px;
+    color: $color-text;
+  }
+
+  &__name-wrapper,
+  &__password-wrapper {
+    margin-bottom: 10px;
+    width: 205px;
+  }
+
+  &__name,
+  &__password {
+    padding: 5px;
+    border: 1px solid $color-border-input;
+    color: $color-text;
+    width: 100%;
+    box-sizing: border-box;
+
+    &:focus {
+      border: 1px solid $color-focus-input;
+      outline: 0px;
+      outline-offset: 0px;
+    }
+  }
+
+  &__name-error,
+  &__password-error {
+    border: 1px solid $color-err;
+  }
+
+  &__submit-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 205px;
+  }
+
+  &__registration-wrapper {
+    width: 100%;
+    max-width: 205px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+}
