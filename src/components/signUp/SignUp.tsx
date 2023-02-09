@@ -1,9 +1,15 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState, FC, useCallback, useEffect, useRef, MutableRefObject } from 'react';
 
 import { signUpActions, nameValidatorActions } from '@store/slices';
 
-import { useTypedSelector } from '@hooks/index';
+import {
+  errorNameState,
+  isErrorCaptchaState,
+  nameState,
+  messageState,
+  isRegistrationErrorState,
+} from '@store/selectors';
 
 import { Button, TextField, Captcha } from '@components/index';
 
@@ -19,9 +25,11 @@ const SignUp: FC = () => {
 
   const captchaRef: MutableRefObject<null | { clearData: () => void }> = useRef(null);
 
-  const { message, isRegistrationError } = useTypedSelector((state) => state.signUp);
-  const { name, errorName } = useTypedSelector((state) => state.nameValidator);
-  const { isErrorCaptcha } = useTypedSelector((state) => state.captcha);
+  const errorName = useSelector(errorNameState);
+  const isErrorCaptcha = useSelector(isErrorCaptchaState);
+  const name = useSelector(nameState);
+  const message = useSelector(messageState);
+  const isRegistrationError = useSelector(isRegistrationErrorState);
 
   useEffect(() => {
     const formFields = [
@@ -35,7 +43,10 @@ const SignUp: FC = () => {
       isValidCaptcha,
     ];
 
-    setIsLockSubmit(!formFields.every((elem) => elem));
+    const isValid = !formFields.every((elem) => elem);
+    if (isLockSubmit !== isValid) {
+      setIsLockSubmit(isValid);
+    }
   }, [
     errorName,
     isErrorCaptcha,
@@ -73,7 +84,7 @@ const SignUp: FC = () => {
         dispatch(
           nameValidatorActions.setNameValidatorError({
             name: text,
-            errorName: 'Имя должено быть длинее 3 символов',
+            errorName: 'Имя должно быть длиннее 3 символов',
           })
         );
       }
@@ -91,7 +102,6 @@ const SignUp: FC = () => {
     }
 
     setIsErrorPasswordOne(text.length < 6);
-
     setPasswordOne(text);
 
     return true;
@@ -102,7 +112,6 @@ const SignUp: FC = () => {
       const text = event.target.value.trim();
 
       setPasswordTwo(text);
-
       setIsErrorPasswordTwo(passwordOne !== text);
     },
     [passwordOne]

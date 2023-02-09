@@ -1,13 +1,10 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState, FC, useEffect, useCallback, forwardRef, useImperativeHandle, Ref } from 'react';
 
 import { captchaActions } from '@store/slices';
-
-import { useTypedSelector } from '@hooks/index';
-
 import { TextField } from '@components/index';
-
 import { resetCode } from '@helpers/index';
+import { isErrorCaptchaState } from '@store/selectors';
 
 type Props = {
   onStatus: (data: boolean) => void;
@@ -18,11 +15,10 @@ const Captcha: FC<Props> = forwardRef(({ onStatus }, ref) => {
   const dispatch = useDispatch();
 
   const [isReset, setIsReset] = useState(false);
-
   const [captchaText, setCaptchaText] = useState('');
   const [code, setCode] = useState(resetCode());
 
-  const { isErrorCaptcha } = useTypedSelector((state) => state.captcha);
+  const isErrorCaptcha = useSelector(isErrorCaptchaState);
 
   const clearData = () => {
     setIsReset(true);
