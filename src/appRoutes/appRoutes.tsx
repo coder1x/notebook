@@ -3,6 +3,7 @@ import { RouteObject } from 'react-router-dom';
 import { SignIn, SignUp } from '@components/index';
 import Projects from '@pages/projects/Projects';
 import Tasks from '@pages/tasks/Tasks';
+import WrongPage from '@pages/wrongPage/WrongPage';
 
 import { createProtectedRoutes } from '@shared/helpers/';
 import routes from './routes';
@@ -15,7 +16,7 @@ const appRoutes: RouteObject[] = [
     element: <Projects />,
     children: createProtectedRoutes([{ path: routes.tasks, element: <Tasks /> }]),
   },
-  { path: routes.wrong, element: <>Wrong Path</> },
+  { path: routes.wrong, element: <WrongPage /> },
 ];
 
 export default appRoutes;

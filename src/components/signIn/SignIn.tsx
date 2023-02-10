@@ -11,6 +11,8 @@ const SignIn: FC = () => {
   const [password, setPassword] = useState('');
   const [isErrorPassword, setIsErrorPassword] = useState(false);
 
+  document.title = 'Авторизация';
+
   const dispatch = useDispatch();
 
   const token = useSelector(tokenState);
