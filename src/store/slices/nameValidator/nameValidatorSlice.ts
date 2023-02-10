@@ -10,11 +10,13 @@ const nameValidator = createSlice({
   name: 'nameValidator',
   initialState,
   reducers: {
-    setNameValidator(state, action: PayloadAction<string>) {
-      state.errorName = '';
-      state.name = action.payload;
+    setNameValidator(state, action: PayloadAction<Type.Data>) {
+      const { name, errorName } = action.payload;
+
+      state.errorName = errorName;
+      state.name = name;
     },
-    setNameValidatorError(state, action: PayloadAction<Type.DateError>) {
+    setNameValidatorError(state, action: PayloadAction<Type.Data>) {
       const { name, errorName } = action.payload;
 
       state.errorName = errorName;

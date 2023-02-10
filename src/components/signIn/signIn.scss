@@ -2,22 +2,22 @@ $color-err: $dark-red;
 $color-focus-input: $dark-gray-80;
 $color-border-input: $dark-gray-20;
 $color-border-block: $dark-gray-20;
-$shadow-block: 0px 0px 25px rgba(0, 0, 0, 0.2);
+$shadow-block: 0 0 25px rgb(0 0 0 / 20%);
 $color-text: $dark-gray-90;
 
 .authorization {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  font-family: $font;
+  justify-content: center;
   width: 100%;
   max-width: 300px;
   margin: 0 auto;
-  border: 1px solid $color-border-block;
   padding: 10px;
-  box-shadow: $shadow-block;
+  font-family: $font;
   background-color: $color-white;
+  border: 1px solid $color-border-block;
+  box-shadow: $shadow-block;
 
   &__form {
     display: flex;
@@ -28,15 +28,19 @@ $color-text: $dark-gray-90;
     margin-bottom: 20px;
   }
 
+  &__header {
+    font-size: 18px;
+  }
+
   &__identification {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 0;
-    padding: 0;
-    margin-left: 0;
     margin-right: 0;
     margin-bottom: 20px;
+    margin-left: 0;
+    padding: 0;
+    border: 0;
   }
 
   &__data-text {
@@ -46,22 +50,22 @@ $color-text: $dark-gray-90;
 
   &__name-wrapper,
   &__password-wrapper {
-    margin-bottom: 10px;
     width: 205px;
+    margin-bottom: 10px;
   }
 
   &__name,
   &__password {
-    padding: 5px;
-    border: 1px solid $color-border-input;
-    color: $color-text;
-    width: 100%;
     box-sizing: border-box;
+    width: 100%;
+    padding: 5px;
+    color: $color-text;
+    border: 1px solid $color-border-input;
 
     &:focus {
       border: 1px solid $color-focus-input;
-      outline: 0px;
-      outline-offset: 0px;
+      outline: 0;
+      outline-offset: 0;
     }
   }
 
@@ -72,10 +76,10 @@ $color-text: $dark-gray-90;
 
   &__submit-wrapper {
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin: 0 auto;
+    justify-content: center;
     width: 205px;
+    margin: 0 auto;
   }
 
   &__registration-wrapper {

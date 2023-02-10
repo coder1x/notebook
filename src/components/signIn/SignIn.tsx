@@ -1,63 +1,95 @@
-import React, { useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
+import { FC, useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, TextField } from '@components/index';
+import { tokenState, isSignInErrorState, errorNameState, nameState } from '@store/selectors';
+import { signInActions, nameValidatorActions } from '@store/slices';
 
-function SignIn() {
-  let name: string; // лучше эти данные получить по рефе - и проверить в момент сабмита
-  let password: string;
+import { Button, TextField, MessageForm } from '@components/index';
 
-  // const dispatch = useDispatch();
-  // const token = useSelector((state: any) => state.manager.token);
+const SignIn: FC = () => {
+  const [password, setPassword] = useState('');
+  const [isErrorPassword, setIsErrorPassword] = useState(false);
 
-  // useEffect(() => {
-  //   if (token && token !== '404') {
-  //     // Router.push('/projects');
-  //   }
-  // });
+  const dispatch = useDispatch();
+
+  const token = useSelector(tokenState);
+  const isSignInError = useSelector(isSignInErrorState);
+  const errorName = useSelector(errorNameState);
+  const name = useSelector(nameState);
+
+  let textMessageName = errorName;
+
+  if (errorName === 'notOccupied') {
+    textMessageName = 'Такого пользователя нет';
+  } else if (errorName === 'busy') {
+    textMessageName = '';
+  }
+
+  if (token) {
+    // Router.push('/projects');
+  }
 
   const handleRegistrationClick = () => {
     // Router.push('/auth/sign-up');
+    console.log('Перешли на форму регистрации');
+  };
+
+  const authorization = () => {
+    if (name && password) {
+      dispatch(
+        signInActions.fetchSignInAuthorization({
+          name,
+          password,
+        })
+      );
+    }
   };
 
   const handleSignInClick = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    if (name && password) {
-      // dispatch({
-      //   type: 'AUTHORIZATION_FETCH_REQUESTED',
-      //   name,
-      //   password,
-      // });
+
+    if (!textMessageName && !isErrorPassword) {
+      authorization();
     }
   };
 
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    if (value) {
-      name = value;
-    }
-  };
+  const handleNameChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const text = event.target.value.trim();
 
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    if (value) {
-      password = value;
-    }
-  };
+      if (!text) {
+        return false;
+      }
 
-  const handleSignInOnKeyUp = (event: React.KeyboardEvent) => {
-    event.preventDefault();
-    if (name && password) {
-      // dispatch({
-      //   type: 'AUTHORIZATION_FETCH_REQUESTED',
-      //   name,
-      //   password,
-      // });
+      if (text.length > 3) {
+        dispatch(nameValidatorActions.fetchNameValidator(text));
+      } else {
+        dispatch(
+          nameValidatorActions.setNameValidatorError({
+            name: text,
+            errorName: 'Имя должно быть длиннее 3 символов',
+          })
+        );
+      }
+
+      return true;
+    },
+    [dispatch]
+  );
+
+  const handlePasswordChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const text = event.target.value.trim();
+
+    if (!text) {
+      return false;
     }
-  };
+    setIsErrorPassword(text.length < 6);
+    setPassword(text);
+    return true;
+  }, []);
 
   return (
-    <article onKeyUp={handleSignInOnKeyUp} className="authorization">
+    <article className="authorization">
       <header className="authorization__header-wrapper">
         <h1 className="authorization__header">Войти</h1>
       </header>
@@ -69,9 +101,9 @@ function SignIn() {
               type="text"
               placeholder="Имя"
               name="name"
-              // isError={Boolean(errorName)}
-              // message={errorName}
-              value={''}
+              isError={Boolean(textMessageName)}
+              message={textMessageName}
+              value={name}
               onChangeCustom={handleNameChange}
               ariaLabel="имя пользователя"
             />
@@ -81,10 +113,9 @@ function SignIn() {
               type="password"
               placeholder="Пароль"
               name="password"
-              // isError={Boolean(errorName)}
-              // message={errorName}
+              isError={isErrorPassword}
+              message={isErrorPassword ? 'Пароль должен быть не короче 6 символов' : ''}
               value={''}
-              // autoComplete: 'on',
               onChangeCustom={handlePasswordChange}
               ariaLabel="пароль"
             />
@@ -111,8 +142,9 @@ function SignIn() {
           text={'Зарегистрироваться'}
         />
       </div>
+      {isSignInError && <MessageForm text={'Ошибка авторизации'} isError={isSignInError} />}
     </article>
   );
-}
+};
 
 export default SignIn;

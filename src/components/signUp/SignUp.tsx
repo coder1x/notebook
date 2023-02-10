@@ -11,7 +11,7 @@ import {
   isRegistrationErrorState,
 } from '@store/selectors';
 
-import { Button, TextField, Captcha } from '@components/index';
+import { Button, TextField, Captcha, MessageForm } from '@components/index';
 
 const SignUp: FC = () => {
   const dispatch = useDispatch();
@@ -33,9 +33,17 @@ const SignUp: FC = () => {
   const message = useSelector(messageState);
   const isRegistrationError = useSelector(isRegistrationErrorState);
 
+  let textMessageName = errorName;
+
+  if (errorName === 'notOccupied') {
+    textMessageName = '';
+  } else if (errorName === 'busy') {
+    textMessageName = 'Такой пользователь уже есть';
+  }
+
   useEffect(() => {
     const formFields = [
-      !errorName,
+      !textMessageName,
       !isErrorCaptcha,
       !isErrorPasswordOne,
       !isErrorPasswordTwo,
@@ -50,7 +58,7 @@ const SignUp: FC = () => {
       setIsLockSubmit(isValid);
     }
   }, [
-    errorName,
+    textMessageName,
     isErrorCaptcha,
     isErrorPasswordOne,
     isErrorPasswordTwo,
@@ -64,7 +72,12 @@ const SignUp: FC = () => {
     if (!isRegistrationError && message) {
       setPasswordOne('');
       setPasswordTwo('');
-      dispatch(nameValidatorActions.setNameValidator(''));
+      dispatch(
+        nameValidatorActions.setNameValidator({
+          name: '',
+          errorName: '',
+        })
+      );
       const ref = captchaRef.current;
       if (ref) {
         ref.clearData();
@@ -147,8 +160,6 @@ const SignUp: FC = () => {
     [isValidCaptcha]
   );
 
-  const messageWrapperModifier = isRegistrationError ? ' registration__message-wrapper_error' : '';
-
   return (
     <article className="registration">
       <header className="registration__header-wrapper">
@@ -161,8 +172,8 @@ const SignUp: FC = () => {
               type="text"
               placeholder="Имя"
               name="name"
-              isError={Boolean(errorName)}
-              message={errorName}
+              isError={Boolean(textMessageName)}
+              message={textMessageName}
               value={name}
               onChangeCustom={handleNameChange}
               ariaLabel="имя нового пользователя"
@@ -216,11 +227,7 @@ const SignUp: FC = () => {
           />
         </div>
       </form>
-      {message && (
-        <div className={`registration__message-wrapper${messageWrapperModifier}`}>
-          <p className="registration__message-text">{message}</p>
-        </div>
-      )}
+      {message && <MessageForm text={message} isError={isRegistrationError} />}
     </article>
   );
 };

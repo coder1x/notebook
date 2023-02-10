@@ -1,15 +1,15 @@
 import { call, put, takeLeading } from 'redux-saga/effects';
+import { PayloadAction } from '@reduxjs/toolkit';
+
 import { registration } from '@api/index';
 
-import { signUpActions } from '@store/slices';
+import { signUpActions, signUpType } from '@store/slices';
 
 type DataRegistration = {
   isRegistered?: boolean;
-  isNameValid?: boolean;
-  isCaptchaPassed?: boolean;
 };
 
-function* fetchRegistration(action: any) {
+function* fetchRegistration(action: PayloadAction<signUpType.Data>) {
   try {
     const { name, password } = action.payload;
 
@@ -20,13 +20,13 @@ function* fetchRegistration(action: any) {
     });
 
     if (data.isRegistered) {
-      yield put(signUpActions.setSignUpRegistration('Вы зарегистрированы.'));
+      yield put(signUpActions.setSignUpRegistration('Вы зарегистрированы'));
     } else {
-      yield put(signUpActions.setSignUpRegistrationError('Ошибка регистрации.'));
+      yield put(signUpActions.setSignUpRegistrationError('Ошибка регистрации'));
       throw new Error('Ошибка регистрации.');
     }
   } catch (error) {
-    console.log('error', error);
+    console.log('Error', error);
   }
 }
 

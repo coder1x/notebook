@@ -1,5 +1,5 @@
 import Layout from '@pages/layout/Layout';
-import { SignIn } from '@components/index';
+import { SignIn, SignUp } from '@components/index';
 
 // Регистрация пользователя в TODO
 // Вход в приложение TODO
@@ -8,6 +8,7 @@ function Main() {
   return (
     <Layout>
       <SignIn />
+      <SignUp />
     </Layout>
   );
 }

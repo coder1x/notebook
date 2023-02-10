@@ -13,18 +13,23 @@ function* fetchCheckName(name: string) {
     const data: Data = yield call(checkName, name);
 
     if (!data.isNameValid) {
-      yield put(nameValidatorActions.setNameValidator(name));
+      yield put(
+        nameValidatorActions.setNameValidator({
+          name,
+          errorName: 'notOccupied',
+        })
+      );
     } else {
       yield put(
         nameValidatorActions.setNameValidatorError({
           name,
-          errorName: 'Такой пользователь уже есть',
+          errorName: 'busy',
         })
       );
-      throw new Error('Такое имя уже занято.');
+      // throw new Error('Такое имя уже занято.');
     }
   } catch (error) {
-    console.log('error', error);
+    console.log('Error', error);
   }
 }
 

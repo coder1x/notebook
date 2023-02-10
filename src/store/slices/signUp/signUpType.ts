@@ -8,5 +8,4 @@ type Data = {
   password: string;
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export type { State, Data };

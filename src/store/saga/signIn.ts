@@ -1,39 +1,45 @@
 import { call, put, takeLeading } from 'redux-saga/effects';
+
 import authorization from '@api/signIn';
+import { PayloadAction } from '@reduxjs/toolkit';
+import { signInActions, signInType } from '@store/slices';
 
-interface DataAuthorization {
+type DataAuthorization = {
   token: string | false;
-}
+};
 
-function* fetchAuthorization(action: any) {
+function* fetchAuthorization(action: PayloadAction<signInType.Data>) {
+  const { name, password } = action.payload;
+
   try {
     const data: DataAuthorization = yield call(authorization, {
-      name: action.name,
-      password: action.password,
+      name,
+      password,
     });
 
     const { token } = data;
 
     if (token === false) {
+      yield put(signInActions.setSignInError());
+
       throw new Error('Не удалось авторизоваться');
     } else if (token === '404') {
+      yield put(signInActions.setSignInError());
+
       throw new Error('Ошибка запроса.');
     }
 
-    yield put({
-      type: 'SET_MANAGER_TOKEN',
-      token,
-    });
+    yield put(signInActions.setSignInToken(token));
     return data.token;
   } catch (error) {
-    console.log('error', error);
+    console.log('Error', error);
   }
 
   return false;
 }
 
-function* authorizationSaga() {
-  yield takeLeading('AUTHORIZATION_FETCH_REQUESTED', fetchAuthorization);
+function* sagaAuthorization() {
+  yield takeLeading(signInActions.fetchSignInAuthorization.type, fetchAuthorization);
 }
 
-export default authorizationSaga;
+export default sagaAuthorization;

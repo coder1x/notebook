@@ -6,5 +6,6 @@ import ChangeCustom from './changeCustom/ChangeCustom';
 import TextField from './textField/TextField';
 import Button from './button/Button';
 import Captcha from './captcha/Captcha';
+import MessageForm from './messageForm/MessageForm';
 
-export { Footer, Header, SignUp, SignIn, ChangeCustom, TextField, Button, Captcha };
+export { Footer, Header, SignUp, SignIn, ChangeCustom, TextField, Button, Captcha, MessageForm };

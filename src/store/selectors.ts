@@ -8,4 +8,15 @@ const nameState = (state: RootState) => state.nameValidator.name;
 
 const isErrorCaptchaState = (state: RootState) => state.captcha.isErrorCaptcha;
 
-export { messageState, isRegistrationErrorState, errorNameState, nameState, isErrorCaptchaState };
+const tokenState = (state: RootState) => state.signIn.token;
+const isSignInErrorState = (state: RootState) => state.signIn.isSignInError;
+
+export {
+  messageState,
+  isRegistrationErrorState,
+  errorNameState,
+  nameState,
+  isErrorCaptchaState,
+  tokenState,
+  isSignInErrorState,
+};

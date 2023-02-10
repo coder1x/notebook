@@ -22,7 +22,7 @@ function* fetchCheckCaptcha(text: string) {
       throw new Error('Неверный код капчи.');
     }
   } catch (error) {
-    console.log('error', error);
+    console.log('Error', error);
   }
 }
 

@@ -1,6 +1,7 @@
 import makeRequest from '@api/makeRequest';
+import { signInType } from '@store/slices';
 
-function authorization(data: any) {
+function authorization(data: signInType.Data) {
   const options = {
     method: 'POST',
     headers: {

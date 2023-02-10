@@ -1,33 +1,31 @@
-// function setDataToCookies(data: string, key: string) {
-//   const options = {
-//     path: '/',
-//     maxAge: 60 * 6 * 24,
-//   };
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { setDataToCookies, getDataToCookies } from '@helpers/index';
+import * as Type from './signInType';
 
-//   if (data) {
-//     setCookie(key, data, options);
-//   } else {
-//     deleteCookie(key);
-//   }
-// }
+const initialState: Type.State = {
+  token: getDataToCookies('TodoToken'),
+  isSignInError: false,
+};
 
-// const initialState = {
-//   token: '',
-//   projectId: '',
-// };
+const signIn = createSlice({
+  name: 'signIn',
+  initialState,
+  reducers: {
+    setSignInToken(state, action: PayloadAction<string>) {
+      const token = action.payload;
+      setDataToCookies('TodoToken', token);
+      state.token = token;
+    },
+    setSignInError(state) {
+      state.isSignInError = true;
+    },
+    fetchSignInAuthorization(state, action: PayloadAction<Type.Data>) {
+      state.isSignInError = false;
+    },
+  },
+});
 
-// const reducer = (state = initialState, action: any) => {
-//   switch (action.type) {
-//     case 'SET_MANAGER_TOKEN':
-//       setDataToCookies(action.token, 'TodoToken');
-//       return {
-//         ...state,
-//         token: action.token,
-//       };
+const signInReducer = signIn.reducer;
+const signInActions = signIn.actions;
 
-//     default:
-//       return state;
-//   }
-// };
-
-// export default reducer;
+export { signInActions, signInReducer };

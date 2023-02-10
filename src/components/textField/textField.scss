@@ -39,8 +39,8 @@ $color-text: $dark-gray-90;
     padding: 10px;
     background-color: $background-message;
     border: 1px solid $color-border-message;
-    transform: translate(-50%);
     box-shadow: 0 1px 3px rgb(0 0 0 / 26%);
+    transform: translate(-50%);
 
     &::after {
       position: absolute;
@@ -49,7 +49,7 @@ $color-text: $dark-gray-90;
       border: 10px solid transparent;
       border-bottom: 10px solid $color-border-message;
       transform: translate(-50%);
-      content: "";
+      content: '';
     }
   }
 

@@ -1,6 +1,12 @@
 import makeRequest from './makeRequest';
 
-function registration(data: any) {
+type Data = {
+  name: string;
+  password: string;
+  tokenRegistration: string | null;
+};
+
+function registration(data: Data) {
   const options = {
     method: 'POST',
     headers: {

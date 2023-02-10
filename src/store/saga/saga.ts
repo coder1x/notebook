@@ -1,11 +1,12 @@
 import { all } from 'redux-saga/effects';
 
 import sagaRegistration from './signUp';
+import sagaAuthorization from './signIn';
 import sagaCheckUser from './nameValidator';
 import sagaCheckCaptcha from './captcha';
 
 function* mySaga() {
-  yield all([sagaCheckUser(), sagaCheckCaptcha(), sagaRegistration()]);
+  yield all([sagaCheckUser(), sagaCheckCaptcha(), sagaRegistration(), sagaAuthorization()]);
 }
 
 export default mySaga;

@@ -3,10 +3,9 @@ type State = {
   name: string;
 };
 
-type DateError = {
+type Data = {
   name: string;
   errorName: string;
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export type { State, DateError };
+export type { State, Data };
