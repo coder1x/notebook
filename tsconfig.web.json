@@ -41,6 +41,9 @@
       "@hooks/*": [
         "src/hooks/*"
       ],
+      "@appRoutes/*": [
+        "src/appRoutes/*"
+      ],
       "@shared/*": [
         "src/shared/*"
       ],

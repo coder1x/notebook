@@ -41,6 +41,9 @@
       "@api/*": [
         "src/api/*"
       ],
+      "@appRoutes/*": [
+        "src/appRoutes/*"
+      ],
       "@shared/*": [
         "src/shared/*"
       ],

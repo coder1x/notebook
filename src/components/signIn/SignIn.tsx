@@ -1,5 +1,6 @@
-import { FC, useState, useCallback } from 'react';
+import { FC, useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { tokenState, isSignInErrorState, errorNameState, nameState } from '@store/selectors';
 import { signInActions, nameValidatorActions } from '@store/slices';
@@ -17,6 +18,8 @@ const SignIn: FC = () => {
   const errorName = useSelector(errorNameState);
   const name = useSelector(nameState);
 
+  const navigate = useNavigate();
+
   let textMessageName = errorName;
 
   if (errorName === 'notOccupied') {
@@ -25,14 +28,11 @@ const SignIn: FC = () => {
     textMessageName = '';
   }
 
-  if (token) {
-    // Router.push('/projects');
-  }
-
-  const handleRegistrationClick = () => {
-    // Router.push('/auth/sign-up');
-    console.log('Перешли на форму регистрации');
-  };
+  useEffect(() => {
+    if (token) {
+      // navigate('projects');
+    }
+  }, [navigate, token]);
 
   const authorization = () => {
     if (name && password) {
@@ -134,12 +134,12 @@ const SignIn: FC = () => {
       </form>
       <div className="authorization__registration-wrapper">
         <Button
+          tag="Link"
+          href="registration"
           options={{
-            type: 'submit',
             modifier: 'submit',
-            onClick: handleRegistrationClick,
           }}
-          text={'Зарегистрироваться'}
+          text="Зарегистрироваться"
         />
       </div>
       {isSignInError && <MessageForm text={'Ошибка авторизации'} isError={isSignInError} />}

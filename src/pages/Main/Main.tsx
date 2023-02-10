@@ -1,16 +1,12 @@
-import Layout from '@pages/layout/Layout';
-import { SignIn, SignUp } from '@components/index';
+import { useRoutes } from 'react-router-dom';
 
-// Регистрация пользователя в TODO
-// Вход в приложение TODO
+import Layout from '@pages/layout/Layout';
+import appRoutes from '@appRoutes/appRoutes';
 
 function Main() {
-  return (
-    <Layout>
-      <SignIn />
-      <SignUp />
-    </Layout>
-  );
+  const routes = useRoutes(appRoutes);
+
+  return <Layout>{routes}</Layout>;
 }
 
 export default Main;

@@ -38,6 +38,7 @@ module.exports = merge(devServer, {
       '@helpers': path.join(paths.src, 'shared', 'helpers'),
       '@pages': path.join(paths.src, 'pages'),
       '@hooks': path.join(paths.src, 'hooks'),
+      '@appRoutes': path.join(paths.src, 'appRoutes'),
       '@components': path.join(paths.src, 'components'),
       '@shared': path.join(paths.src, 'shared'),
       '@store': path.join(paths.src, 'store'),

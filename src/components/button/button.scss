@@ -13,6 +13,7 @@ $background-button-hover: $color-white;
   background-color: $background-button;
   border: 1px solid $border-button;
   cursor: pointer;
+  box-sizing: border-box;
 
   &:hover {
     background-color: $background-button-hover;

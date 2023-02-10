@@ -1,16 +1,19 @@
-import { createElement, FC } from 'react';
+import { createElement, FC, MouseEventHandler } from 'react';
+import { Link } from 'react-router-dom';
 
 type Props = {
+  tag?: string;
+  href?: string;
   options: {
-    type: string;
+    type?: string;
     disabled?: boolean;
     modifier?: 'submit' | 'interface';
-    onClick: Function;
+    onClick?: Function;
   };
   text: string;
 };
 
-const Button: FC<Props> = ({ options, text }) => {
+const Button: FC<Props> = ({ tag, href = '/', options, text }) => {
   const optionsClone = { ...options };
   const type: 'submit' | 'interface' = optionsClone.modifier ?? 'interface';
 
@@ -21,11 +24,25 @@ const Button: FC<Props> = ({ options, text }) => {
     interface: ' button__interface',
   };
 
+  const className = `${'button'}${modifier[type] ?? ''}`;
+
+  if (tag === 'Link') {
+    const functionTemp = () => {
+      //
+    };
+
+    const handleLinkClick = optionsClone.onClick ?? functionTemp;
+    return (
+      <Link className={className} onClick={handleLinkClick as MouseEventHandler} to={href}>
+        {text}
+      </Link>
+    );
+  }
   return createElement(
     'button',
     {
       ...optionsClone,
-      className: `${'button'}${modifier[type] ?? ''}`,
+      className,
     },
     text
   );

@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, FC, useCallback, useEffect, useRef, MutableRefObject } from 'react';
+import { Link } from 'react-router-dom';
 
 import { signUpActions, nameValidatorActions } from '@store/slices';
 
@@ -144,11 +145,7 @@ const SignUp: FC = () => {
   };
 
   const handleSignInClick = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-
     dispatch(signUpActions.setSignUpRegistration(''));
-
-    // Router.push('/');
   };
 
   const handleCaptchaStatus = useCallback(
@@ -218,8 +215,9 @@ const SignUp: FC = () => {
             text="Зарегистрироваться"
           />
           <Button
+            tag="Link"
+            href="/"
             options={{
-              type: 'submit',
               modifier: 'submit',
               onClick: handleSignInClick,
             }}
