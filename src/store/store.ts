@@ -2,7 +2,13 @@ import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 
-import { signUpReducer, signInReducer, captchaReducer, nameValidatorReducer } from './slices';
+import {
+  signUpReducer,
+  signInReducer,
+  captchaReducer,
+  nameValidatorReducer,
+  projectsReducer,
+} from './slices';
 
 import mySaga from './saga/saga';
 
@@ -13,6 +19,7 @@ const rootReducer = combineReducers({
   captcha: captchaReducer,
   nameValidator: nameValidatorReducer,
   signIn: signInReducer,
+  projects: projectsReducer,
 });
 
 const store = configureStore({

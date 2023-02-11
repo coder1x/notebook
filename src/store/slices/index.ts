@@ -5,6 +5,7 @@ import * as captchaType from './captcha/captchaType';
 import * as signUpType from './signUp/signUpType';
 import * as signInType from './signIn/signInType';
 import { nameValidatorActions, nameValidatorReducer } from './nameValidator/nameValidatorSlice';
+import { projectsActions, projectsReducer } from './projects/projectsSlice';
 
 export {
   signInActions,
@@ -18,4 +19,6 @@ export {
   captchaType,
   nameValidatorActions,
   nameValidatorReducer,
+  projectsActions,
+  projectsReducer,
 };

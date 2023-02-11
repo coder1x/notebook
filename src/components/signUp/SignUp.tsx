@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, FC, useCallback, useEffect, useRef, MutableRefObject } from 'react';
-import { Link } from 'react-router-dom';
 
 import { signUpActions, nameValidatorActions } from '@store/slices';
 

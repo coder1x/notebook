@@ -7,5 +7,21 @@ import TextField from './textField/TextField';
 import Button from './button/Button';
 import Captcha from './captcha/Captcha';
 import MessageForm from './messageForm/MessageForm';
+import Editor from './editor/Editor';
+import Menu from './menu/Menu';
+import TodoItem from './todoItem/TodoItem';
 
-export { Footer, Header, SignUp, SignIn, ChangeCustom, TextField, Button, Captcha, MessageForm };
+export {
+  Footer,
+  Header,
+  SignUp,
+  SignIn,
+  ChangeCustom,
+  TextField,
+  Button,
+  Captcha,
+  MessageForm,
+  Editor,
+  Menu,
+  TodoItem,
+};

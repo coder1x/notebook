@@ -1,6 +1,6 @@
 import { FC, useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { tokenState, isSignInErrorState, errorNameState, nameState } from '@store/selectors';
 import { signInActions, nameValidatorActions } from '@store/slices';
@@ -32,7 +32,7 @@ const SignIn: FC = () => {
 
   useEffect(() => {
     if (token) {
-      // navigate('projects');
+      navigate('projects');
     }
   }, [navigate, token]);
 

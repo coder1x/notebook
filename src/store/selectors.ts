@@ -11,6 +11,8 @@ const isErrorCaptchaState = (state: RootState) => state.captcha.isErrorCaptcha;
 const tokenState = (state: RootState) => state.signIn.token;
 const isSignInErrorState = (state: RootState) => state.signIn.isSignInError;
 
+const projectsState = (state: RootState) => state.projects.projects;
+
 export {
   messageState,
   isRegistrationErrorState,
@@ -19,4 +21,5 @@ export {
   isErrorCaptchaState,
   tokenState,
   isSignInErrorState,
+  projectsState,
 };

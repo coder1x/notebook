@@ -1,5 +1,25 @@
+$color-checkbox-border: $dark-gray-100;
+
 .footer {
-  width: 100%;
-  min-height: 40px;
-  font-size: 16px;
+  border-top: 1px solid $color-checkbox-border;
+  padding-top: 20px;
+
+  display: flex;
+  flex-direction: row;
+
+  :first-child {
+    margin-left: 0px;
+  }
+
+  &__text-total {
+    color: #555;
+  }
+
+  &__item {
+    margin-left: 30px;
+  }
+
+  &__number-total {
+    margin-left: 5px;
+  }
 }

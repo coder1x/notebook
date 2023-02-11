@@ -1,0 +1,68 @@
+$color-checkbox: #222;
+$color-checkbox-border: #333;
+$color-checkbox-hover: #666;
+$color-border-focus: #222;
+$color-focus: #222;
+
+.editor {
+  background: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  &__header-wrapper {
+    background: #303030;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__headerText {
+    color: rgb(255, 255, 255);
+    margin-left: 5px;
+  }
+
+  &__text {
+    display: flex;
+  }
+
+  &__textarea {
+    width: 100%;
+    min-height: 400px;
+    border-radius: 0px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    outline: none;
+    padding: 10px;
+  }
+
+  &__bottom-wrapper {
+    background: rgb(255, 255, 255);
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__close {
+    cursor: pointer;
+    border: 0px;
+    background-color: rgb(245 108 48);
+    padding: 5px;
+    z-index: 1;
+
+    &:hover {
+      background-color: rgb(245, 124, 72);
+    }
+
+    &:focus {
+      outline: 2px solid $color-focus;
+      outline-offset: 5px;
+    }
+  }
+}

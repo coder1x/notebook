@@ -1,0 +1,113 @@
+$color-checkbox: #222;
+$color-checkbox-hover: #666;
+$color-border-focus: #222;
+$color-focus: #222;
+$color-checkbox-border: $dark-gray-100;
+$color-background-item: #f5f5f5;
+$color-before: $color-white;
+$color-before-border: $dark-gray-100;
+$color-name-hover: #686868;
+$color-name-focus: #474747;
+
+.todo-item {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  display: flex;
+
+  &:nth-child(2n) {
+    background-color: $color-background-item;
+  }
+
+  &__number {
+    text-align: center;
+    min-width: 50px;
+  }
+
+  &__input-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    padding-left: 29px;
+    margin-left: 6px;
+  }
+
+  &__text {
+    border: 0px;
+    outline: none;
+    font-family: $font;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    color: $color-checkbox;
+    cursor: pointer;
+    background-color: transparent;
+    padding: 0;
+    text-align: left;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    &:hover {
+      color: $color-name-hover;
+    }
+
+    &:focus {
+      outline: 2px solid $color-focus;
+      outline-offset: 5px;
+      color: $color-name-focus;
+    }
+  }
+
+  &__before {
+    width: 20px;
+    height: 20px;
+    background: $color-before;
+    border: 1px solid $color-checkbox-border;
+    box-sizing: border-box;
+    border-radius: 2px;
+    position: absolute;
+    left: 0;
+    top: -1px;
+    cursor: pointer;
+
+    &_border {
+      box-shadow: 0px 0px 0px 2px $color-border-focus;
+    }
+  }
+
+  &__input {
+    position: absolute;
+    top: 8px;
+    left: 7px;
+    height: 1px;
+    width: 6px;
+    z-index: 0;
+    border: 0;
+    padding: 0;
+
+    &:focus {
+      outline: 2px solid $color-focus;
+      outline-offset: 12px;
+    }
+
+    &:checked + .todo-item__before {
+      display: block;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.46439 4.29245L5.70703 8.53509L4.29282 9.9493L0.0501771 5.70666L1.46439 4.29245Z' fill='url(%23paint0_linear)'/%3E%3Cpath d='M8.53546 2.87823L9.94967 4.29245L4.29282 9.9493L2.8786 8.53509L8.53546 2.87823Z' fill='url(%23paint1_linear)'/%3E%3Cdefs%3E%3ClinearGradient id='paint0_linear' x1='7.82835' y1='2.17112' x2='2.1715' y2='7.82798' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23BC9CFF'/%3E%3Cstop offset='1' stop-color='%238BA4F9'/%3E%3C/linearGradient%3E%3ClinearGradient id='paint1_linear' x1='7.82835' y1='2.17112' x2='2.1715' y2='7.82798' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23BC9CFF'/%3E%3Cstop offset='1' stop-color='%238BA4F9'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E%0A");
+      background-size: 10px 10px;
+      background-repeat: no-repeat;
+      background-position: 4px 3px;
+      border-color: $color-checkbox-hover;
+    }
+
+    &:disabled + .todo-item__before {
+      border-color: $color-before-border;
+    }
+
+    &:checked:disabled + .todo-item__before {
+      border-color: $color-before-border;
+    }
+  }
+}

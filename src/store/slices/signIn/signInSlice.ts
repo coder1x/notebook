@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { setDataToCookies, getDataToCookies } from '@helpers/index';
+import { setDataToCookies, getDataToCookies, removeDataToCookies } from '@helpers/index';
 import * as Type from './signInType';
 
 const initialState: Type.State = {
@@ -15,6 +15,10 @@ const signIn = createSlice({
       const token = action.payload;
       setDataToCookies('TodoToken', token);
       state.token = token;
+    },
+    removeSignInToken(state) {
+      removeDataToCookies('TodoToken');
+      state.token = '';
     },
     setSignInError(state) {
       state.isSignInError = true;
