@@ -1,46 +1,79 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { FC, useState, forwardRef, Ref, useImperativeHandle, useCallback } from 'react';
 
 import { Button, ChangeCustom } from '@components/index';
 
-function Editor(propsData: any) {
-  // const dispatch = useDispatch();
-  // const props = useSelector((state: any) => ({
-  //   header: state.editor.header,
-  //   text: state.editor.text,
-  // }));
+type Props = {
+  type: 'addData' | 'editData' | 'viewData';
+  headerText: string;
+  onAddData?: (data: string) => void;
+  onUpdate?: (data: string) => void;
+  ref: Ref<unknown> | undefined;
+};
 
-  const setValueEditor = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // dispatch({
-    //   type: 'SET_VALUE_EDITOR',
-    //   text: event.target.value,
-    // });
+const Editor: FC<Props> = forwardRef(({ type, onUpdate, onAddData, headerText }, ref) => {
+  const [textData, setTextData] = useState('');
+  const [isActive, setIsActive] = useState(false);
+
+  useImperativeHandle(ref, () => {
+    return { setIsActive };
+  });
+
+  const handleTextareaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const text = event.target.value.trim();
+
+    setTextData(text);
   };
 
   const handleButtonAddClick = () => {
-    // const text = props.text.trim();
-    // if (text !== '') {
-    //   propsData.addData(text);
-    // }
+    if (textData && onAddData instanceof Function) {
+      onAddData(textData);
+      setTextData('');
+    }
   };
 
-  const handleTextareaBlur = (event: any) => {
-    //
+  const handleButtonUpdateClick = () => {
+    if (textData && onUpdate instanceof Function) {
+      onUpdate(textData);
+      setTextData('');
+    }
   };
 
-  const handleButtonCloseClick = () => {
-    // dispatch({
-    //   type: 'CLOSE_EDITOR',
-    // });
-  };
+  let buttonComponent = <></>;
 
-  // разные кнопки и разные хендлеры можно добиться через свич
-  // в котором мы будем возвращять массив объектов, название, хендлер.
+  switch (type) {
+    case 'addData':
+      buttonComponent = (
+        <Button
+          text={'Добавить'}
+          options={{
+            onClick: handleButtonAddClick,
+          }}
+        />
+      );
+      break;
+    case 'editData':
+      buttonComponent = (
+        <Button
+          text={'Применить'}
+          options={{
+            onClick: handleButtonUpdateClick,
+          }}
+        />
+      );
+      break;
+    case 'viewData':
+      break;
+  }
+
+  const handleButtonCloseClick = useCallback(() => {
+    setTextData('');
+    setIsActive(false);
+  }, []);
 
   return (
-    <article className="editor">
+    <article className={`editor${isActive ? ' editor_visible' : ''}`}>
       <div className="editor__header-wrapper">
-        <p className="editor__header-text">{'props.header'}</p>
+        <h2 className="editor__header-text">{headerText}</h2>
         <button className="editor__close" onClick={handleButtonCloseClick}>
           X
         </button>
@@ -51,19 +84,14 @@ function Editor(propsData: any) {
           attributes={{
             type: 'text',
             className: 'editor__textarea',
-            onKeyPress: handleTextareaBlur,
+            onChange: handleTextareaChange,
+            'aria-label': 'Редактор текста',
           }}
-          value={'props.text'}
-          onChangeCustom={setValueEditor}
+          value={textData}
         />
       </div>
       <div className="editor__bottom-wrapper">
-        <Button
-          text={'Добавить'}
-          options={{
-            onClick: handleButtonAddClick,
-          }}
-        />
+        {buttonComponent}
         <Button
           text={'Отмена'}
           options={{
@@ -73,6 +101,6 @@ function Editor(propsData: any) {
       </div>
     </article>
   );
-}
+});
 
 export default Editor;

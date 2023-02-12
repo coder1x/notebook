@@ -9,11 +9,6 @@ function getProject(id: number, state: any) {
   return 0;
 }
 
-// это можно убрать из функци
-// function removeProject(id: number, projects: {}[]) {
-//   return projects.filter((item: any) => item.id !== id);
-// }
-
 type objectD = {
   id: number;
   text: string;
@@ -34,7 +29,8 @@ const projects = createSlice({
     setProjects(state, action: PayloadAction<any>) {
       state.projects = action.payload;
     },
-    addProject(state, action: PayloadAction<any>) {
+
+    addProject(state, action: PayloadAction<objectD>) {
       const { id, text } = action.payload;
 
       state.projects?.push({
@@ -42,13 +38,18 @@ const projects = createSlice({
         text,
       });
     },
-    // eslint-disable-next-line no-unused-vars
-    removeProject(state, action: PayloadAction<any>) {
-      // const { projectsId } = action.payload;
-      // projectsId.forEach((id: number) => {
-      //   state.projects = removeProject(id, state.projects);
-      // });
+
+    removeProject(state, action: PayloadAction<number[]>) {
+      const projectsId = action.payload;
+      let projectsTemp = state.projects;
+
+      projectsId.forEach((id) => {
+        projectsTemp = projectsTemp?.filter((item) => item.id !== id) ?? null;
+      });
+
+      state.projects = projectsTemp;
     },
+
     editProject(state, action: PayloadAction<any>) {
       const { id, text } = action.payload;
       if (text) {
@@ -62,11 +63,11 @@ const projects = createSlice({
       //
     },
     // eslint-disable-next-line no-unused-vars
-    fetchRemoveProject(state, action: PayloadAction<any>) {
+    fetchRemoveProject(state, action: PayloadAction<number[]>) {
       //
     },
     // eslint-disable-next-line no-unused-vars
-    fetchAddProject(state, action: PayloadAction<any>) {
+    fetchAddProject(state, action: PayloadAction<string>) {
       //
     },
     // eslint-disable-next-line no-unused-vars

@@ -1,5 +1,6 @@
 import { call, put, takeLeading } from 'redux-saga/effects';
-import { getProjectId, removeProject, addProject, getProjects } from '@api/index';
+import { PayloadAction } from '@reduxjs/toolkit';
+import { removeProject, addProject, getProjects } from '@api/index';
 import { projectsActions } from '@store/slices';
 import { getDataToCookies } from '@helpers/index';
 
@@ -24,20 +25,17 @@ function* fetchGetProjects() {
   }
 }
 
-function* fetchRemoveProject(action: any) {
-  const { projectsId } = action;
+function* fetchRemoveProject(action: PayloadAction<number[]>) {
+  const projectsId = action.payload;
 
   try {
     const data: DataProject = yield call(removeProject, {
-      token: 'action.token',
+      token: getDataToCookies('TodoToken'),
       projectsId,
     });
 
     if (data) {
-      // yield put({
-      //   type: 'REMOVE_PROJECT_STORE',
-      //   projectsId: action.projectsId,
-      // });
+      yield put(projectsActions.removeProject(projectsId));
     } else {
       throw new Error('Не удалось удалить проект.');
     }
@@ -46,38 +44,22 @@ function* fetchRemoveProject(action: any) {
   }
 }
 
-function* fetchAddProject(action: any) {
-  const { text } = action;
+function* fetchAddProject(action: PayloadAction<string>) {
+  const text = action.payload;
 
   try {
-    const data: DataProject = yield call(addProject, {
-      token: 'action.token',
+    const data: boolean | number = yield call(addProject, {
+      token: getDataToCookies('TodoToken'),
       text,
     });
 
     if (data) {
-      type MAX_ID = string | boolean;
-
-      // за место того что бы делать такой запрос я думаю это нужно на стороне Бека делать и пусть он в ответе
-      // возвращает нам id и запись которую мы добавили.
-      const maxId: MAX_ID = yield call(getProjectId);
-
-      const id = parseInt(String(maxId), 10);
-      let newId = 1;
-
-      if (!isNaN(id)) {
-        newId = id;
-      }
-
-      // yield put({
-      //   type: 'ADD_PROJECT_STORE',
-      //   id: newId,
-      //   text: action.text,
-      // });
-
-      // yield put({
-      //   type: 'CLEAR_TEXT',
-      // });
+      yield put(
+        projectsActions.addProject({
+          id: Number(data),
+          text,
+        })
+      );
     } else {
       throw new Error('Не удалось добавить запись.');
     }
@@ -95,7 +77,7 @@ function* sagaAddProject() {
 }
 
 function* sagaRemoveProject() {
-  yield takeLeading(projectsActions.removeProject.type, fetchRemoveProject);
+  yield takeLeading(projectsActions.fetchRemoveProject.type, fetchRemoveProject);
 }
 
 export { sagaAddProject, sagaRemoveProject, sagaGetProjects };

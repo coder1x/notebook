@@ -6,7 +6,7 @@ $color-focus: #222;
 
 .editor {
   background: rgb(255, 255, 255);
-  display: flex;
+  display: none;
   flex-direction: column;
   width: 100%;
   max-width: 600px;
@@ -17,6 +17,10 @@ $color-focus: #222;
   left: 50%;
   transform: translate(-50%, -50%);
 
+  &_visible {
+    display: flex;
+  }
+
   &__header-wrapper {
     background: #303030;
     display: flex;
@@ -25,7 +29,7 @@ $color-focus: #222;
     align-items: center;
   }
 
-  &__headerText {
+  &__header-text {
     color: rgb(255, 255, 255);
     margin-left: 5px;
   }

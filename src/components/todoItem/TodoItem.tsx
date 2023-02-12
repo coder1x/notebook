@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, FC } from 'react';
 
 type Props = {
   index: number;
@@ -8,29 +8,29 @@ type Props = {
   clickCheckbox: Function;
 };
 
-function TodoItem(props: Props) {
+const TodoItem: FC<Props> = ({ index, id, text, clickProject, clickCheckbox }) => {
   const handlerCheckboxClick = (event: MouseEvent<HTMLInputElement>) => {
-    props.clickCheckbox(event.target);
+    clickCheckbox(event.target);
   };
 
   return (
     <li className="todo-item">
-      <span className="todo-item__number">[ {props.index} ]</span>
+      <span className="todo-item__number">[ {index} ]</span>
       <label className="todo-item__input-wrapper">
         <input
           className="todo-item__input"
           type="checkbox"
-          name={String(props.id)}
+          name={String(id)}
           onClick={handlerCheckboxClick}
         />
         <span className="todo-item__before"></span>
         <span className="visually-hidden">Выбрать элемент</span>
       </label>
-      <p tabIndex={0} className="todo-item__text" onClick={() => props.clickProject(props.id)}>
-        {props.text}
+      <p tabIndex={0} className="todo-item__text" onClick={() => clickProject(id)}>
+        {text}
       </p>
     </li>
   );
-}
+};
 
 export default TodoItem;

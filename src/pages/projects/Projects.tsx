@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, MutableRefObject, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,7 +6,7 @@ import { TodoItem, Footer, Menu, Editor } from '@components/index';
 import { tokenState, projectsState } from '@store/selectors';
 import { projectsActions, signInActions } from '@store/slices';
 
-function Projects() {
+const Projects: FC = () => {
   let projectsId: number[] = [];
 
   const dispatch = useDispatch();
@@ -15,26 +15,7 @@ function Projects() {
   const token = useSelector(tokenState);
   const projects = useSelector(projectsState);
 
-  console.log('projects ', projects);
-
-  // const checkData = (data: any) => {
-  //   if (!Array.isArray(data)) return true;
-  //   return Object.keys(data[0]).length !== 0;
-  // };
-
-  // let { projects, token } = props;
-
-  // let isServerData = false;
-
-  // if (!checkData(projects)) {
-  //   projects = propsData.data;
-
-  //   if (!token) {
-  //     token = propsData.token;
-  //   }
-
-  //   isServerData = true;
-  // }
+  const editorRef: MutableRefObject<null | { setIsActive: (data: boolean) => void }> = useRef(null);
 
   useEffect(() => {
     if (!token) {
@@ -44,33 +25,16 @@ function Projects() {
     }
   }, [dispatch, navigate, projects, token]);
 
-  useEffect(() => {
-    // if (isServerData) {
-    //   dispatch({
-    //     type: 'SET_MANAGER_TOKEN',
-    //     token,
-    //   });
-    //   dispatch({
-    //     type: 'GET_PROJECT_DATA',
-    //     projects,
-    //   });
-    // }
-  });
-
   const handleButtonAddClick = () => {
-    // dispatch({
-    //   type: 'ADD_RECORD',
-    //   header: 'Добавить проект',
-    //   text: '',
-    // });
+    const editor = editorRef.current;
+
+    if (editor) {
+      editor.setIsActive(true);
+    }
   };
 
   const handleButtonRemoveClick = () => {
-    // dispatch({
-    //   type: 'FETCH_REMOVE_PROJECT_STORE',
-    //   token: token,
-    //   projectsId,
-    // });
+    dispatch(projectsActions.fetchRemoveProject(projectsId));
   };
 
   const handleButtonExitClick = () => {
@@ -94,30 +58,11 @@ function Projects() {
   };
 
   const handleAddDataProject = (text: string) => {
-    // dispatch({
-    //   type: 'FETCH_ADD_PROJECT',
-    //   token,
-    //   text,
-    // });
+    dispatch(projectsActions.fetchAddProject(text));
   };
 
-  let componentEditor: any;
   let total = 0;
-  const itemsTodo: any = [];
-
-  // switch (props.componentEditor) {
-  //   case 'addRecord':
-  //     componentEditor = <Editor addData={handleAddDataProject} />;
-  //     break;
-
-  //   case 'editRecord':
-  //     componentEditor = <Editor />;
-  //     break;
-
-  //   default:
-  //     componentEditor = '';
-  //     break;
-  // }
+  const itemsTodo: JSX.Element[] = [];
 
   if (Array.isArray(projects)) {
     const { length } = projects;
@@ -162,9 +107,14 @@ function Projects() {
       <ul className="manager-projects__list">{itemsTodo}</ul>
 
       <Footer total={total} />
-      {componentEditor}
+      <Editor
+        type="addData"
+        headerText="Добавить проект"
+        onAddData={handleAddDataProject}
+        ref={editorRef}
+      />
     </article>
   );
-}
+};
 
 export default Projects;

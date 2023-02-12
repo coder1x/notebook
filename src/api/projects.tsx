@@ -10,10 +10,6 @@ function getOptions(data: any) {
   };
 }
 
-function getProjectId() {
-  return makeRequest('projects/getID.php');
-}
-
 function getProjects(token: string) {
   return makeRequest(`projects/getProjects.php?token=${token}`);
 }
@@ -26,4 +22,4 @@ function removeProject(data: any) {
   return makeRequest('projects/removeProject.php', getOptions(data));
 }
 
-export { addProject, removeProject, getProjectId, getProjects };
+export { addProject, removeProject, getProjects };

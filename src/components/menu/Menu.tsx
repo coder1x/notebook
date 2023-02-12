@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 
 import { Button } from '@components/index';
 
@@ -9,21 +9,24 @@ type Props = {
   }[];
 };
 
-function Menu(props: Props) {
-  const Buttons = props.buttons.map((item, index) => {
-    return (
-      <Button
-        key={index}
-        text={item.name}
-        options={{
-          modifier: 'interface',
-          onClick: item.handler,
-        }}
-      />
-    );
-  });
-
-  return <div className="navigation">{Buttons}</div>;
-}
+const Menu: FC<Props> = ({ buttons }) => {
+  return (
+    <div className="navigation">
+      {buttons &&
+        buttons.map((item, index) => {
+          return (
+            <Button
+              key={index}
+              text={item.name}
+              options={{
+                modifier: 'interface',
+                onClick: item.handler,
+              }}
+            />
+          );
+        })}
+    </div>
+  );
+};
 
 export default Menu;
