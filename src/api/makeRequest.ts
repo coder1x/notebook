@@ -1,3 +1,13 @@
+function getOptionsPost(data: any) {
+  return {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  };
+}
+
 function makeRequest(url: string, options = {}, baseUrl = process.env.URL_API) {
   return fetch(baseUrl + url, options).then((response) => {
     if (response.status !== 200) {
@@ -9,4 +19,4 @@ function makeRequest(url: string, options = {}, baseUrl = process.env.URL_API) {
   });
 }
 
-export default makeRequest;
+export { makeRequest, getOptionsPost };

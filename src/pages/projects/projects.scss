@@ -1,0 +1,19 @@
+$color-background: $color-white;
+$color-border: rgba(0, 0, 0, 0.12);
+
+.manager-projects {
+  display: flex;
+  flex-direction: column;
+  background: $color-background;
+  border: 1px solid $color-border;
+  box-sizing: border-box;
+  border-radius: 2px;
+  padding: 20px;
+  height: calc(100vh - 23px);
+
+  &__list {
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 5px;
+  }
+}

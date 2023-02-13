@@ -12,6 +12,7 @@ const tokenState = (state: RootState) => state.signIn.token;
 const isSignInErrorState = (state: RootState) => state.signIn.isSignInError;
 
 const projectsState = (state: RootState) => state.projects.projects;
+const isLoadingState = (state: RootState) => state.projects.isLoading;
 
 export {
   messageState,
@@ -22,4 +23,5 @@ export {
   tokenState,
   isSignInErrorState,
   projectsState,
+  isLoadingState,
 };

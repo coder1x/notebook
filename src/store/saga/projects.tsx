@@ -1,14 +1,10 @@
 import { call, put, takeLeading } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { removeProject, addProject, getProjects } from '@api/index';
-import { projectsActions } from '@store/slices';
+import { projectsActions, projectsType } from '@store/slices';
 import { getDataToCookies } from '@helpers/index';
 
-type DataProject = {
-  flag: boolean;
-};
-
-type Projects = [{}] | boolean;
+type Projects = projectsType.Project[] | boolean | 'clear';
 
 function* fetchGetProjects() {
   try {
@@ -16,8 +12,7 @@ function* fetchGetProjects() {
 
     if (Array.isArray(data)) {
       yield put(projectsActions.setProjects(data));
-    } else {
-      // yield put();
+    } else if (data !== 'clear') {
       throw new Error('Не удалось получить данные о проектах.');
     }
   } catch (error) {
@@ -29,7 +24,7 @@ function* fetchRemoveProject(action: PayloadAction<number[]>) {
   const projectsId = action.payload;
 
   try {
-    const data: DataProject = yield call(removeProject, {
+    const data: boolean = yield call(removeProject, {
       token: getDataToCookies('TodoToken'),
       projectsId,
     });

@@ -1,42 +1,40 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-// это то же можно убрать из функции
-function getProject(id: number, state: any) {
-  if (Array.isArray(state.projects)) {
-    return state.projects.find((item: any) => item.id === id);
-  }
-
-  return 0;
-}
-
-type objectD = {
-  id: number;
-  text: string;
-};
-
-type State = {
-  projects: objectD[] | null;
-};
+import { State, Project } from './projectsType';
 
 const initialState: State = {
   projects: null,
+  isLoading: true,
 };
 
 const projects = createSlice({
   name: 'projects',
   initialState,
   reducers: {
-    setProjects(state, action: PayloadAction<any>) {
+    setProjects(state, action: PayloadAction<Project[]>) {
       state.projects = action.payload;
+      state.isLoading = false;
     },
 
-    addProject(state, action: PayloadAction<objectD>) {
+    clearState(state) {
+      state.projects = null;
+    },
+
+    addProject(state, action: PayloadAction<Project>) {
       const { id, text } = action.payload;
 
-      state.projects?.push({
-        id,
-        text,
-      });
+      if (Array.isArray(state.projects)) {
+        state.projects.push({
+          id,
+          text,
+        });
+      } else {
+        state.projects = [
+          {
+            id,
+            text,
+          },
+        ];
+      }
     },
 
     removeProject(state, action: PayloadAction<number[]>) {
@@ -50,29 +48,27 @@ const projects = createSlice({
       state.projects = projectsTemp;
     },
 
-    editProject(state, action: PayloadAction<any>) {
+    editProject(state, action: PayloadAction<Project>) {
       const { id, text } = action.payload;
-      if (text) {
-        const project = getProject(id, state);
-        project.text = text;
-        // state.projects.push(project);
+      if (text.trim()) {
+        if (Array.isArray(state.projects)) {
+          const index = state.projects.findIndex((item) => item.id === id);
+
+          state.projects[index].text = text;
+        }
       }
     },
-    // eslint-disable-next-line no-unused-vars
-    fetchEditProject(state, action: PayloadAction<any>) {
+    fetchEditProject(state, action: PayloadAction<Project>) {
       //
     },
-    // eslint-disable-next-line no-unused-vars
     fetchRemoveProject(state, action: PayloadAction<number[]>) {
       //
     },
-    // eslint-disable-next-line no-unused-vars
     fetchAddProject(state, action: PayloadAction<string>) {
       //
     },
-    // eslint-disable-next-line no-unused-vars
     fetchProjectsData(state) {
-      //
+      state.isLoading = true;
     },
   },
 });

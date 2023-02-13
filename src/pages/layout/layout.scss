@@ -9,10 +9,7 @@
   max-width: $max-wrapper;
   min-height: 200px;
   margin: 0 auto;
-  margin-top: 20px;
   padding: 10px;
-  background-color: $color-white;
-  box-shadow: 0 0 25px rgb(0 0 0 / 20%);
 
   @include media-breakpoint-down($xs) {
     padding: 0;

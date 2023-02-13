@@ -1,7 +1,8 @@
+import { lazy } from 'react';
+
 import Footer from './footer/Footer';
 import Header from './header/Header';
-import SignUp from './signUp/SignUp';
-import SignIn from './signIn/SignIn';
+
 import ChangeCustom from './changeCustom/ChangeCustom';
 import TextField from './textField/TextField';
 import Button from './button/Button';
@@ -10,6 +11,10 @@ import MessageForm from './messageForm/MessageForm';
 import Editor from './editor/Editor';
 import Menu from './menu/Menu';
 import TodoItem from './todoItem/TodoItem';
+import Loading from './loading/Loading';
+
+const SignUp = lazy(() => import('./signUp/SignUp'));
+const SignIn = lazy(() => import('./signIn/SignIn'));
 
 export {
   Footer,
@@ -24,4 +29,5 @@ export {
   Editor,
   Menu,
   TodoItem,
+  Loading,
 };

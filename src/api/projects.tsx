@@ -1,25 +1,25 @@
-import makeRequest from '@api/makeRequest';
+import { makeRequest, getOptionsPost } from '@api/makeRequest';
 
-function getOptions(data: any) {
-  return {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  };
-}
+type AddingData = {
+  token: string;
+  text: string;
+};
+
+type RemovingData = {
+  token: string;
+  projectsId: number[];
+};
 
 function getProjects(token: string) {
   return makeRequest(`projects/getProjects.php?token=${token}`);
 }
 
-function addProject(data: any) {
-  return makeRequest('projects/addProject.php', getOptions(data));
+function addProject(data: AddingData) {
+  return makeRequest('projects/addProject.php', getOptionsPost(data));
 }
 
-function removeProject(data: any) {
-  return makeRequest('projects/removeProject.php', getOptions(data));
+function removeProject(data: RemovingData) {
+  return makeRequest('projects/removeProject.php', getOptionsPost(data));
 }
 
 export { addProject, removeProject, getProjects };

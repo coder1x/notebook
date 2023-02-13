@@ -90,6 +90,28 @@ const SignIn: FC = () => {
     return true;
   }, []);
 
+  const handleNameInput = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const text = event.target.value.trim();
+
+      if (!name && text) {
+        handleNameChange(event);
+      }
+    },
+    [handleNameChange, name]
+  );
+
+  const handlePasswordInput = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const text = event.target.value.trim();
+
+      if (!password && text) {
+        handlePasswordChange(event);
+      }
+    },
+    [handlePasswordChange, password]
+  );
+
   return (
     <article className="authorization">
       <header className="authorization__header-wrapper">
@@ -107,6 +129,7 @@ const SignIn: FC = () => {
               message={textMessageName}
               value={name}
               onChangeCustom={handleNameChange}
+              onChange={handleNameInput}
               ariaLabel="имя пользователя"
             />
           </div>
@@ -119,6 +142,7 @@ const SignIn: FC = () => {
               message={isErrorPassword ? 'Пароль должен быть не короче 6 символов' : ''}
               value={''}
               onChangeCustom={handlePasswordChange}
+              onChange={handlePasswordInput}
               ariaLabel="пароль"
             />
           </div>

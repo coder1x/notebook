@@ -1,4 +1,4 @@
-import makeRequest from './makeRequest';
+import { makeRequest, getOptionsPost } from './makeRequest';
 
 type Data = {
   name: string;
@@ -7,15 +7,7 @@ type Data = {
 };
 
 function registration(data: Data) {
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  };
-
-  return makeRequest('registration.php', options);
+  return makeRequest('registration.php', getOptionsPost(data));
 }
 
 export default registration;

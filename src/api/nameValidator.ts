@@ -1,4 +1,4 @@
-import makeRequest from './makeRequest';
+import { makeRequest } from './makeRequest';
 
 function checkName(name: string) {
   return makeRequest(`checkName.php?name=${name}`);

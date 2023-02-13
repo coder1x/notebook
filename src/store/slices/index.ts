@@ -6,6 +6,7 @@ import * as signUpType from './signUp/signUpType';
 import * as signInType from './signIn/signInType';
 import { nameValidatorActions, nameValidatorReducer } from './nameValidator/nameValidatorSlice';
 import { projectsActions, projectsReducer } from './projects/projectsSlice';
+import * as projectsType from './projects/projectsType';
 
 export {
   signInActions,
@@ -21,4 +22,5 @@ export {
   nameValidatorReducer,
   projectsActions,
   projectsReducer,
+  projectsType,
 };

@@ -2,8 +2,8 @@ import { useEffect, useRef, MutableRefObject, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { TodoItem, Footer, Menu, Editor } from '@components/index';
-import { tokenState, projectsState } from '@store/selectors';
+import { TodoItem, Footer, Menu, Editor, Loading } from '@components/index';
+import { tokenState, projectsState, isLoadingState } from '@store/selectors';
 import { projectsActions, signInActions } from '@store/slices';
 
 const Projects: FC = () => {
@@ -14,6 +14,7 @@ const Projects: FC = () => {
 
   const token = useSelector(tokenState);
   const projects = useSelector(projectsState);
+  const isLoading = useSelector(isLoadingState);
 
   const editorRef: MutableRefObject<null | { setIsActive: (data: boolean) => void }> = useRef(null);
 
@@ -38,6 +39,7 @@ const Projects: FC = () => {
   };
 
   const handleButtonExitClick = () => {
+    dispatch(projectsActions.clearState());
     dispatch(signInActions.removeSignInToken());
   };
 
@@ -104,8 +106,7 @@ const Projects: FC = () => {
           },
         ]}
       />
-      <ul className="manager-projects__list">{itemsTodo}</ul>
-
+      {isLoading ? <Loading /> : <ul className="manager-projects__list">{itemsTodo}</ul>}
       <Footer total={total} />
       <Editor
         type="addData"
