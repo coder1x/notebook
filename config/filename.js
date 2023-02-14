@@ -13,6 +13,6 @@ module.exports = {
     if (env.isDev) {
       return `${dir}[name].${ext}`;
     }
-    return `${dir}[name].[hash].${ext}`;
+    return `${dir}[name].[contenthash].${ext}`;
   },
 };
