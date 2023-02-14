@@ -1,8 +1,8 @@
-import { useEffect, useRef, MutableRefObject, FC } from 'react';
+import { useEffect, useRef, MutableRefObject, FC, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { TodoItem, Footer, Menu, Editor, Loading } from '@components/index';
+import { Footer, Menu, Editor, Loading, ProjectsList } from '@components/index';
 import { tokenState, projectsState, isLoadingState } from '@store/selectors';
 import { projectsActions, signInActions } from '@store/slices';
 
@@ -44,11 +44,7 @@ const Projects: FC = () => {
   };
 
   const handleProjectClick = (projectId: number) => {
-    // dispatch({
-    //   type: 'SET_MANAGER_PROJECT_ID',
-    //   projectId,
-    // });
-    // Router.push(`tasks/${projectId}`);
+    navigate(`/tasks/${projectId}`);
   };
 
   const handleCheckboxClick = (inputElement: HTMLInputElement) => {
@@ -63,33 +59,9 @@ const Projects: FC = () => {
     dispatch(projectsActions.fetchAddProject(text));
   };
 
-  let total = 0;
-  const itemsTodo: JSX.Element[] = [];
-
-  if (Array.isArray(projects)) {
-    const { length } = projects;
-    // eslint-disable-next-line prettier/prettier
-    for (let i: number = length; i > 0;) {
-      const projectData = projects[(i -= 1)];
-      if (Object.keys(projectData).length !== 0) {
-        total += 1;
-        const projectId = projectData.id;
-        itemsTodo.push(
-          <TodoItem
-            key={projectId}
-            index={total}
-            id={projectId}
-            text={projectData.text}
-            clickProject={handleProjectClick}
-            clickCheckbox={handleCheckboxClick}
-          />
-        );
-      }
-    }
-  }
-
   return (
     <article className="manager-projects">
+      <h1 className="manager-projects__title">Менеджер проектов</h1>
       <Menu
         buttons={[
           {
@@ -106,8 +78,18 @@ const Projects: FC = () => {
           },
         ]}
       />
-      {isLoading ? <Loading /> : <ul className="manager-projects__list">{itemsTodo}</ul>}
-      <Footer total={total} />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        Array.isArray(projects) && (
+          <ProjectsList
+            projects={projects}
+            onProjectClick={handleProjectClick}
+            onCheckboxClick={handleCheckboxClick}
+          />
+        )
+      )}
+      <Footer total={projects?.length ?? 0} />
       <Editor
         type="addData"
         headerText="Добавить проект"

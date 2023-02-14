@@ -94,7 +94,7 @@ const SignIn: FC = () => {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const text = event.target.value.trim();
 
-      if (!name && text) {
+      if (!name && text.length > 3) {
         handleNameChange(event);
       }
     },
@@ -105,7 +105,7 @@ const SignIn: FC = () => {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const text = event.target.value.trim();
 
-      if (!password && text) {
+      if (!password && text.length > 5) {
         handlePasswordChange(event);
       }
     },
