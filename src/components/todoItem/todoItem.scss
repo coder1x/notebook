@@ -18,11 +18,6 @@ $color-name-focus: #474747;
     background-color: $color-background-item;
   }
 
-  &__number {
-    text-align: center;
-    min-width: 50px;
-  }
-
   &__input-wrapper {
     position: relative;
     display: flex;
@@ -44,6 +39,7 @@ $color-name-focus: #474747;
     background-color: transparent;
     padding: 0;
     text-align: left;
+    margin-left: 20px;
 
     display: -webkit-box;
     -webkit-line-clamp: 2;

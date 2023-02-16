@@ -1,21 +1,19 @@
-import { MouseEvent, FC } from 'react';
+import { MouseEvent, FC, memo } from 'react';
+import { Link } from 'react-router-dom';
 
 type Props = {
-  index: number;
   id: number;
   text: string;
-  clickProject: (id: number) => void;
   clickCheckbox: Function;
 };
 
-const TodoItem: FC<Props> = ({ index, id, text, clickProject, clickCheckbox }) => {
+const TodoItem: FC<Props> = ({ id, text, clickCheckbox }) => {
   const handlerCheckboxClick = (event: MouseEvent<HTMLInputElement>) => {
     clickCheckbox(event.target);
   };
 
   return (
     <li className="todo-item">
-      <span className="todo-item__number">[ {index} ]</span>
       <label className="todo-item__input-wrapper">
         <input
           className="todo-item__input"
@@ -26,11 +24,11 @@ const TodoItem: FC<Props> = ({ index, id, text, clickProject, clickCheckbox }) =
         <span className="todo-item__before"></span>
         <span className="visually-hidden">Выбрать элемент</span>
       </label>
-      <p tabIndex={0} className="todo-item__text" onClick={() => clickProject(id)}>
+      <Link tabIndex={0} className="todo-item__text" to={`/project/${id}`}>
         {text}
-      </p>
+      </Link>
     </li>
   );
 };
 
-export default TodoItem;
+export default memo(TodoItem);

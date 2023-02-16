@@ -1,9 +1,14 @@
+import { FC, ReactNode } from 'react';
 import './layout.scss';
 
-const Layout = (components: any) => {
+type Props = {
+  children: ReactNode;
+};
+
+const Layout: FC<Props> = ({ children }) => {
   return (
     <main className={'content'}>
-      <div className={'todo'}>{components.children}</div>
+      <div className={'todo'}>{children}</div>
     </main>
   );
 };

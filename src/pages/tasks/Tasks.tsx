@@ -1,5 +1,9 @@
+import { useParams } from 'react-router-dom';
+
 function Tasks() {
-  return <>Задачи</>;
+  const { projectId } = useParams();
+
+  return <>Проект: {projectId}</>;
 }
 
 export default Tasks;

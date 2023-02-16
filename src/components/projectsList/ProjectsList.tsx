@@ -4,11 +4,10 @@ import { projectsType } from '@store/slices';
 
 type Props = {
   projects: projectsType.Project[];
-  onProjectClick: (data: number) => void;
   onCheckboxClick: (object: HTMLInputElement) => void;
 };
 
-const ProjectsList: FC<Props> = ({ projects, onProjectClick, onCheckboxClick }) => {
+const ProjectsList: FC<Props> = ({ projects, onCheckboxClick }) => {
   let { length = 0 } = projects;
 
   return (
@@ -19,16 +18,7 @@ const ProjectsList: FC<Props> = ({ projects, onProjectClick, onCheckboxClick }) 
         if (Object.keys(project).length !== 0) {
           const { id } = project;
 
-          return (
-            <TodoItem
-              key={id}
-              index={index + 1}
-              id={id}
-              text={project.text}
-              clickProject={onProjectClick}
-              clickCheckbox={onCheckboxClick}
-            />
-          );
+          return <TodoItem key={id} id={id} text={project.text} clickCheckbox={onCheckboxClick} />;
         }
         return <></>;
       })}

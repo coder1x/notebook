@@ -7,8 +7,6 @@ import { tokenState, projectsState, isLoadingState } from '@store/selectors';
 import { projectsActions, signInActions } from '@store/slices';
 
 const Projects: FC = () => {
-  let projectsId: number[] = [];
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -16,6 +14,7 @@ const Projects: FC = () => {
   const projects = useSelector(projectsState);
   const isLoading = useSelector(isLoadingState);
 
+  const projectsId: MutableRefObject<number[]> = useRef([]);
   const editorRef: MutableRefObject<null | { setIsActive: (data: boolean) => void }> = useRef(null);
 
   useEffect(() => {
@@ -35,7 +34,8 @@ const Projects: FC = () => {
   };
 
   const handleButtonRemoveClick = () => {
-    dispatch(projectsActions.fetchRemoveProject(projectsId));
+    dispatch(projectsActions.fetchRemoveProject(projectsId.current));
+    projectsId.current = [];
   };
 
   const handleButtonExitClick = () => {
@@ -43,17 +43,15 @@ const Projects: FC = () => {
     dispatch(signInActions.removeSignInToken());
   };
 
-  const handleProjectClick = (projectId: number) => {
-    navigate(`/tasks/${projectId}`);
-  };
-
-  const handleCheckboxClick = (inputElement: HTMLInputElement) => {
+  const handleCheckboxClick = useCallback((inputElement: HTMLInputElement) => {
     if (inputElement.checked) {
-      projectsId.push(parseInt(inputElement.name, 10));
+      projectsId.current.push(parseInt(inputElement.name, 10));
     } else {
-      projectsId = projectsId.filter((id) => id !== parseInt(inputElement.name, 10));
+      projectsId.current = projectsId.current.filter(
+        (id) => id !== parseInt(inputElement.name, 10)
+      );
     }
-  };
+  }, []);
 
   const handleAddDataProject = (text: string) => {
     dispatch(projectsActions.fetchAddProject(text));
@@ -82,11 +80,7 @@ const Projects: FC = () => {
         <Loading />
       ) : (
         Array.isArray(projects) && (
-          <ProjectsList
-            projects={projects}
-            onProjectClick={handleProjectClick}
-            onCheckboxClick={handleCheckboxClick}
-          />
+          <ProjectsList projects={projects} onCheckboxClick={handleCheckboxClick} />
         )
       )}
       <Footer total={projects?.length ?? 0} />
