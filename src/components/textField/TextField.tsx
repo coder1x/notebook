@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC, memo, ChangeEvent } from 'react';
 
 import { ChangeCustom } from '@components/index';
 
@@ -10,8 +10,8 @@ type Props = {
   isError?: boolean;
   message?: string;
   ariaLabel: string;
-  onChangeCustom?: Function;
-  onChange?: Function;
+  onChangeCustom?: (object: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (object: ChangeEvent<HTMLInputElement>) => void;
 };
 
 const TextField: FC<Props> = ({

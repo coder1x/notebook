@@ -27,7 +27,7 @@ module.exports = merge(devServer, {
   mode: env.isDev ? 'development' : 'production',
   output: {
     filename: FL.filename('js'),
-    path: paths.dist, // каталог в который будет выгружаться сборка.
+    path: paths.dist,
     publicPath: 'auto',
   },
 

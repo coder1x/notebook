@@ -1,25 +1,25 @@
 $color-background: $color-white;
-$color-border: rgba(0, 0, 0, 0.12);
+$color-border: rgb(0 0 0 / 12%);
 
 .manager-projects {
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  height: calc(100vh - 23px);
+  padding: 20px;
   background: $color-background;
   border: 1px solid $color-border;
-  box-sizing: border-box;
   border-radius: 2px;
-  padding: 20px;
-  height: calc(100vh - 23px);
 
   &__title {
-    margin-left: auto;
     margin-right: auto;
     margin-bottom: 40px;
+    margin-left: auto;
   }
 
   &__list {
-    overflow-y: auto;
-    overflow-x: hidden;
     padding: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 }

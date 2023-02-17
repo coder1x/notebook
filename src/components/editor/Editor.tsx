@@ -21,7 +21,13 @@ const Editor: FC<Props> = forwardRef(({ type, onUpdate, onAddData, headerText },
   const handleTextareaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const text = event.target.value.trim();
 
+    if (!text) {
+      return false;
+    }
+
     setTextData(text);
+
+    return true;
   };
 
   const handleButtonAddClick = () => {

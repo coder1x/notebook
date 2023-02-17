@@ -1,20 +1,27 @@
-$color-checkbox: #222;
-$color-checkbox-border: #333;
+$color-checkbox: $color-focus-button;
+$color-checkbox-border: $dark-gray-100;
 $color-checkbox-hover: #666;
-$color-border-focus: #222;
-$color-focus: #222;
+$color-border-focus: $color-focus-button;
+$color-focus: $color-focus-button;
+$background-header-wrapper: $black-90;
+$background-editor: $color-white;
+$shadow-editor: 0 0 10px rgb(0 0 0 / 50%);
+$color-header-text: $color-white;
+$border-textarea: 1px solid rgb(0 0 0 / 12%);
+$background-button-wrapper: $color-white;
+$background-close: $orange-80;
+$background-close-hover: $orange-75;
 
 .editor {
-  background: rgb(255, 255, 255);
+  position: fixed;
+  top: 50%;
+  left: 50%;
   display: none;
   flex-direction: column;
   width: 100%;
   max-width: 600px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-
-  position: fixed;
-  top: 50%;
-  left: 50%;
+  background: $background-editor;
+  box-shadow: $shadow-editor;
   transform: translate(-50%, -50%);
 
   &_visible {
@@ -22,16 +29,16 @@ $color-focus: #222;
   }
 
   &__header-wrapper {
-    background: #303030;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    background: $background-header-wrapper;
   }
 
   &__header-text {
-    color: rgb(255, 255, 255);
     margin-left: 5px;
+    color: $color-header-text;
   }
 
   &__text {
@@ -41,27 +48,27 @@ $color-focus: #222;
   &__textarea {
     width: 100%;
     min-height: 400px;
-    border-radius: 0px;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    outline: none;
     padding: 10px;
+    border: $border-textarea;
+    border-radius: 0;
+    outline: none;
   }
 
   &__bottom-wrapper {
-    background: rgb(255, 255, 255);
     display: flex;
     justify-content: flex-end;
+    background: $background-button-wrapper;
   }
 
   &__close {
-    cursor: pointer;
-    border: 0px;
-    background-color: rgb(245 108 48);
-    padding: 5px;
     z-index: 1;
+    padding: 5px;
+    background-color: $background-close;
+    border: 0;
+    cursor: pointer;
 
     &:hover {
-      background-color: rgb(245, 124, 72);
+      background-color: $background-close-hover;
     }
 
     &:focus {

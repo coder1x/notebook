@@ -14,6 +14,8 @@ const Projects: FC = () => {
   const projects = useSelector(projectsState);
   const isLoading = useSelector(isLoadingState);
 
+  document.title = 'Менеджер проектов';
+
   const projectsId: MutableRefObject<number[]> = useRef([]);
   const editorRef: MutableRefObject<null | { setIsActive: (data: boolean) => void }> = useRef(null);
 

@@ -18,41 +18,37 @@ $xl: 1440px;
 $xxl: 1920px;
 
 //----------- COLORS -------------
-$background-section: #fcfcfc;
-$color-dark-grey: #252525;
-$color-dark-grey-hover: #545454;
-$color-grey: #555;
-$color-grey-light: #e1e1e1;
-$color-background: #edeef0;
 
 $color-white: #fff;
+$background-section: #fcfcfc;
 $color-black: #000;
-
-// $black: #000;
-// $black-90: #303030;
+$color-focus-button: #222;
+$black-90: #303030;
+$color-dark-grey: #252525;
 $dark-gray-100: #333;
 $dark-gray-90: #444;
+$color-dark-grey-hover: #545454;
+$color-grey: #555;
 $dark-gray-80: #818181;
+$color-placeholder: #b3b3b3;
 $dark-gray-20: #cacaca;
 $pale-gray: #d6d6d6;
+$color-grey-light: #e1e1e1;
+$color-background: #edeef0;
 $light-gray: #fafafa;
-// $white: #fff;
-$orange-80: rgb(245 108 48);
-$orange-75: rgb(245 124 72);
-$dark-red: #7a1a1a;
 
+$orange-80: #f56c30;
+$orange-75: #f57c48;
+$dark-red: #7a1a1a;
 $color-error: #eae470;
 $color-successful: #b3ea70;
 $color-border-message: #fcf9eb;
 $background-message: #fcf9eb;
-$color-placeholder: #b3b3b3;
-
-$color-focus-button: #222;
 
 //------------- FONTS ------------
 
 $font: verdana, arial, sans-serif;
-$font-title: 'arial black', 'britannic bold', 'impact';
+$font-title: "arial black", "britannic bold", "impact";
 $font-code: consolas, monospace;
 $font-quote: sans-serif, arial, verdana;
 

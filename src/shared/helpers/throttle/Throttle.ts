@@ -51,7 +51,7 @@ class Throttle {
   private handleOptimizedResize() {
     this.currentTime = Date.now();
 
-    if (this.timeout === false) {
+    if (!this.timeout) {
       this.timeout = true;
       setTimeout(this.optimizedEnd, this.sleep);
     }

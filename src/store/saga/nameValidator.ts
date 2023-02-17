@@ -26,7 +26,6 @@ function* fetchCheckName(name: string) {
           errorName: 'busy',
         })
       );
-      // throw new Error('Такое имя уже занято.');
     }
   } catch (error) {
     console.log('Error', error);
