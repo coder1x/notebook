@@ -4,38 +4,38 @@ import authorization from '@api/signIn';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { signInActions, signInType } from '@store/slices';
 
-type DataAuthorization = {
-  token: string | false;
+type FetchData = {
+  error: boolean;
+  messageError: string;
 };
+
+interface Data extends FetchData {
+  value?: string | null;
+}
 
 function* fetchAuthorization(action: PayloadAction<signInType.Data>) {
   const { name, password } = action.payload;
 
   try {
-    const data: DataAuthorization = yield call(authorization, {
+    const data: Data = yield call(authorization, {
       name,
       password,
     });
 
-    const { token } = data;
+    if (data.error) {
+      throw new Error(data.messageError);
+    }
 
-    if (token === false) {
+    if (data.value) {
+      yield put(signInActions.setSignInToken(data.value));
+    } else {
       yield put(signInActions.setSignInError());
 
       throw new Error('Не удалось авторизоваться');
-    } else if (token === '404') {
-      yield put(signInActions.setSignInError());
-
-      throw new Error('Ошибка запроса.');
     }
-
-    yield put(signInActions.setSignInToken(token));
-    return data.token;
   } catch (error) {
     console.log('Error', error);
   }
-
-  return false;
 }
 
 function* sagaAuthorization() {
