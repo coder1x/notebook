@@ -4,15 +4,24 @@ import { buffers } from 'redux-saga';
 
 import { nameValidatorActions } from '@store/slices';
 
-type Data = {
-  isNameValid?: boolean;
+type FetchData = {
+  error: boolean;
+  messageError: string;
 };
+
+interface Data extends FetchData {
+  value?: boolean;
+}
 
 function* fetchCheckName(name: string) {
   try {
     const data: Data = yield call(checkName, name);
 
-    if (!data.isNameValid) {
+    if (data.error) {
+      throw new Error(data.messageError);
+    }
+
+    if (!data.value) {
       yield put(
         nameValidatorActions.setNameValidator({
           name,
