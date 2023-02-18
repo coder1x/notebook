@@ -2,7 +2,7 @@ import { useEffect, useRef, MutableRefObject, FC, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Footer, Menu, Editor, Loading, ProjectsList } from '@components/index';
+import { Footer, Menu, Editor, Loading, ProjectsList, Placeholder } from '@components/index';
 import { tokenState, projectsState, isLoadingState } from '@store/selectors';
 import { projectsActions, signInActions } from '@store/slices';
 
@@ -59,6 +59,13 @@ const Projects: FC = () => {
     dispatch(projectsActions.fetchAddProject(text));
   };
 
+  const main =
+    Array.isArray(projects) && projects.length ? (
+      <ProjectsList projects={projects} onCheckboxClick={handleCheckboxClick} />
+    ) : (
+      <Placeholder text="Добавьте проект" />
+    );
+
   return (
     <article className="manager-projects">
       <h1 className="manager-projects__title">Менеджер проектов</h1>
@@ -78,13 +85,7 @@ const Projects: FC = () => {
           },
         ]}
       />
-      {isLoading ? (
-        <Loading />
-      ) : (
-        Array.isArray(projects) && (
-          <ProjectsList projects={projects} onCheckboxClick={handleCheckboxClick} />
-        )
-      )}
+      {isLoading ? <Loading /> : main}
       <Footer total={projects?.length ?? 0} />
       <Editor
         type="addData"

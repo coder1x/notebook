@@ -5,25 +5,32 @@ import { registration } from '@api/index';
 
 import { signUpActions, signUpType } from '@store/slices';
 
-type DataRegistration = {
-  isRegistered?: boolean;
+type FetchData = {
+  error: boolean;
+  messageError: string;
 };
+
+interface Data extends FetchData {
+  value?: boolean;
+}
 
 function* fetchRegistration(action: PayloadAction<signUpType.Data>) {
   try {
     const { name, password } = action.payload;
 
-    const data: DataRegistration = yield call(registration, {
+    const data: Data = yield call(registration, {
       name,
       password,
       tokenRegistration: localStorage.getItem('registrationToken'),
     });
 
-    if (data.isRegistered) {
-      yield put(signUpActions.setSignUpRegistration('Вы зарегистрированы'));
-    } else {
+    if (data.error) {
       yield put(signUpActions.setSignUpRegistrationError('Ошибка регистрации'));
-      throw new Error('Ошибка регистрации.');
+      throw new Error(data.messageError);
+    }
+
+    if (data.value) {
+      yield put(signUpActions.setSignUpRegistration('Вы зарегистрированы'));
     }
   } catch (error) {
     console.log('Error', error);

@@ -12,6 +12,7 @@ import Editor from './editor/Editor';
 import Menu from './menu/Menu';
 import TodoItem from './todoItem/TodoItem';
 import Loading from './loading/Loading';
+import Placeholder from './placeholder/Placeholder';
 import ProjectsList from './projectsList/ProjectsList';
 
 const SignUp = lazy(() => import('./signUp/SignUp'));
@@ -32,4 +33,5 @@ export {
   TodoItem,
   Loading,
   ProjectsList,
+  Placeholder,
 };
