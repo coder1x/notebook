@@ -19,7 +19,7 @@ function addProject(data: AddingData) {
 }
 
 function removeProject(data: RemovingData) {
-  return makeRequest('projects/removeProject.php', getOptionsPost(data));
+  return makeRequest('projects/removeProject.php', getOptionsPost(data, 'DELETE'));
 }
 
 export { addProject, removeProject, getProjects };

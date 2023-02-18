@@ -1,6 +1,6 @@
-function getOptionsPost(data: any) {
+function getOptionsPost(data: any, method = 'POST') {
   return {
-    method: 'POST',
+    method,
     headers: {
       'Content-type': 'application/json',
     },

@@ -4,17 +4,32 @@ import { removeProject, addProject, getProjects } from '@api/index';
 import { projectsActions, projectsType } from '@store/slices';
 import { getDataToCookies } from '@helpers/index';
 
-type Projects = projectsType.Project[] | boolean | 'clear';
+type FetchData = {
+  error: boolean;
+  messageError: string;
+};
+
+interface Projects extends FetchData {
+  value?: projectsType.Project[];
+}
+
+interface AddProject extends FetchData {
+  value?: number;
+}
+
+interface RemoveProject extends FetchData {
+  value?: number;
+}
 
 function* fetchGetProjects() {
   try {
     const data: Projects = yield call(getProjects, getDataToCookies('TodoToken'));
 
-    if (Array.isArray(data)) {
-      yield put(projectsActions.setProjects(data));
-    } else if (data !== 'clear') {
-      throw new Error('Не удалось получить данные о проектах.');
+    if (data.error) {
+      throw new Error(data.messageError);
     }
+
+    yield put(projectsActions.setProjects(data.value ?? []));
   } catch (error) {
     console.log('Error', error);
   }
@@ -24,15 +39,17 @@ function* fetchRemoveProject(action: PayloadAction<number[]>) {
   const projectsId = action.payload;
 
   try {
-    const data: boolean = yield call(removeProject, {
+    const data: RemoveProject = yield call(removeProject, {
       token: getDataToCookies('TodoToken'),
       projectsId,
     });
 
-    if (data) {
+    if (data.error) {
+      throw new Error(data.messageError);
+    }
+
+    if (data.value) {
       yield put(projectsActions.removeProject(projectsId));
-    } else {
-      throw new Error('Не удалось удалить проект.');
     }
   } catch (error) {
     console.log('error', error);
@@ -43,21 +60,21 @@ function* fetchAddProject(action: PayloadAction<string>) {
   const text = action.payload;
 
   try {
-    const data: boolean | number = yield call(addProject, {
+    const data: AddProject = yield call(addProject, {
       token: getDataToCookies('TodoToken'),
       text,
     });
 
-    if (data) {
-      yield put(
-        projectsActions.addProject({
-          id: Number(data),
-          text,
-        })
-      );
-    } else {
-      throw new Error('Не удалось добавить запись.');
+    if (data.error) {
+      throw new Error(data.messageError);
     }
+
+    yield put(
+      projectsActions.addProject({
+        id: Number(data.value),
+        text,
+      })
+    );
   } catch (error) {
     console.log('error', error);
   }
