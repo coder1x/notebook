@@ -5,21 +5,29 @@ import { checkCaptcha } from '@api/index';
 
 import { captchaActions } from '@store/slices';
 
-type Data = {
-  isCaptchaPassed?: boolean;
+type FetchData = {
+  error: boolean;
+  messageError: string;
 };
+
+interface Captcha extends FetchData {
+  value?: boolean;
+}
 
 function* fetchCheckCaptcha(text: string) {
   try {
-    const data: Data = yield call(
+    const data: Captcha = yield call(
       checkCaptcha,
       text,
       String(localStorage.getItem('registrationToken'))
     );
 
-    if (!data.isCaptchaPassed) {
+    if (data.error) {
+      throw new Error(data.messageError);
+    }
+
+    if (!data.value) {
       yield put(captchaActions.setCaptchaError());
-      throw new Error('Неверный код капчи.');
     }
   } catch (error) {
     console.log('Error', error);
