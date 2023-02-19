@@ -18,7 +18,7 @@ $background-close-hover: $orange-75;
   left: 50%;
   display: none;
   flex-direction: column;
-  width: 100%;
+  width: calc(100% - 20px);
   max-width: 600px;
   background: $background-editor;
   box-shadow: $shadow-editor;
@@ -37,8 +37,9 @@ $background-close-hover: $orange-75;
   }
 
   &__header-text {
-    margin-left: 5px;
+    margin-left: 10px;
     color: $color-header-text;
+    font-size: 16px;
   }
 
   &__text {
@@ -46,6 +47,7 @@ $background-close-hover: $orange-75;
   }
 
   &__textarea {
+    box-sizing: border-box;
     width: 100%;
     min-height: 400px;
     padding: 10px;

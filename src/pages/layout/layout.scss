@@ -10,8 +10,4 @@
   min-height: 200px;
   margin: 0 auto;
   padding: 10px;
-
-  @include media-breakpoint-down($xs) {
-    padding: 0;
-  }
 }

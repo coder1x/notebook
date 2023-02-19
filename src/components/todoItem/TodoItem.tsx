@@ -16,7 +16,7 @@ const TodoItem: FC<Props> = ({ id, text, clickCheckbox }) => {
     <li className="todo-item">
       <label className="todo-item__input-wrapper">
         <input
-          className="todo-item__input"
+          className="todo-item__input visually-hidden"
           type="checkbox"
           name={String(id)}
           onClick={handlerCheckboxClick}

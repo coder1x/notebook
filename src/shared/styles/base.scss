@@ -5,10 +5,6 @@ html {
   font-weight: normal;
   font-size: #{$font-size}px;
   font-family: $font;
-
-  @include media-breakpoint-down($xs) {
-    font-size: 13px;
-  }
 }
 
 body {
@@ -19,7 +15,7 @@ body {
   margin: 0;
   padding: 0;
   color: $color-grey;
-  background: linear-gradient(225deg, rgb(245, 247, 231) 19%, rgb(160, 215, 217) 63%);
+  background: linear-gradient(225deg, rgb(245 247 231) 19%, rgb(160 215 217) 63%);
   text-rendering: optimizespeed;
 }
 
@@ -33,16 +29,19 @@ h3 {
 
 h1 {
   @include font-rem(20);
+
   line-height: 20px;
 }
 
 h2 {
   @include font-rem(18);
+
   line-height: 18px;
 }
 
 h3 {
   @include font-rem(16);
+
   line-height: 12px;
 }
 
@@ -71,8 +70,8 @@ p {
 }
 
 .visually-hidden:not(:focus, :active),
-input[type="checkbox"].visually-hidden,
-input[type="radio"].visually-hidden {
+input[type='checkbox'].visually-hidden,
+input[type='radio'].visually-hidden {
   position: absolute;
   width: 1px;
   height: 1px;
