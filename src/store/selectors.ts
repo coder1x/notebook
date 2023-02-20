@@ -14,6 +14,9 @@ const isSignInErrorState = (state: RootState) => state.signIn.isSignInError;
 const projectsState = (state: RootState) => state.projects.projects;
 const isLoadingState = (state: RootState) => state.projects.isLoading;
 
+const tasksState = (state: RootState) => state.tasks.tasks;
+const isLoadingTasksState = (state: RootState) => state.tasks.isLoading;
+
 export {
   messageState,
   isRegistrationErrorState,
@@ -24,4 +27,6 @@ export {
   isSignInErrorState,
   projectsState,
   isLoadingState,
+  tasksState,
+  isLoadingTasksState,
 };

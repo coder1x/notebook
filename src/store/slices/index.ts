@@ -8,6 +8,9 @@ import { nameValidatorActions, nameValidatorReducer } from './nameValidator/name
 import { projectsActions, projectsReducer } from './projects/projectsSlice';
 import * as projectsType from './projects/projectsType';
 
+import { tasksActions, tasksReducer } from './tasks/tasksSlice';
+import * as tasksType from './tasks/tasksType';
+
 export {
   signInActions,
   signInReducer,
@@ -23,4 +26,7 @@ export {
   projectsActions,
   projectsReducer,
   projectsType,
+  tasksActions,
+  tasksReducer,
+  tasksType,
 };

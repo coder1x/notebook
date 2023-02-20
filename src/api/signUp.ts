@@ -1,4 +1,4 @@
-import { makeRequest, getOptionsPost } from './makeRequest';
+import { makeRequest, getOptions } from './makeRequest';
 
 type Data = {
   name: string;
@@ -7,7 +7,7 @@ type Data = {
 };
 
 function registration(data: Data) {
-  return makeRequest('registration.php', getOptionsPost(data));
+  return makeRequest('registration.php', getOptions(data));
 }
 
 export default registration;

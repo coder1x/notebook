@@ -5,6 +5,7 @@ import sagaAuthorization from './signIn';
 import sagaCheckUser from './nameValidator';
 import sagaCheckCaptcha from './captcha';
 import { sagaAddProject, sagaRemoveProject, sagaGetProjects } from './projects';
+import { sagaAddTask, sagaGetTasks, sagaRemoveTask, sagaUpdateStatus } from './tasks';
 
 function* mySaga() {
   yield all([
@@ -15,6 +16,10 @@ function* mySaga() {
     sagaAddProject(),
     sagaRemoveProject(),
     sagaGetProjects(),
+    sagaAddTask(),
+    sagaGetTasks(),
+    sagaRemoveTask(),
+    sagaUpdateStatus(),
   ]);
 }
 

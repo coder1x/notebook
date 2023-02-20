@@ -8,6 +8,7 @@ import {
   captchaReducer,
   nameValidatorReducer,
   projectsReducer,
+  tasksReducer,
 } from './slices';
 
 import mySaga from './saga/saga';
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   nameValidator: nameValidatorReducer,
   signIn: signInReducer,
   projects: projectsReducer,
+  tasks: tasksReducer,
 });
 
 const store = configureStore({

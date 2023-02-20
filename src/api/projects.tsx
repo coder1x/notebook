@@ -1,4 +1,4 @@
-import { makeRequest, getOptionsPost } from '@api/makeRequest';
+import { makeRequest, getOptions } from '@api/makeRequest';
 
 type AddingData = {
   token: string;
@@ -15,11 +15,11 @@ function getProjects(token: string) {
 }
 
 function addProject(data: AddingData) {
-  return makeRequest('projects/addProject.php', getOptionsPost(data));
+  return makeRequest('projects/add.php', getOptions(data));
 }
 
 function removeProject(data: RemovingData) {
-  return makeRequest('projects/removeProject.php', getOptionsPost(data, 'DELETE'));
+  return makeRequest('projects/remove.php', getOptions(data, 'DELETE'));
 }
 
 export { addProject, removeProject, getProjects };

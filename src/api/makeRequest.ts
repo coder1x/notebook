@@ -1,4 +1,4 @@
-function getOptionsPost(data: any, method = 'POST') {
+function getOptions(data: any, method = 'POST') {
   return {
     method,
     headers: {
@@ -19,4 +19,4 @@ function makeRequest(url: string, options = {}, baseUrl = process.env.URL_API) {
   });
 }
 
-export { makeRequest, getOptionsPost };
+export { makeRequest, getOptions };

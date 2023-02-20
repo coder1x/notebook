@@ -1,0 +1,30 @@
+$color-focus-button: #222;
+$background-button: $light-gray;
+$border-button: $pale-gray;
+$background-button-hover: $color-white;
+
+.tabButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 5px;
+  background-color: $background-button;
+  border: 1px solid $border-button;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    background-color: $background-button-hover;
+  }
+
+  &:focus {
+    outline: 2px solid $color-focus-button;
+    outline-offset: 5px;
+  }
+}
+
+.tabButtonCurrent {
+  border: 1px solid #939393;
+  box-shadow: 0 0 1px rgb(0 0 0 / 50%);
+}
