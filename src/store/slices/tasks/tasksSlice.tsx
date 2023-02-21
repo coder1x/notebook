@@ -90,7 +90,7 @@ const tasks = createSlice({
     fetchUpdateStatus(state, action: PayloadAction<any>) {
       //
     },
-    fetchTasksData(state) {
+    fetchTasksData(state, action: PayloadAction<string>) {
       state.isLoading = true;
     },
   },

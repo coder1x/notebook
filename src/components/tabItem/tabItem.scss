@@ -1,0 +1,7 @@
+.content-item {
+  display: none;
+
+  &_current {
+    display: block;
+  }
+}

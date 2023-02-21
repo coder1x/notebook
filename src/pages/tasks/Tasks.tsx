@@ -2,14 +2,43 @@ import { useEffect, useRef, MutableRefObject, FC, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Footer, Menu, Editor, Loading, ProjectsList, Placeholder } from '@components/index';
-import { tokenState, projectsState, isLoadingState } from '@store/selectors';
-import { projectsActions, signInActions } from '@store/slices';
+import {
+  Footer,
+  Menu,
+  Editor,
+  Loading,
+  ProjectsList,
+  Placeholder,
+  Tabs,
+  Manager,
+} from '@components/index';
+import { tokenState, tasksState, isLoadingTasksState } from '@store/selectors';
+import { tasksActions } from '@store/slices';
 
 function Tasks() {
   const { projectId } = useParams();
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const token = useSelector(tokenState);
+  const tasks = useSelector(tasksState);
+  const isLoading = useSelector(isLoadingTasksState);
+
+  document.title = 'Менеджер проектов';
+
+  const tasksId: MutableRefObject<number[]> = useRef([]);
+  const projectIdRef: MutableRefObject<string> = useRef('');
   const editorRef: MutableRefObject<null | { setIsActive: (data: boolean) => void }> = useRef(null);
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/');
+    } else if (projectIdRef.current !== projectId) {
+      projectIdRef.current = projectId ?? '';
+      dispatch(tasksActions.fetchTasksData(projectId ?? ''));
+    }
+  }, [dispatch, navigate, projectId, token]);
 
   const handleButtonAddClick = () => {
     //
@@ -43,9 +72,19 @@ function Tasks() {
     //
   };
 
+  const handleCheckboxClick = () => {
+    //
+  };
+
+  const main =
+    Array.isArray(tasks) && tasks.length ? (
+      <ProjectsList projects={tasks} onCheckboxClick={handleCheckboxClick} />
+    ) : (
+      <Placeholder text="Добавьте проект" />
+    );
+
   return (
-    <article className="manager-tasks">
-      <h1 className="manager-tasks__title">Менеджер задач</h1>
+    <Manager title="Менеджер задач">
       <Menu
         buttons={[
           {
@@ -78,15 +117,37 @@ function Tasks() {
           },
         ]}
       />
-      {/* {isLoading ? <Loading /> : main}
-      <Footer total={projects?.length ?? 0} /> */}
+      {/* {isLoading ? (
+        <Loading />
+      ) : (
+        <Tabs
+          tabs={[
+            {
+              name: 'Задачи',
+              content: main,
+              index: 1,
+            },
+            {
+              name: 'Выполняются',
+              content: main,
+              index: 2,
+            },
+            {
+              name: 'Завершённые',
+              content: main,
+              index: 3,
+            },
+          ]}
+        />
+      )} */}
+      <Footer total={tasks?.length ?? 0} />
       <Editor
         type="addData"
         headerText="Добавить проект"
         onAddData={handleAddDataTask}
         ref={editorRef}
       />
-    </article>
+    </Manager>
   );
 }
 

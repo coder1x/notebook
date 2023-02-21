@@ -14,6 +14,10 @@ import TodoItem from './todoItem/TodoItem';
 import Loading from './loading/Loading';
 import Placeholder from './placeholder/Placeholder';
 import ProjectsList from './projectsList/ProjectsList';
+import TabButton from './tabButton/TabButton';
+import TabItem from './tabItem/TabItem';
+import Tabs from './tabs/Tabs';
+import Manager from './manager/Manager';
 
 const SignUp = lazy(() => import('./signUp/SignUp'));
 const SignIn = lazy(() => import('./signIn/SignIn'));
@@ -34,4 +38,8 @@ export {
   Loading,
   ProjectsList,
   Placeholder,
+  TabButton,
+  TabItem,
+  Tabs,
+  Manager,
 };

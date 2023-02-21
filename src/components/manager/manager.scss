@@ -1,0 +1,20 @@
+$color-background: $color-white;
+$color-border: rgb(0 0 0 / 12%);
+
+.manager {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: calc(100vh - 23px);
+  min-height: 630px;
+  padding: 20px;
+  background: $color-background;
+  border: 1px solid $color-border;
+  border-radius: 2px;
+
+  &__title {
+    margin-right: auto;
+    margin-bottom: 40px;
+    margin-left: auto;
+  }
+}

@@ -1,0 +1,14 @@
+.tabs {
+  display: flex;
+  flex-direction: column;
+
+  &__navigation {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__content {
+    width: 100%;
+    height: 100%;
+  }
+}

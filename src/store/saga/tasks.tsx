@@ -26,9 +26,9 @@ interface UpdateTask extends FetchData {
   value?: number;
 }
 
-function* fetchGetTasks() {
+function* fetchGetTasks(action: PayloadAction<string>) {
   try {
-    const data: Tasks = yield call(getTasks, getDataToCookies('TodoToken'));
+    const data: Tasks = yield call(getTasks, getDataToCookies('TodoToken'), action.payload);
 
     if (data.error) {
       throw new Error(data.messageError);

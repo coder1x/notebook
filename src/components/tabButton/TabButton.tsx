@@ -1,7 +1,6 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo, FC } from 'react';
 
-function TabButton(props: any) {
-  const { index, name, onClick, isActiveButton, idTab } = props;
+const TabButton: FC<any> = ({ index, name, onClick, isActiveButton, idTab }) => {
   const [isActive, setIsActive] = useState(isActiveButton);
 
   useEffect(() => {
@@ -16,12 +15,12 @@ function TabButton(props: any) {
 
   return (
     <button
-      className={`${'tabButton'}${isActive ? ` ${'tabButtonCurrent'}` : ''}`}
+      className={`tab-button${isActive ? ` ${'tab-button_current'}` : ''}`}
       data-index={index}
       onClick={handleButtonClick}>
       {name}
     </button>
   );
-}
+};
 
 export default memo(TabButton);
