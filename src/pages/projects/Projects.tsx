@@ -2,15 +2,7 @@ import { useEffect, useRef, MutableRefObject, FC, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import {
-  Footer,
-  Menu,
-  Editor,
-  Loading,
-  ProjectsList,
-  Placeholder,
-  Manager,
-} from '@components/index';
+import { Footer, Menu, Editor, Loading, TodoList, Placeholder, Manager } from '@components/index';
 import { tokenState, projectsState, isLoadingState } from '@store/selectors';
 import { projectsActions, signInActions } from '@store/slices';
 
@@ -67,9 +59,13 @@ const Projects: FC = () => {
     dispatch(projectsActions.fetchAddProject(text));
   };
 
+  const handleButtonAllClick = () => {
+    //
+  };
+
   const main =
     Array.isArray(projects) && projects.length ? (
-      <ProjectsList projects={projects} onCheckboxClick={handleCheckboxClick} />
+      <TodoList list={projects} onCheckboxClick={handleCheckboxClick} />
     ) : (
       <Placeholder text="Добавьте проект" />
     );
@@ -85,6 +81,10 @@ const Projects: FC = () => {
           {
             name: 'Удалить',
             handler: handleButtonRemoveClick,
+          },
+          {
+            name: 'Выбрать всё',
+            handler: handleButtonAllClick,
           },
           {
             name: 'Выйти',

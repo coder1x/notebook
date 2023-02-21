@@ -11,7 +11,7 @@ type Props = {
 
 const Menu: FC<Props> = ({ buttons }) => {
   return (
-    <div className="navigation">
+    <div className="menu">
       {buttons &&
         buttons.map((item, index) => {
           return (

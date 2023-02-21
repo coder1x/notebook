@@ -12,7 +12,7 @@ import Menu from './menu/Menu';
 import TodoItem from './todoItem/TodoItem';
 import Loading from './loading/Loading';
 import Placeholder from './placeholder/Placeholder';
-import ProjectsList from './projectsList/ProjectsList';
+import TodoList from './todoList/TodoList';
 import TabButton from './tabButton/TabButton';
 import TabItem from './tabItem/TabItem';
 import Tabs from './tabs/Tabs';
@@ -34,7 +34,7 @@ export {
   Menu,
   TodoItem,
   Loading,
-  ProjectsList,
+  TodoList,
   Placeholder,
   TabButton,
   TabItem,

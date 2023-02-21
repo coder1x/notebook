@@ -1,18 +1,22 @@
 import { FC } from 'react';
 import { TodoItem } from '@components/index';
-import { projectsType } from '@store/slices';
+
+type TodoData = {
+  id: number;
+  text: string;
+};
 
 type Props = {
-  projects: projectsType.Project[];
+  list: TodoData[];
   onCheckboxClick: (object: HTMLInputElement) => void;
 };
 
-const ProjectsList: FC<Props> = ({ projects, onCheckboxClick }) => {
-  let { length = 0 } = projects;
+const TodoList: FC<Props> = ({ list, onCheckboxClick }) => {
+  let { length = 0 } = list;
 
   return (
-    <ul className="projects-list">
-      {projects.map((item, index, array) => {
+    <ul className="todo-list">
+      {list.map((item, index, array) => {
         const project = array[(length -= 1)];
 
         if (Object.keys(project).length !== 0) {
@@ -26,4 +30,4 @@ const ProjectsList: FC<Props> = ({ projects, onCheckboxClick }) => {
   );
 };
 
-export default ProjectsList;
+export default TodoList;
