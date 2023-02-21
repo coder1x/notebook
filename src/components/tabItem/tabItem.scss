@@ -1,5 +1,7 @@
 .content-item {
   display: none;
+  border: 1px solid #cacaca;
+  height: calc(100vh - 265px);
 
   &_current {
     display: block;

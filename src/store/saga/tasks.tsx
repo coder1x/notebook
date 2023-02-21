@@ -53,7 +53,7 @@ function* fetchRemoveTask(action: PayloadAction<number[]>) {
       throw new Error(data.messageError);
     }
 
-    yield put(tasksActions.removeTask(tasksId));
+    // yield put(tasksActions.removeTask(tasksId));
   } catch (error) {
     console.log('error', error);
   }
@@ -73,7 +73,7 @@ function* fetchUpdateTask(action: PayloadAction<any>) {
       throw new Error(data.messageError);
     }
 
-    yield put(tasksActions.updateStatus(action.payload));
+    // yield put(tasksActions.updateStatus(action.payload));
   } catch (error) {
     console.log('error', error);
   }
@@ -93,13 +93,13 @@ function* fetchAddTask(action: PayloadAction<any>) {
       throw new Error(data.messageError);
     }
 
-    yield put(
-      tasksActions.addTask({
-        id: data.value ?? 0,
-        text,
-        status: 1,
-      })
-    );
+    // yield put(
+    //   tasksActions.addTask({
+    //     id: data.value ?? 0,
+    //     text,
+    //     status: 1,
+    //   })
+    // );
   } catch (error) {
     console.log('error', error);
   }
@@ -110,15 +110,15 @@ function* sagaGetTasks() {
 }
 
 function* sagaAddTask() {
-  yield takeLeading(tasksActions.fetchAddTask.type, fetchAddTask);
+  // yield takeLeading(tasksActions.fetchAddTask.type, fetchAddTask);
 }
 
 function* sagaRemoveTask() {
-  yield takeLeading(tasksActions.fetchRemoveTask.type, fetchRemoveTask);
+  // yield takeLeading(tasksActions.fetchRemoveTask.type, fetchRemoveTask);
 }
 
 function* sagaUpdateStatus() {
-  yield takeLeading(tasksActions.fetchUpdateStatus.type, fetchUpdateTask);
+  // yield takeLeading(tasksActions.fetchUpdateStatus.type, fetchUpdateTask);
 }
 
 export { sagaAddTask, sagaRemoveTask, sagaUpdateStatus, sagaGetTasks };

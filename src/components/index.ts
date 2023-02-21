@@ -1,7 +1,6 @@
 import { lazy } from 'react';
 
 import Footer from './footer/Footer';
-import Header from './header/Header';
 
 import ChangeCustom from './changeCustom/ChangeCustom';
 import TextField from './textField/TextField';
@@ -24,7 +23,6 @@ const SignIn = lazy(() => import('./signIn/SignIn'));
 
 export {
   Footer,
-  Header,
   SignUp,
   SignIn,
   ChangeCustom,

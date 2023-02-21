@@ -4,9 +4,19 @@ type Task = {
   status: number;
 };
 
+type DataTabs = {
+  current: Task[];
+  inProgress: Task[];
+  completed: Task[];
+};
+
 type State = {
-  tasks: Task[] | null;
+  tasks: {
+    current: Task[] | null;
+    inProgress: Task[] | null;
+    completed: Task[] | null;
+  };
   isLoading: boolean;
 };
 
-export { State, Task };
+export { State, Task, DataTabs };

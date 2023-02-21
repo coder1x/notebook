@@ -76,12 +76,16 @@ function Tasks() {
     //
   };
 
-  const main =
-    Array.isArray(tasks) && tasks.length ? (
-      <ProjectsList projects={tasks} onCheckboxClick={handleCheckboxClick} />
-    ) : (
-      <Placeholder text="Добавьте проект" />
-    );
+  // const main =
+  //   Array.isArray(tasks) && tasks.length ? (
+  //     <ProjectsList projects={tasks} onCheckboxClick={handleCheckboxClick} />
+  //   ) : (
+  //     <Placeholder text="Добавьте проект" />
+  //   );
+
+  const totalCurrent = tasks.current?.length ?? 0;
+  const totalInProgress = tasks.inProgress?.length ?? 0;
+  const totalCompleted = tasks.completed?.length ?? 0;
 
   return (
     <Manager title="Менеджер задач">
@@ -117,30 +121,51 @@ function Tasks() {
           },
         ]}
       />
-      {/* {isLoading ? (
+      {isLoading ? (
         <Loading />
       ) : (
         <Tabs
           tabs={[
             {
               name: 'Задачи',
-              content: main,
+              content: (
+                <ProjectsList
+                  projects={tasks.current ?? []}
+                  onCheckboxClick={handleCheckboxClick}
+                />
+              ),
               index: 1,
             },
             {
               name: 'Выполняются',
-              content: main,
+              content: (
+                <ProjectsList
+                  projects={tasks.inProgress ?? []}
+                  onCheckboxClick={handleCheckboxClick}
+                />
+              ),
               index: 2,
             },
             {
               name: 'Завершённые',
-              content: main,
+              content: (
+                <ProjectsList
+                  projects={tasks.completed ?? []}
+                  onCheckboxClick={handleCheckboxClick}
+                />
+              ),
               index: 3,
             },
           ]}
         />
-      )} */}
-      <Footer total={tasks?.length ?? 0} />
+      )}
+      <Footer
+        type={'tasks'}
+        total={totalCurrent + totalInProgress + totalCompleted}
+        totalTasks={totalCurrent}
+        totalPerformed={totalInProgress}
+        totalCompleted={totalCompleted}
+      />
       <Editor
         type="addData"
         headerText="Добавить проект"

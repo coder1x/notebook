@@ -18,23 +18,23 @@ const Footer: FC<Props> = ({
   return (
     <ul className="footer">
       <li className="footer__item">
-        <span className="footer_text-total">Всего:</span>
-        <span className="footer_number_total">{total}</span>
+        <span className="footer__text-total">Всего:</span>
+        <span className="footer__number-total">{total}</span>
       </li>
 
       {type !== 'project' && (
         <>
-          <li className="footer_item">
-            <span className="footer_text-total">Задач:</span>
-            <span className="footer_number_total">{totalTasks}</span>
+          <li className="footer__item">
+            <span className="footer__text-total">Задач:</span>
+            <span className="footer__number-total">{totalTasks}</span>
           </li>
-          <li className="footer_item">
-            <span className="footer_text-total">Выполняемых:</span>
-            <span className="footer_number_total">{totalPerformed}</span>
+          <li className="footer__item">
+            <span className="footer__text-total">Выполняемых:</span>
+            <span className="footer__number-total">{totalPerformed}</span>
           </li>
-          <li className="footer_item">
-            <span className="footer_text-total">Завершённых:</span>
-            <span className="footer_number_total">{totalCompleted}</span>
+          <li className="footer__item">
+            <span className="footer__text-total">Завершённых:</span>
+            <span className="footer__number-total">{totalCompleted}</span>
           </li>
         </>
       )}

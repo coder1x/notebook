@@ -1,8 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { State, Task } from './tasksType';
+import { State, Task, DataTabs } from './tasksType';
 
 const initialState: State = {
-  tasks: null,
+  tasks: {
+    current: null,
+    inProgress: null,
+    completed: null,
+  },
   isLoading: true,
 };
 
@@ -11,85 +15,112 @@ const tasks = createSlice({
   initialState,
   reducers: {
     setTasks(state, action: PayloadAction<Task[]>) {
-      state.tasks = action.payload;
+      const tasksTemp: DataTabs = {
+        current: [],
+        inProgress: [],
+        completed: [],
+      };
+
+      action.payload.forEach((item) => {
+        switch (item.status) {
+          case 1:
+            tasksTemp.current.push(item);
+            break;
+          case 2:
+            tasksTemp.inProgress.push(item);
+            break;
+          case 3:
+            tasksTemp.completed.push(item);
+            break;
+          default:
+            break;
+        }
+      });
+
+      state.tasks = tasksTemp;
+
       state.isLoading = false;
     },
 
     clearState(state) {
-      state.tasks = null;
+      state.tasks = {
+        current: null,
+        inProgress: null,
+        completed: null,
+      };
     },
 
-    addTask(state, action: PayloadAction<Task>) {
-      const { id, text, status } = action.payload;
+    // addTask(state, action: PayloadAction<Task>) {
+    //   const { id, text, status } = action.payload;
 
-      if (Array.isArray(state.tasks)) {
-        state.tasks.push({
-          id,
-          text,
-          status,
-        });
-      } else {
-        state.tasks = [
-          {
-            id,
-            text,
-            status,
-          },
-        ];
-      }
-    },
+    //   if (Array.isArray(state.tasks)) {
+    //     state.tasks.push({
+    //       id,
+    //       text,
+    //       status,
+    //     });
+    //   } else {
+    //     state.tasks = [
+    //       {
+    //         id,
+    //         text,
+    //         status,
+    //       },
+    //     ];
+    //   }
+    // },
 
-    removeTask(state, action: PayloadAction<number[]>) {
-      const tasksId = action.payload;
-      let tasksTemp = state.tasks;
+    // removeTask(state, action: PayloadAction<number[]>) {
+    //   const tasksId = action.payload;
+    //   let tasksTemp = state.tasks;
 
-      tasksId.forEach((id) => {
-        tasksTemp = tasksTemp?.filter((item) => item.id !== id) ?? null;
-      });
+    //   tasksId.forEach((id) => {
+    //     tasksTemp = tasksTemp?.filter((item) => item.id !== id) ?? null;
+    //   });
 
-      state.tasks = tasksTemp;
-    },
+    //   state.tasks = tasksTemp;
+    // },
 
-    updateStatus(state, action: PayloadAction<any>) {
-      const { status, tasksId } = action.payload;
+    // updateStatus(state, action: PayloadAction<any>) {
+    //   const { status, tasksId } = action.payload;
 
-      const tasksTemp = state.tasks ?? [];
+    //   const tasksTemp = state.tasks ?? [];
 
-      tasksId.forEach((id: number) => {
-        if (Array.isArray(state.tasks)) {
-          const index = state.tasks.findIndex((item) => item.id === id);
+    //   tasksId.forEach((id: number) => {
+    //     if (Array.isArray(state.tasks)) {
+    //       const index = state.tasks.findIndex((item) => item.id === id);
 
-          if (state.tasks[index]) {
-            tasksTemp[index].status = status;
-          }
-        }
-      });
+    //       if (state.tasks[index]) {
+    //         tasksTemp[index].status = status;
+    //       }
+    //     }
+    //   });
 
-      state.tasks = tasksTemp;
-    },
+    //   state.tasks = tasksTemp;
+    // },
 
-    editTask(state, action: PayloadAction<Task>) {
-      const { id, text } = action.payload;
-      if (text.trim()) {
-        if (Array.isArray(state.tasks)) {
-          const index = state.tasks.findIndex((item) => item.id === id);
+    // editTask(state, action: PayloadAction<Task>) {
+    //   const { id, text } = action.payload;
+    //   if (text.trim()) {
+    //     if (Array.isArray(state.tasks)) {
+    //       const index = state.tasks.findIndex((item) => item.id === id);
 
-          state.tasks[index].text = text;
-        }
-      }
-    },
-    fetchEditTask(state, action: PayloadAction<Task>) {
-      //
-    },
-    fetchRemoveTask(state, action: PayloadAction<number[]>) {
-      //
-    },
-    fetchAddTask(state, action: PayloadAction<any>) {
-      //
-    },
-    fetchUpdateStatus(state, action: PayloadAction<any>) {
-      //
-    },
+    //       state.tasks[index].text = text;
+    //     }
+    //   }
+    // },
+    // fetchEditTask(state, action: PayloadAction<Task>) {
+    //   //
+    // },
+    // fetchRemoveTask(state, action: PayloadAction<number[]>) {
+    //   //
+    // },
+    // fetchAddTask(state, action: PayloadAction<any>) {
+    //   //
+    // },
+    // fetchUpdateStatus(state, action: PayloadAction<any>) {
+    //   //
+    // },
     fetchTasksData(state, action: PayloadAction<string>) {
       state.isLoading = true;
     },
