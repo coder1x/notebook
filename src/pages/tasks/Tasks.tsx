@@ -13,7 +13,7 @@ import {
   Manager,
 } from '@components/index';
 import { tokenState, tasksState, isLoadingTasksState } from '@store/selectors';
-import { tasksActions } from '@store/slices';
+import { tasksActions, signInActions } from '@store/slices';
 
 function Tasks() {
   const { projectId } = useParams();
@@ -41,7 +41,11 @@ function Tasks() {
   }, [dispatch, navigate, projectId, token]);
 
   const handleButtonAddClick = () => {
-    //
+    const editor = editorRef.current;
+
+    if (editor) {
+      editor.setIsActive(true);
+    }
   };
 
   const handleButtonRemoveClick = () => {
@@ -61,11 +65,12 @@ function Tasks() {
   };
 
   const handleButtonTaskClick = () => {
-    //
+    navigate('/projects');
   };
 
   const handleButtonExitClick = () => {
-    //
+    dispatch(tasksActions.clearState());
+    dispatch(signInActions.removeSignInToken());
   };
 
   const handleAddDataTask = () => {
@@ -167,7 +172,7 @@ function Tasks() {
       />
       <Editor
         type="addData"
-        headerText="Добавить проект"
+        headerText="Добавить задачу"
         onAddData={handleAddDataTask}
         ref={editorRef}
       />

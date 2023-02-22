@@ -5,14 +5,14 @@ $background-button-hover: $color-white;
 
 .tab-button {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   width: 100%;
   padding: 10px;
+  white-space: nowrap;
   background-color: $background-button;
   border: 1px solid $border-button;
   cursor: pointer;
-  white-space: nowrap;
 
   &_current {
     border: 1px solid #939393;

@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
-import { Button } from '@components/index';
+import { Button, MenuButton } from '@components/index';
 
 type Props = {
   buttons: {
@@ -10,21 +10,30 @@ type Props = {
 };
 
 const Menu: FC<Props> = ({ buttons }) => {
+  const [isActive, setIsActive] = useState(false);
+
+  const handleMenuButtonClick = () => {
+    setIsActive(!isActive);
+  };
+
   return (
     <div className="menu">
-      {buttons &&
-        buttons.map((item, index) => {
-          return (
-            <Button
-              key={index}
-              text={item.name}
-              options={{
-                modifier: 'interface',
-                onClick: item.handler,
-              }}
-            />
-          );
-        })}
+      <MenuButton onClick={handleMenuButtonClick} />
+      <div className={`menu__wrapper${isActive ? ' menu__wrapper_active' : ''}`}>
+        {buttons &&
+          buttons.map((item, index) => {
+            return (
+              <Button
+                key={index}
+                text={item.name}
+                options={{
+                  modifier: 'interface',
+                  onClick: item.handler,
+                }}
+              />
+            );
+          })}
+      </div>
     </div>
   );
 };

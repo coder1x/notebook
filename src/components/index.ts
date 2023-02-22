@@ -17,6 +17,7 @@ import TabButton from './tabButton/TabButton';
 import TabItem from './tabItem/TabItem';
 import Tabs from './tabs/Tabs';
 import Manager from './manager/Manager';
+import MenuButton from './menuButton/MenuButton';
 
 const SignUp = lazy(() => import('./signUp/SignUp'));
 const SignIn = lazy(() => import('./signIn/SignIn'));
@@ -40,4 +41,5 @@ export {
   TabItem,
   Tabs,
   Manager,
+  MenuButton,
 };

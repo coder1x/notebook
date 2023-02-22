@@ -1,0 +1,24 @@
+.menu-button {
+  display: none;
+  width: 57px;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+
+  @include media-breakpoint-down($lg_middle) {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  &__icon {
+    filter: drop-shadow(0 0 1px #888);
+    transition: 0.3s ease-in-out;
+    fill: #242424;
+
+    &_active {
+      filter: drop-shadow(0 0 1px #111);
+      transition: 0.3s ease-in-out;
+      fill: #276d64;
+    }
+  }
+}
