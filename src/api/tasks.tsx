@@ -30,7 +30,7 @@ function removeTask(data: RemovingData) {
 }
 
 function updateStatus(data: UpdateData) {
-  return makeRequest('tasks/updateStatus.php', getOptions(data));
+  return makeRequest('tasks/updateStatus.php', getOptions(data, 'PUT'));
 }
 
 export { addTask, removeTask, getTasks, updateStatus };

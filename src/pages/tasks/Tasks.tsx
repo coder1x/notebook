@@ -54,15 +54,33 @@ function Tasks() {
   };
 
   const handleButtonToTasksClick = () => {
-    //
+    dispatch(
+      tasksActions.fetchUpdateStatus({
+        tasksId: tasksId.current,
+        status: 1,
+      })
+    );
+    tasksId.current = [];
   };
 
   const handleButtonRunClick = () => {
-    //
+    dispatch(
+      tasksActions.fetchUpdateStatus({
+        tasksId: tasksId.current,
+        status: 2,
+      })
+    );
+    tasksId.current = [];
   };
 
   const handleButtonCompleteClick = () => {
-    //
+    dispatch(
+      tasksActions.fetchUpdateStatus({
+        tasksId: tasksId.current,
+        status: 3,
+      })
+    );
+    tasksId.current = [];
   };
 
   const handleButtonTaskClick = () => {

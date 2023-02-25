@@ -26,6 +26,11 @@ interface UpdateTask extends FetchData {
   value?: number;
 }
 
+type DataUpdateStatus = {
+  tasksId: number[];
+  status: number;
+};
+
 function* fetchGetTasks(action: PayloadAction<string>) {
   try {
     const data: Tasks = yield call(getTasks, getDataToCookies('TodoToken'), action.payload);
@@ -59,7 +64,7 @@ function* fetchRemoveTask(action: PayloadAction<number[]>) {
   }
 }
 
-function* fetchUpdateTask(action: PayloadAction<any>) {
+function* fetchUpdateStatus(action: PayloadAction<DataUpdateStatus>) {
   const { status, tasksId } = action.payload;
 
   try {
@@ -73,7 +78,7 @@ function* fetchUpdateTask(action: PayloadAction<any>) {
       throw new Error(data.messageError);
     }
 
-    // yield put(tasksActions.updateStatus(action.payload));
+    yield put(tasksActions.updateStatus(action.payload));
   } catch (error) {
     console.log('error', error);
   }
@@ -118,7 +123,7 @@ function* sagaRemoveTask() {
 }
 
 function* sagaUpdateStatus() {
-  // yield takeLeading(tasksActions.fetchUpdateStatus.type, fetchUpdateTask);
+  yield takeLeading(tasksActions.fetchUpdateStatus.type, fetchUpdateStatus);
 }
 
 export { sagaAddTask, sagaRemoveTask, sagaUpdateStatus, sagaGetTasks };
