@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { State, Task, DataTabs } from './tasksType';
+import { State, Task, DataTabs, FetchAdd } from './tasksType';
 
 const initialState: State = {
   tasks: {
@@ -50,25 +50,25 @@ const tasks = createSlice({
       };
     },
 
-    // addTask(state, action: PayloadAction<Task>) {
-    //   const { id, text, status } = action.payload;
+    addTask(state, action: PayloadAction<Task>) {
+      const { id, text, status } = action.payload;
 
-    //   if (Array.isArray(state.tasks)) {
-    //     state.tasks.push({
-    //       id,
-    //       text,
-    //       status,
-    //     });
-    //   } else {
-    //     state.tasks = [
-    //       {
-    //         id,
-    //         text,
-    //         status,
-    //       },
-    //     ];
-    //   }
-    // },
+      if (Array.isArray(state.tasks.current)) {
+        state.tasks.current.push({
+          id,
+          text,
+          status,
+        });
+      } else {
+        state.tasks.current = [
+          {
+            id,
+            text,
+            status,
+          },
+        ];
+      }
+    },
 
     // removeTask(state, action: PayloadAction<number[]>) {
     //   const tasksId = action.payload;
@@ -115,9 +115,9 @@ const tasks = createSlice({
     // fetchRemoveTask(state, action: PayloadAction<number[]>) {
     //   //
     // },
-    // fetchAddTask(state, action: PayloadAction<any>) {
-    //   //
-    // },
+    fetchAddTask(state, action: PayloadAction<FetchAdd>) {
+      //
+    },
     // fetchUpdateStatus(state, action: PayloadAction<any>) {
     //   //
     // },

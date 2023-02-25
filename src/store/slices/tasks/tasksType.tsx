@@ -10,6 +10,11 @@ type DataTabs = {
   completed: Task[];
 };
 
+type FetchAdd = {
+  text: string;
+  projectId: string;
+};
+
 type State = {
   tasks: {
     current: Task[] | null;
@@ -19,4 +24,4 @@ type State = {
   isLoading: boolean;
 };
 
-export { State, Task, DataTabs };
+export { State, Task, DataTabs, FetchAdd };

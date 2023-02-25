@@ -79,7 +79,7 @@ function* fetchUpdateTask(action: PayloadAction<any>) {
   }
 }
 
-function* fetchAddTask(action: PayloadAction<any>) {
+function* fetchAddTask(action: PayloadAction<tasksType.FetchAdd>) {
   const { text, projectId } = action.payload;
 
   try {
@@ -93,13 +93,13 @@ function* fetchAddTask(action: PayloadAction<any>) {
       throw new Error(data.messageError);
     }
 
-    // yield put(
-    //   tasksActions.addTask({
-    //     id: data.value ?? 0,
-    //     text,
-    //     status: 1,
-    //   })
-    // );
+    yield put(
+      tasksActions.addTask({
+        id: data.value ?? 0,
+        text,
+        status: 1,
+      })
+    );
   } catch (error) {
     console.log('error', error);
   }
@@ -110,7 +110,7 @@ function* sagaGetTasks() {
 }
 
 function* sagaAddTask() {
-  // yield takeLeading(tasksActions.fetchAddTask.type, fetchAddTask);
+  yield takeLeading(tasksActions.fetchAddTask.type, fetchAddTask);
 }
 
 function* sagaRemoveTask() {

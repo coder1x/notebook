@@ -73,8 +73,13 @@ function Tasks() {
     dispatch(signInActions.removeSignInToken());
   };
 
-  const handleAddDataTask = () => {
-    //
+  const handleAddDataTask = (text: string) => {
+    dispatch(
+      tasksActions.fetchAddTask({
+        text,
+        projectId: projectId ?? '',
+      })
+    );
   };
 
   const handleCheckboxClick = () => {
