@@ -70,16 +70,44 @@ const tasks = createSlice({
       }
     },
 
-    // removeTask(state, action: PayloadAction<number[]>) {
-    //   const tasksId = action.payload;
-    //   let tasksTemp = state.tasks;
+    removeTask(state, action: PayloadAction<number[]>) {
+      const tasksId = action.payload;
+      const tasksTemp = state.tasks;
 
-    //   tasksId.forEach((id) => {
-    //     tasksTemp = tasksTemp?.filter((item) => item.id !== id) ?? null;
-    //   });
+      const remove = (data: Task[] | null, id: number) => {
+        const items = data?.filter((item) => item.id !== id) ?? null;
 
-    //   state.tasks = tasksTemp;
-    // },
+        return {
+          items,
+          isEqual: items?.length === data?.length,
+        };
+      };
+
+      for (const id of tasksId) {
+        const completed = remove(tasksTemp.completed, id);
+
+        if (!completed.isEqual) {
+          tasksTemp.completed = completed.items;
+          continue;
+        }
+
+        const current = remove(tasksTemp.current, id);
+
+        if (!current.isEqual) {
+          tasksTemp.current = current.items;
+          continue;
+        }
+
+        const inProgress = remove(tasksTemp.current, id);
+
+        if (!inProgress.isEqual) {
+          tasksTemp.inProgress = inProgress.items;
+          continue;
+        }
+      }
+
+      state.tasks = tasksTemp;
+    },
 
     // updateStatus(state, action: PayloadAction<any>) {
     //   const { status, tasksId } = action.payload;
@@ -112,9 +140,9 @@ const tasks = createSlice({
     // fetchEditTask(state, action: PayloadAction<Task>) {
     //   //
     // },
-    // fetchRemoveTask(state, action: PayloadAction<number[]>) {
-    //   //
-    // },
+    fetchRemoveTask(state, action: PayloadAction<number[]>) {
+      //
+    },
     fetchAddTask(state, action: PayloadAction<FetchAdd>) {
       //
     },

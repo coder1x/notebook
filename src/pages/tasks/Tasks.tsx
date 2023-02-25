@@ -49,7 +49,8 @@ function Tasks() {
   };
 
   const handleButtonRemoveClick = () => {
-    //
+    dispatch(tasksActions.fetchRemoveTask(tasksId.current));
+    tasksId.current = [];
   };
 
   const handleButtonToTasksClick = () => {
@@ -82,9 +83,15 @@ function Tasks() {
     );
   };
 
-  const handleCheckboxClick = () => {
-    //
-  };
+  const handleCheckboxClick = useCallback((inputElement: HTMLInputElement) => {
+    const name = parseInt(inputElement.name, 10);
+
+    if (inputElement.checked) {
+      tasksId.current.push(name);
+    } else {
+      tasksId.current = tasksId.current.filter((id) => id !== name);
+    }
+  }, []);
 
   const handleButtonAllClick = () => {
     //

@@ -53,7 +53,7 @@ function* fetchRemoveTask(action: PayloadAction<number[]>) {
       throw new Error(data.messageError);
     }
 
-    // yield put(tasksActions.removeTask(tasksId));
+    yield put(tasksActions.removeTask(tasksId));
   } catch (error) {
     console.log('error', error);
   }
@@ -95,7 +95,7 @@ function* fetchAddTask(action: PayloadAction<tasksType.FetchAdd>) {
 
     yield put(
       tasksActions.addTask({
-        id: data.value ?? 0,
+        id: Number(data.value) ?? 0,
         text,
         status: 1,
       })
@@ -114,7 +114,7 @@ function* sagaAddTask() {
 }
 
 function* sagaRemoveTask() {
-  // yield takeLeading(tasksActions.fetchRemoveTask.type, fetchRemoveTask);
+  yield takeLeading(tasksActions.fetchRemoveTask.type, fetchRemoveTask);
 }
 
 function* sagaUpdateStatus() {
