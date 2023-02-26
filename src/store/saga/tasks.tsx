@@ -26,11 +26,6 @@ interface UpdateTask extends FetchData {
   value?: number;
 }
 
-type DataUpdateStatus = {
-  tasksId: number[];
-  status: number;
-};
-
 function* fetchGetTasks(action: PayloadAction<string>) {
   try {
     const data: Tasks = yield call(getTasks, getDataToCookies('TodoToken'), action.payload);
@@ -64,7 +59,7 @@ function* fetchRemoveTask(action: PayloadAction<number[]>) {
   }
 }
 
-function* fetchUpdateStatus(action: PayloadAction<DataUpdateStatus>) {
+function* fetchUpdateStatus(action: PayloadAction<tasksType.FetchUpdateStatus>) {
   const { status, tasksId } = action.payload;
 
   try {

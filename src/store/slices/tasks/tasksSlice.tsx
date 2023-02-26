@@ -1,10 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { State, Task, DataTabs, FetchAdd } from './tasksType';
-
-type DataUpdateStatus = {
-  tasksId: number[];
-  status: number;
-};
+import { State, Task, DataTabs, FetchAdd, FetchUpdateStatus } from './tasksType';
 
 const initialState: State = {
   tasks: {
@@ -91,21 +86,21 @@ const tasks = createSlice({
       for (const id of tasksId) {
         const completed = remove(tasksTemp.completed, id);
 
-        if (!completed.isEqual) {
+        if (!completed.isEqual && Array.isArray(completed.items)) {
           tasksTemp.completed = completed.items;
           continue;
         }
 
         const current = remove(tasksTemp.current, id);
 
-        if (!current.isEqual) {
+        if (!current.isEqual && Array.isArray(current.items)) {
           tasksTemp.current = current.items;
           continue;
         }
 
-        const inProgress = remove(tasksTemp.current, id);
+        const inProgress = remove(tasksTemp.inProgress, id);
 
-        if (!inProgress.isEqual) {
+        if (!inProgress.isEqual && Array.isArray(inProgress.items)) {
           tasksTemp.inProgress = inProgress.items;
           continue;
         }
@@ -114,7 +109,7 @@ const tasks = createSlice({
       state.tasks = tasksTemp;
     },
 
-    updateStatus(state, action: PayloadAction<DataUpdateStatus>) {
+    updateStatus(state, action: PayloadAction<FetchUpdateStatus>) {
       const { status, tasksId } = action.payload;
 
       const tasksTemp = state.tasks;
@@ -209,7 +204,7 @@ const tasks = createSlice({
     fetchAddTask(state, action: PayloadAction<FetchAdd>) {
       //
     },
-    fetchUpdateStatus(state, action: PayloadAction<DataUpdateStatus>) {
+    fetchUpdateStatus(state, action: PayloadAction<FetchUpdateStatus>) {
       //
     },
     fetchTasksData(state, action: PayloadAction<string>) {

@@ -11,7 +11,7 @@ type RemovingData = {
   tasksId: number[];
 };
 
-type UpdateData = {
+type UpdateStatusData = {
   token: string;
   tasksId: number[];
   status: number;
@@ -29,7 +29,7 @@ function removeTask(data: RemovingData) {
   return makeRequest('tasks/remove.php', getOptions(data, 'DELETE'));
 }
 
-function updateStatus(data: UpdateData) {
+function updateStatus(data: UpdateStatusData) {
   return makeRequest('tasks/updateStatus.php', getOptions(data, 'PUT'));
 }
 
