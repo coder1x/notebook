@@ -41,11 +41,9 @@ const TextField: FC<Props> = ({
         value={value}
         onChangeCustom={onChangeCustom}
       />
-      {message && (
-        <div className="text-field__message-wrapper">
-          <p className="text-field__message">{message}</p>
-        </div>
-      )}
+      <dialog open={Boolean(message)} className="text-field__message-wrapper">
+        <p className="text-field__message">{message}</p>
+      </dialog>
     </div>
   );
 };

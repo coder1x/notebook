@@ -1,4 +1,4 @@
-import { useEffect, useRef, MutableRefObject, FC, useCallback } from 'react';
+import { useEffect, useRef, useState, MutableRefObject, FC, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,6 +13,8 @@ const Projects: FC = () => {
   const token = useSelector(tokenState);
   const projects = useSelector(projectsState);
   const isLoading = useSelector(isLoadingState);
+
+  const [isChecked, setIsChecked] = useState(false);
 
   document.title = 'Менеджер проектов';
 
@@ -45,13 +47,11 @@ const Projects: FC = () => {
     dispatch(signInActions.removeSignInToken());
   };
 
-  const handleCheckboxClick = useCallback((inputElement: HTMLInputElement) => {
-    if (inputElement.checked) {
-      projectsId.current.push(parseInt(inputElement.name, 10));
+  const handleCheckboxClick = useCallback((id: number, checked: boolean) => {
+    if (checked) {
+      projectsId.current.push(id);
     } else {
-      projectsId.current = projectsId.current.filter(
-        (id) => id !== parseInt(inputElement.name, 10)
-      );
+      projectsId.current = projectsId.current.filter((itemId) => itemId !== id);
     }
   }, []);
 
@@ -60,12 +60,12 @@ const Projects: FC = () => {
   };
 
   const handleButtonAllClick = () => {
-    //
+    setIsChecked(!isChecked);
   };
 
   const main =
     Array.isArray(projects) && projects.length ? (
-      <TodoList list={projects} onCheckboxClick={handleCheckboxClick} />
+      <TodoList list={projects} onCheckboxClick={handleCheckboxClick} isChecked={isChecked} />
     ) : (
       <Placeholder text="Добавьте проект" />
     );

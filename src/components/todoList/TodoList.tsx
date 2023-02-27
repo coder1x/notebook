@@ -8,10 +8,11 @@ type TodoData = {
 
 type Props = {
   list: TodoData[];
-  onCheckboxClick: (object: HTMLInputElement) => void;
+  onCheckboxClick: (id: number, checked: boolean) => void;
+  isChecked?: boolean;
 };
 
-const TodoList: FC<Props> = ({ list, onCheckboxClick }) => {
+const TodoList: FC<Props> = ({ list, onCheckboxClick, isChecked = false }) => {
   let { length = 0 } = list;
 
   return (
@@ -22,7 +23,15 @@ const TodoList: FC<Props> = ({ list, onCheckboxClick }) => {
         if (Object.keys(project).length !== 0) {
           const { id } = project;
 
-          return <TodoItem key={id} id={id} text={project.text} clickCheckbox={onCheckboxClick} />;
+          return (
+            <TodoItem
+              key={id}
+              id={id}
+              text={project.text}
+              clickCheckbox={onCheckboxClick}
+              isChecked={isChecked}
+            />
+          );
         }
         return <></>;
       })}

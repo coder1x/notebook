@@ -109,6 +109,17 @@ const SignUp: FC = () => {
     [dispatch]
   );
 
+  const handleNameInput = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const text = event.target.value.trim();
+
+      if (text.length > 3) {
+        handleNameChange(event);
+      }
+    },
+    [handleNameChange]
+  );
+
   const handlePasswordOneChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const text = event.target.value.trim();
 
@@ -171,6 +182,7 @@ const SignUp: FC = () => {
               isError={Boolean(textMessageName)}
               message={textMessageName}
               value={name}
+              onChange={handleNameInput}
               onChangeCustom={handleNameChange}
               ariaLabel="имя нового пользователя"
             />

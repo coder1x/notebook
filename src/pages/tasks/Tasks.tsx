@@ -1,4 +1,4 @@
-import { useEffect, useRef, MutableRefObject, FC, useCallback } from 'react';
+import { useEffect, useRef, MutableRefObject, FC, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -24,6 +24,8 @@ function Tasks() {
   const token = useSelector(tokenState);
   const tasks = useSelector(tasksState);
   const isLoading = useSelector(isLoadingTasksState);
+
+  const [isChecked, setIsChecked] = useState(false);
 
   document.title = 'Менеджер проектов';
 
@@ -101,18 +103,16 @@ function Tasks() {
     );
   };
 
-  const handleCheckboxClick = useCallback((inputElement: HTMLInputElement) => {
-    const name = parseInt(inputElement.name, 10);
-
-    if (inputElement.checked) {
-      tasksId.current.push(name);
+  const handleCheckboxClick = useCallback((id: number, checked: boolean) => {
+    if (checked) {
+      tasksId.current.push(id);
     } else {
-      tasksId.current = tasksId.current.filter((id) => id !== name);
+      tasksId.current = tasksId.current.filter((itemId) => itemId !== id);
     }
   }, []);
 
   const handleButtonAllClick = () => {
-    //
+    setIsChecked(!isChecked);
   };
 
   // const main =
@@ -172,21 +172,33 @@ function Tasks() {
             {
               name: 'Задачи',
               content: (
-                <TodoList list={tasks.current ?? []} onCheckboxClick={handleCheckboxClick} />
+                <TodoList
+                  list={tasks.current ?? []}
+                  onCheckboxClick={handleCheckboxClick}
+                  isChecked={isChecked}
+                />
               ),
               index: 1,
             },
             {
               name: 'Выполняются',
               content: (
-                <TodoList list={tasks.inProgress ?? []} onCheckboxClick={handleCheckboxClick} />
+                <TodoList
+                  list={tasks.inProgress ?? []}
+                  onCheckboxClick={handleCheckboxClick}
+                  isChecked={isChecked}
+                />
               ),
               index: 2,
             },
             {
               name: 'Завершённые',
               content: (
-                <TodoList list={tasks.completed ?? []} onCheckboxClick={handleCheckboxClick} />
+                <TodoList
+                  list={tasks.completed ?? []}
+                  onCheckboxClick={handleCheckboxClick}
+                  isChecked={isChecked}
+                />
               ),
               index: 3,
             },
