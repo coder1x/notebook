@@ -12,7 +12,13 @@ import {
   Tabs,
   Manager,
 } from '@components/index';
-import { tokenState, tasksState, isLoadingTasksState } from '@store/selectors';
+import {
+  tokenState,
+  tasksState,
+  isLoadingTasksState,
+  isAuthorizedState,
+  errorCodeTasksState,
+} from '@store/selectors';
 import { tasksActions, signInActions } from '@store/slices';
 
 function Tasks() {
@@ -20,7 +26,8 @@ function Tasks() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const errorCode = useSelector(errorCodeTasksState);
+  const isAuthorized = useSelector(isAuthorizedState);
   const token = useSelector(tokenState);
   const tasks = useSelector(tasksState);
   const isLoading = useSelector(isLoadingTasksState);
@@ -41,6 +48,31 @@ function Tasks() {
       dispatch(tasksActions.fetchTasksData(projectId ?? ''));
     }
   }, [dispatch, navigate, projectId, token]);
+
+  useEffect(() => {
+    if (isAuthorized) {
+      return;
+    }
+
+    if (token) {
+      dispatch(signInActions.setAuthorized(true));
+    } else {
+      dispatch(tasksActions.clearState());
+      navigate('/');
+    }
+  }, [dispatch, isAuthorized, navigate, token]);
+
+  useEffect(() => {
+    switch (errorCode) {
+      case 30:
+        dispatch(signInActions.setAuthorized(false));
+        dispatch(signInActions.removeSignInToken());
+        break;
+
+      default:
+        break;
+    }
+  }, [dispatch, errorCode]);
 
   const handleButtonAddClick = () => {
     const editor = editorRef.current;

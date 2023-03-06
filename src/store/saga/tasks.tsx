@@ -8,6 +8,7 @@ import { getDataToCookies } from '@helpers/index';
 type FetchData = {
   error: boolean;
   messageError: string;
+  code: number;
 };
 
 interface Tasks extends FetchData {
@@ -31,6 +32,7 @@ function* fetchGetTasks(action: PayloadAction<string>) {
     const data: Tasks = yield call(getTasks, getDataToCookies('TodoToken'), action.payload);
 
     if (data.error) {
+      yield put(tasksActions.errorTask(data.code));
       throw new Error(data.messageError);
     }
 
@@ -50,6 +52,7 @@ function* fetchRemoveTask(action: PayloadAction<number[]>) {
     });
 
     if (data.error) {
+      yield put(tasksActions.errorTask(data.code));
       throw new Error(data.messageError);
     }
 
@@ -70,6 +73,7 @@ function* fetchUpdateStatus(action: PayloadAction<tasksType.FetchUpdateStatus>) 
     });
 
     if (data.error) {
+      yield put(tasksActions.errorTask(data.code));
       throw new Error(data.messageError);
     }
 
@@ -90,6 +94,7 @@ function* fetchAddTask(action: PayloadAction<tasksType.FetchAdd>) {
     });
 
     if (data.error) {
+      yield put(tasksActions.errorTask(data.code));
       throw new Error(data.messageError);
     }
 

@@ -6,6 +6,7 @@ type Project = {
 type State = {
   projects: Project[] | null;
   isLoading: boolean;
+  errorCode: number;
 };
 
 export { State, Project };

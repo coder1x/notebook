@@ -3,13 +3,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { Footer, Menu, Editor, Loading, TodoList, Placeholder, Manager } from '@components/index';
-import { tokenState, projectsState, isLoadingState } from '@store/selectors';
+import {
+  tokenState,
+  projectsState,
+  isLoadingState,
+  errorCodeProjectsState,
+  isAuthorizedState,
+} from '@store/selectors';
 import { projectsActions, signInActions } from '@store/slices';
 
 const Projects: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const isAuthorized = useSelector(isAuthorizedState);
+  const errorCode = useSelector(errorCodeProjectsState);
   const token = useSelector(tokenState);
   const projects = useSelector(projectsState);
   const isLoading = useSelector(isLoadingState);
@@ -28,6 +36,31 @@ const Projects: FC = () => {
       dispatch(projectsActions.fetchProjectsData());
     }
   }, [dispatch, navigate, projects, token]);
+
+  useEffect(() => {
+    if (isAuthorized) {
+      return;
+    }
+
+    if (token) {
+      dispatch(signInActions.setAuthorized(true));
+    } else {
+      dispatch(projectsActions.clearState());
+      navigate('/');
+    }
+  }, [dispatch, isAuthorized, navigate, token]);
+
+  useEffect(() => {
+    switch (errorCode) {
+      case 30:
+        dispatch(signInActions.setAuthorized(false));
+        dispatch(signInActions.removeSignInToken());
+        break;
+
+      default:
+        break;
+    }
+  }, [dispatch, errorCode]);
 
   const handleButtonAddClick = () => {
     const editor = editorRef.current;

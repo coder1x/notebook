@@ -4,6 +4,7 @@ import { State, Project } from './projectsType';
 const initialState: State = {
   projects: null,
   isLoading: true,
+  errorCode: 0,
 };
 
 const projects = createSlice({
@@ -17,6 +18,7 @@ const projects = createSlice({
 
     clearState(state) {
       state.projects = null;
+      state.errorCode = 0;
     },
 
     addProject(state, action: PayloadAction<Project>) {
@@ -69,6 +71,9 @@ const projects = createSlice({
     },
     fetchProjectsData(state) {
       state.isLoading = true;
+    },
+    errorProject(state, action: PayloadAction<number>) {
+      state.errorCode = action.payload;
     },
   },
 });

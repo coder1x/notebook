@@ -26,6 +26,7 @@ type State = {
     inProgress: Task[] | null;
     completed: Task[] | null;
   };
+  errorCode: number;
   isLoading: boolean;
 };
 

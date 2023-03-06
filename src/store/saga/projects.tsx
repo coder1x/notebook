@@ -7,6 +7,7 @@ import { getDataToCookies } from '@helpers/index';
 type FetchData = {
   error: boolean;
   messageError: string;
+  code: number;
 };
 
 interface Projects extends FetchData {
@@ -26,6 +27,7 @@ function* fetchGetProjects() {
     const data: Projects = yield call(getProjects, getDataToCookies('TodoToken'));
 
     if (data.error) {
+      yield put(projectsActions.errorProject(data.code));
       throw new Error(data.messageError);
     }
 
@@ -45,6 +47,7 @@ function* fetchRemoveProject(action: PayloadAction<number[]>) {
     });
 
     if (data.error) {
+      yield put(projectsActions.errorProject(data.code));
       throw new Error(data.messageError);
     }
 
@@ -66,6 +69,7 @@ function* fetchAddProject(action: PayloadAction<string>) {
     });
 
     if (data.error) {
+      yield put(projectsActions.errorProject(data.code));
       throw new Error(data.messageError);
     }
 

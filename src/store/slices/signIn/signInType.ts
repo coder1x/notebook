@@ -1,6 +1,7 @@
 type State = {
   token: string;
   isSignInError: boolean;
+  isAuthorized: boolean;
 };
 
 type Data = {

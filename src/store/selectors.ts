@@ -9,12 +9,15 @@ const nameState = (state: RootState) => state.nameValidator.name;
 const isErrorCaptchaState = (state: RootState) => state.captcha.isErrorCaptcha;
 
 const tokenState = (state: RootState) => state.signIn.token;
+const isAuthorizedState = (state: RootState) => state.signIn.isAuthorized;
 const isSignInErrorState = (state: RootState) => state.signIn.isSignInError;
 
 const projectsState = (state: RootState) => state.projects.projects;
+const errorCodeProjectsState = (state: RootState) => state.projects.errorCode;
 const isLoadingState = (state: RootState) => state.projects.isLoading;
 
 const tasksState = (state: RootState) => state.tasks.tasks;
+const errorCodeTasksState = (state: RootState) => state.tasks.errorCode;
 const isLoadingTasksState = (state: RootState) => state.tasks.isLoading;
 
 export {
@@ -29,4 +32,7 @@ export {
   isLoadingState,
   tasksState,
   isLoadingTasksState,
+  isAuthorizedState,
+  errorCodeTasksState,
+  errorCodeProjectsState,
 };

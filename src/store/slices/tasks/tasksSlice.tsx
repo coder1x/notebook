@@ -8,6 +8,7 @@ const initialState: State = {
     completed: null,
   },
   isLoading: true,
+  errorCode: 0,
 };
 
 const tasks = createSlice({
@@ -38,7 +39,6 @@ const tasks = createSlice({
       });
 
       state.tasks = tasksTemp;
-
       state.isLoading = false;
     },
 
@@ -48,6 +48,7 @@ const tasks = createSlice({
         inProgress: null,
         completed: null,
       };
+      state.errorCode = 0;
     },
 
     addTask(state, action: PayloadAction<Task>) {
@@ -209,6 +210,9 @@ const tasks = createSlice({
     },
     fetchTasksData(state, action: PayloadAction<string>) {
       state.isLoading = true;
+    },
+    errorTask(state, action: PayloadAction<number>) {
+      state.errorCode = action.payload;
     },
   },
 });
