@@ -49,6 +49,10 @@ $color-name-focus: #474747;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 
+    &_no-decoration {
+      text-decoration: none;
+    }
+
     &:hover {
       color: $color-name-hover;
     }

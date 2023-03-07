@@ -25,6 +25,7 @@
     "no-param-reassign": "off",
     "no-bitwise": "off",
     "no-continue": "off",
+    "no-nested-ternary": "off",
     "no-var": 1,
     "camelcase": 1,
     "no-nested-ternary": 1,

@@ -7,12 +7,14 @@ type TodoData = {
 };
 
 type Props = {
+  type: 'project' | 'task';
+  status?: number;
   list: TodoData[];
   onCheckboxClick: (id: number, checked: boolean) => void;
   isChecked?: boolean;
 };
 
-const TodoList: FC<Props> = ({ list, onCheckboxClick, isChecked = false }) => {
+const TodoList: FC<Props> = ({ list, onCheckboxClick, type, status = 1, isChecked = false }) => {
   let { length = 0 } = list;
 
   return (
@@ -30,6 +32,8 @@ const TodoList: FC<Props> = ({ list, onCheckboxClick, isChecked = false }) => {
               text={project.text}
               clickCheckbox={onCheckboxClick}
               isChecked={isChecked}
+              type={type}
+              status={status}
             />
           );
         }

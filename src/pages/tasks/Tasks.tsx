@@ -129,7 +129,7 @@ function Tasks() {
   const handleAddDataTask = (text: string) => {
     dispatch(
       tasksActions.fetchAddTask({
-        text,
+        text: text.trim(),
         projectId: projectId ?? '',
       })
     );
@@ -208,6 +208,8 @@ function Tasks() {
                   list={tasks.current ?? []}
                   onCheckboxClick={handleCheckboxClick}
                   isChecked={isChecked}
+                  type="task"
+                  status={1}
                 />
               ),
               index: 1,
@@ -219,6 +221,8 @@ function Tasks() {
                   list={tasks.inProgress ?? []}
                   onCheckboxClick={handleCheckboxClick}
                   isChecked={isChecked}
+                  type="task"
+                  status={2}
                 />
               ),
               index: 2,
@@ -230,6 +234,8 @@ function Tasks() {
                   list={tasks.completed ?? []}
                   onCheckboxClick={handleCheckboxClick}
                   isChecked={isChecked}
+                  type="task"
+                  status={3}
                 />
               ),
               index: 3,

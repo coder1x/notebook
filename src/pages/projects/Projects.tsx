@@ -89,7 +89,7 @@ const Projects: FC = () => {
   }, []);
 
   const handleAddDataProject = (text: string) => {
-    dispatch(projectsActions.fetchAddProject(text));
+    dispatch(projectsActions.fetchAddProject(text.trim()));
   };
 
   const handleButtonAllClick = () => {
@@ -98,7 +98,12 @@ const Projects: FC = () => {
 
   const main =
     Array.isArray(projects) && projects.length ? (
-      <TodoList list={projects} onCheckboxClick={handleCheckboxClick} isChecked={isChecked} />
+      <TodoList
+        list={projects}
+        onCheckboxClick={handleCheckboxClick}
+        isChecked={isChecked}
+        type="project"
+      />
     ) : (
       <Placeholder text="Добавьте проект" />
     );
