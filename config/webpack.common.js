@@ -28,7 +28,7 @@ module.exports = merge(devServer, {
   output: {
     filename: FL.filename('js'),
     path: paths.dist,
-    publicPath: 'auto',
+    publicPath: '/',
   },
 
   resolve: {

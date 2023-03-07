@@ -21,7 +21,7 @@ import {
 } from '@store/selectors';
 import { tasksActions, signInActions } from '@store/slices';
 
-function Tasks() {
+const Tasks: FC = () => {
   const { projectId } = useParams();
 
   const dispatch = useDispatch();
@@ -258,6 +258,6 @@ function Tasks() {
       />
     </Manager>
   );
-}
+};
 
 export default Tasks;
