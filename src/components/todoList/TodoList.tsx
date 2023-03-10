@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { TodoItem } from '@components/index';
+import { TodoItem, Placeholder } from '@components/index';
 
 type TodoData = {
   id: number;
@@ -19,26 +19,32 @@ const TodoList: FC<Props> = ({ list, onCheckboxClick, type, status = 1, isChecke
 
   return (
     <ul className="todo-list">
-      {list.map((item, index, array) => {
-        const project = array[(length -= 1)];
+      {length === 0 ? (
+        <li className="todo-list__empty">
+          <Placeholder text="Нет задач" />
+        </li>
+      ) : (
+        list.map((item, index, array) => {
+          const project = array[(length -= 1)];
 
-        if (Object.keys(project).length !== 0) {
-          const { id } = project;
+          if (Object.keys(project).length !== 0) {
+            const { id } = project;
 
-          return (
-            <TodoItem
-              key={id}
-              id={id}
-              text={project.text}
-              clickCheckbox={onCheckboxClick}
-              isChecked={isChecked}
-              type={type}
-              status={status}
-            />
-          );
-        }
-        return <></>;
-      })}
+            return (
+              <TodoItem
+                key={id}
+                id={id}
+                text={project.text}
+                clickCheckbox={onCheckboxClick}
+                isChecked={isChecked}
+                type={type}
+                status={status}
+              />
+            );
+          }
+          return <></>;
+        })
+      )}
     </ul>
   );
 };

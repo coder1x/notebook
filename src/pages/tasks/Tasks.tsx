@@ -147,13 +147,6 @@ const Tasks: FC = () => {
     setIsChecked(!isChecked);
   };
 
-  // const main =
-  //   Array.isArray(tasks) && tasks.length ? (
-  //     <ProjectsList projects={tasks} onCheckboxClick={handleCheckboxClick} />
-  //   ) : (
-  //     <Placeholder text="Добавьте проект" />
-  //   );
-
   const totalCurrent = tasks.current?.length ?? 0;
   const totalInProgress = tasks.inProgress?.length ?? 0;
   const totalCompleted = tasks.completed?.length ?? 0;
