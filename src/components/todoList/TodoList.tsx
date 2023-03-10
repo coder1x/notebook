@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, MouseEvent } from 'react';
 import { TodoItem, Placeholder } from '@components/index';
 
 type TodoData = {
@@ -11,14 +11,32 @@ type Props = {
   status?: number;
   list: TodoData[];
   onCheckboxClick: (id: number, checked: boolean) => void;
+  onClick?: (data: string) => void;
   isChecked?: boolean;
 };
 
-const TodoList: FC<Props> = ({ list, onCheckboxClick, type, status = 1, isChecked = false }) => {
+const TodoList: FC<Props> = ({
+  list,
+  onCheckboxClick,
+  onClick,
+  type,
+  status = 1,
+  isChecked = false,
+}) => {
   let { length = 0 } = list;
 
+  const handleTodoItemClick = (event: MouseEvent<HTMLUListElement>) => {
+    const element = event.target as HTMLElement;
+
+    if (element.classList.contains('js-todo-item__text')) {
+      if (onClick instanceof Function) {
+        onClick(element.innerHTML);
+      }
+    }
+  };
+
   return (
-    <ul className="todo-list">
+    <ul className="todo-list" onClick={handleTodoItemClick}>
       {length === 0 ? (
         <li className="todo-list__empty">
           <Placeholder text="Нет записей" />

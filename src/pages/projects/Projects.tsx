@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, MutableRefObject, FC, useCallback } from '
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Footer, Menu, Editor, Loading, TodoList, Placeholder, Manager } from '@components/index';
+import { Footer, Menu, Editor, Loading, TodoList, Manager } from '@components/index';
 import {
   tokenState,
   projectsState,
@@ -131,12 +131,7 @@ const Projects: FC = () => {
         )
       )}
       <Footer total={projects?.length ?? 0} />
-      <Editor
-        type="addData"
-        headerText="Добавить проект"
-        onAddData={handleAddDataProject}
-        ref={editorRef}
-      />
+      <Editor onAddData={handleAddDataProject} ref={editorRef} />
     </Manager>
   );
 };

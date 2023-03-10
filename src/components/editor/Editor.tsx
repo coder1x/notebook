@@ -3,19 +3,20 @@ import { FC, useState, forwardRef, Ref, useImperativeHandle, useCallback } from 
 import { Button, ChangeCustom } from '@components/index';
 
 type Props = {
-  type: 'addData' | 'editData' | 'viewData';
-  headerText: string;
   onAddData?: (data: string) => void;
   onUpdate?: (data: string) => void;
   ref: Ref<unknown> | undefined;
 };
 
-const Editor: FC<Props> = forwardRef(({ type, onUpdate, onAddData, headerText }, ref) => {
+const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
   const [textData, setTextData] = useState('');
   const [isActive, setIsActive] = useState(false);
+  const [editorType, setEditorType] = useState<'addData' | 'editData' | 'viewData'>('addData');
+
+  let headerText = '';
 
   useImperativeHandle(ref, () => {
-    return { setIsActive };
+    return { setIsActive, setTextData, setEditorType };
   });
 
   const handleTextareaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +47,7 @@ const Editor: FC<Props> = forwardRef(({ type, onUpdate, onAddData, headerText },
 
   let buttonComponent = <></>;
 
-  switch (type) {
+  switch (editorType) {
     case 'addData':
       buttonComponent = (
         <Button
@@ -56,6 +57,7 @@ const Editor: FC<Props> = forwardRef(({ type, onUpdate, onAddData, headerText },
           }}
         />
       );
+      headerText = 'Добавить запись';
       break;
     case 'editData':
       buttonComponent = (
@@ -66,8 +68,10 @@ const Editor: FC<Props> = forwardRef(({ type, onUpdate, onAddData, headerText },
           }}
         />
       );
+      headerText = 'Редактирование записи';
       break;
     case 'viewData':
+      headerText = 'Просмотр записи';
       break;
   }
 

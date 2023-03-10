@@ -39,15 +39,17 @@ const TodoItem: FC<Props> = ({ id, text, clickCheckbox, type, isChecked = false,
         <span className="visually-hidden">Выбрать элемент</span>
       </label>
       {type === 'project' ? (
-        <Link tabIndex={0} className="todo-item__text" to={`/project/${id}`}>
+        <Link tabIndex={0} className="todo-item__text js-todo-item__text" to={`/project/${id}`}>
           {text}
         </Link>
       ) : status === 3 ? (
-        <del tabIndex={0} className="todo-item__text">
+        <del tabIndex={0} className="todo-item__text js-todo-item__text">
           {text}
         </del>
       ) : (
-        <ins tabIndex={0} className="todo-item__text todo-item__text_no-decoration">
+        <ins
+          tabIndex={0}
+          className="todo-item__text js-todo-item__text todo-item__text_no-decoration">
           {text}
         </ins>
       )}

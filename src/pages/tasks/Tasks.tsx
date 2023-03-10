@@ -12,6 +12,7 @@ import {
   Tabs,
   Manager,
 } from '@components/index';
+
 import {
   tokenState,
   tasksState,
@@ -20,6 +21,12 @@ import {
   errorCodeTasksState,
 } from '@store/selectors';
 import { tasksActions, signInActions } from '@store/slices';
+
+type EditorActions = {
+  setIsActive: (data: boolean) => void;
+  setTextData: (data: string) => void;
+  setEditorType: (data: string) => void;
+};
 
 const Tasks: FC = () => {
   const { projectId } = useParams();
@@ -38,7 +45,7 @@ const Tasks: FC = () => {
 
   const tasksId: MutableRefObject<number[]> = useRef([]);
   const projectIdRef: MutableRefObject<string> = useRef('');
-  const editorRef: MutableRefObject<null | { setIsActive: (data: boolean) => void }> = useRef(null);
+  const editorRef: MutableRefObject<null | EditorActions> = useRef(null);
 
   useEffect(() => {
     if (!token) {
@@ -78,6 +85,7 @@ const Tasks: FC = () => {
     const editor = editorRef.current;
 
     if (editor) {
+      editor.setEditorType('addData');
       editor.setIsActive(true);
     }
   };
@@ -147,6 +155,16 @@ const Tasks: FC = () => {
     setIsChecked(!isChecked);
   };
 
+  const handleTodoListClick = (data: string) => {
+    const editor = editorRef.current;
+
+    if (editor) {
+      editor.setEditorType('viewData');
+      editor.setTextData(data);
+      editor.setIsActive(true);
+    }
+  };
+
   const totalCurrent = tasks.current?.length ?? 0;
   const totalInProgress = tasks.inProgress?.length ?? 0;
   const totalCompleted = tasks.completed?.length ?? 0;
@@ -200,6 +218,7 @@ const Tasks: FC = () => {
                 <TodoList
                   list={tasks.current ?? []}
                   onCheckboxClick={handleCheckboxClick}
+                  onClick={handleTodoListClick}
                   isChecked={isChecked}
                   type="task"
                   status={1}
@@ -213,6 +232,7 @@ const Tasks: FC = () => {
                 <TodoList
                   list={tasks.inProgress ?? []}
                   onCheckboxClick={handleCheckboxClick}
+                  onClick={handleTodoListClick}
                   isChecked={isChecked}
                   type="task"
                   status={2}
@@ -226,6 +246,7 @@ const Tasks: FC = () => {
                 <TodoList
                   list={tasks.completed ?? []}
                   onCheckboxClick={handleCheckboxClick}
+                  onClick={handleTodoListClick}
                   isChecked={isChecked}
                   type="task"
                   status={3}
@@ -243,12 +264,7 @@ const Tasks: FC = () => {
         totalPerformed={totalInProgress}
         totalCompleted={totalCompleted}
       />
-      <Editor
-        type="addData"
-        headerText="Добавить задачу"
-        onAddData={handleAddDataTask}
-        ref={editorRef}
-      />
+      <Editor onAddData={handleAddDataTask} ref={editorRef} />
     </Manager>
   );
 };
