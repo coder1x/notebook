@@ -21,7 +21,7 @@ const TodoList: FC<Props> = ({ list, onCheckboxClick, type, status = 1, isChecke
     <ul className="todo-list">
       {length === 0 ? (
         <li className="todo-list__empty">
-          <Placeholder text="Нет задач" />
+          <Placeholder text="Нет записей" />
         </li>
       ) : (
         list.map((item, index, array) => {

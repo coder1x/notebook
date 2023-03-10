@@ -96,18 +96,6 @@ const Projects: FC = () => {
     setIsChecked(!isChecked);
   };
 
-  const main =
-    Array.isArray(projects) && projects.length ? (
-      <TodoList
-        list={projects}
-        onCheckboxClick={handleCheckboxClick}
-        isChecked={isChecked}
-        type="project"
-      />
-    ) : (
-      <Placeholder text="Добавьте проект" />
-    );
-
   return (
     <Manager title="Менеджер проектов">
       <Menu
@@ -130,7 +118,18 @@ const Projects: FC = () => {
           },
         ]}
       />
-      {isLoading ? <Loading /> : main}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        Array.isArray(projects) && (
+          <TodoList
+            list={projects}
+            onCheckboxClick={handleCheckboxClick}
+            isChecked={isChecked}
+            type="project"
+          />
+        )
+      )}
       <Footer total={projects?.length ?? 0} />
       <Editor
         type="addData"
