@@ -1,13 +1,15 @@
 import { createElement, FC, MouseEventHandler } from 'react';
 import { Link } from 'react-router-dom';
 
+type Modifier = 'submit' | 'interface' | 'contextMenu';
+
 type Props = {
   tag?: string;
   href?: string;
   options: {
     type?: string;
     disabled?: boolean;
-    modifier?: 'submit' | 'interface';
+    modifier?: Modifier;
     onClick?: Function;
   };
   text: string;
@@ -15,13 +17,14 @@ type Props = {
 
 const Button: FC<Props> = ({ tag, href = '/', options, text }) => {
   const optionsClone = { ...options };
-  const type: 'submit' | 'interface' = optionsClone.modifier ?? 'interface';
+  const type: Modifier = optionsClone.modifier ?? 'interface';
 
   delete optionsClone.modifier;
 
   const modifier = {
     submit: ' button__submit',
     interface: ' button__interface',
+    contextMenu: ' button__context-menu',
   };
 
   const className = `${'button'}${modifier[type] ?? ''}`;

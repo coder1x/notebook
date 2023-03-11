@@ -38,7 +38,7 @@ const ContextMenu: FC<Props> = forwardRef(({ buttons }, ref) => {
               key={index}
               text={item.name}
               options={{
-                modifier: 'interface',
+                modifier: 'contextMenu',
                 onClick: () => {
                   setIsActive(false);
                   item.handler();

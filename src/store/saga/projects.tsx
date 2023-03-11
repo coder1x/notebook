@@ -1,6 +1,6 @@
 import { call, put, takeLeading } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { removeProject, addProject, getProjects } from '@api/index';
+import { removeProject, addProject, getProjects, updateProjectText } from '@api/index';
 import { projectsActions, projectsType } from '@store/slices';
 import { getDataToCookies } from '@helpers/index';
 
@@ -19,6 +19,10 @@ interface AddProject extends FetchData {
 }
 
 interface RemoveProject extends FetchData {
+  value?: number;
+}
+
+interface UpdateProjectText extends FetchData {
   value?: number;
 }
 
@@ -84,6 +88,27 @@ function* fetchAddProject(action: PayloadAction<string>) {
   }
 }
 
+function* fetchUpdateText(action: PayloadAction<projectsType.Project>) {
+  const { id, text } = action.payload;
+
+  try {
+    const data: UpdateProjectText = yield call(updateProjectText, {
+      token: getDataToCookies('TodoToken'),
+      id,
+      text,
+    });
+
+    if (data.error) {
+      yield put(projectsActions.errorProject(data.code));
+      throw new Error(data.messageError);
+    }
+
+    yield put(projectsActions.editProject(action.payload));
+  } catch (error) {
+    console.log('error', error);
+  }
+}
+
 function* sagaGetProjects() {
   yield takeLeading(projectsActions.fetchProjectsData.type, fetchGetProjects);
 }
@@ -96,4 +121,8 @@ function* sagaRemoveProject() {
   yield takeLeading(projectsActions.fetchRemoveProject.type, fetchRemoveProject);
 }
 
-export { sagaAddProject, sagaRemoveProject, sagaGetProjects };
+function* sagaUpdateProjectText() {
+  yield takeLeading(projectsActions.fetchEditProject.type, fetchUpdateText);
+}
+
+export { sagaAddProject, sagaRemoveProject, sagaGetProjects, sagaUpdateProjectText };

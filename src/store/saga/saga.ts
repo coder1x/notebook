@@ -4,7 +4,12 @@ import sagaRegistration from './signUp';
 import sagaAuthorization from './signIn';
 import sagaCheckUser from './nameValidator';
 import sagaCheckCaptcha from './captcha';
-import { sagaAddProject, sagaRemoveProject, sagaGetProjects } from './projects';
+import {
+  sagaAddProject,
+  sagaRemoveProject,
+  sagaGetProjects,
+  sagaUpdateProjectText,
+} from './projects';
 import {
   sagaAddTask,
   sagaGetTasks,
@@ -27,6 +32,7 @@ function* mySaga() {
     sagaRemoveTask(),
     sagaUpdateStatus(),
     sagaUpdateText(),
+    sagaUpdateProjectText(),
   ]);
 }
 

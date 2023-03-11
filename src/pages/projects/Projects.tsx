@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, MutableRefObject, FC, useCallback } from '
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Footer, Menu, Editor, Loading, TodoList, Manager } from '@components/index';
+import { Footer, Menu, Editor, Loading, TodoList, Manager, ContextMenu } from '@components/index';
 import {
   tokenState,
   projectsState,
@@ -11,6 +11,16 @@ import {
   isAuthorizedState,
 } from '@store/selectors';
 import { projectsActions, signInActions } from '@store/slices';
+
+type ContextMenuActions = {
+  setIsActive: (data: boolean) => void;
+};
+
+type EditorActions = {
+  setIsActive: (data: boolean) => void;
+  setTextData: (data: string) => void;
+  setEditorType: (data: string) => void;
+};
 
 const Projects: FC = () => {
   const dispatch = useDispatch();
@@ -27,7 +37,10 @@ const Projects: FC = () => {
   document.title = 'Менеджер проектов';
 
   const projectsId: MutableRefObject<number[]> = useRef([]);
-  const editorRef: MutableRefObject<null | { setIsActive: (data: boolean) => void }> = useRef(null);
+  const contextMenuRef: MutableRefObject<null | ContextMenuActions> = useRef(null);
+  const projectData: MutableRefObject<{ id: number; text: string } | null> = useRef(null);
+
+  const editorRef: MutableRefObject<null | EditorActions> = useRef(null);
 
   useEffect(() => {
     if (!token) {
@@ -96,6 +109,72 @@ const Projects: FC = () => {
     setIsChecked(!isChecked);
   };
 
+  const handleTodoItemContextMenu = (item: { id: number; text: string }) => {
+    const contextMenu = contextMenuRef.current;
+
+    if (contextMenu) {
+      contextMenu.setIsActive(true);
+    }
+
+    projectData.current = item;
+  };
+
+  const handleContextMenuView = () => {
+    if (!projectData.current) {
+      return false;
+    }
+
+    const editor = editorRef.current;
+
+    if (editor) {
+      editor.setEditorType('viewData');
+      editor.setTextData(projectData.current.text);
+      editor.setIsActive(true);
+    }
+
+    return true;
+  };
+
+  const handleContextMenuEditClick = () => {
+    const editor = editorRef.current;
+
+    if (!projectData.current || !editor) {
+      return false;
+    }
+
+    editor.setEditorType('editData');
+    editor.setTextData(projectData.current.text);
+    editor.setIsActive(true);
+
+    return true;
+  };
+
+  const handleContextMenuRemoveClick = () => {
+    if (!projectData.current) {
+      return false;
+    }
+
+    dispatch(projectsActions.fetchRemoveProject([projectData.current.id]));
+    projectsId.current = [];
+
+    return true;
+  };
+
+  const handleUpdateTask = (text: string) => {
+    if (!projectData.current) {
+      return false;
+    }
+
+    dispatch(
+      projectsActions.fetchEditProject({
+        id: projectData.current.id,
+        text,
+      })
+    );
+
+    return true;
+  };
+
   return (
     <Manager title="Менеджер проектов">
       <Menu
@@ -125,13 +204,31 @@ const Projects: FC = () => {
           <TodoList
             list={projects}
             onCheckboxClick={handleCheckboxClick}
+            onContextMenu={handleTodoItemContextMenu}
             isChecked={isChecked}
             type="project"
           />
         )
       )}
       <Footer total={projects?.length ?? 0} />
-      <Editor onAddData={handleAddDataProject} ref={editorRef} />
+      <Editor onAddData={handleAddDataProject} onUpdate={handleUpdateTask} ref={editorRef} />
+      <ContextMenu
+        buttons={[
+          {
+            name: 'Просмотр',
+            handler: handleContextMenuView,
+          },
+          {
+            name: 'Редактировать',
+            handler: handleContextMenuEditClick,
+          },
+          {
+            name: 'Удалить',
+            handler: handleContextMenuRemoveClick,
+          },
+        ]}
+        ref={contextMenuRef}
+      />
     </Manager>
   );
 };

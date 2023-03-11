@@ -52,13 +52,17 @@ const projects = createSlice({
 
     editProject(state, action: PayloadAction<Project>) {
       const { id, text } = action.payload;
-      if (text.trim()) {
-        if (Array.isArray(state.projects)) {
-          const index = state.projects.findIndex((item) => item.id === id);
+      const projectsTemp = state.projects;
 
-          state.projects[index].text = text;
+      if (text.trim()) {
+        if (Array.isArray(projectsTemp)) {
+          const index = projectsTemp.findIndex((item) => item.id === id);
+
+          projectsTemp[index].text = text;
         }
       }
+
+      state.projects = projectsTemp;
     },
     fetchEditProject(state, action: PayloadAction<Project>) {
       //

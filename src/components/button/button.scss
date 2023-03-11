@@ -35,4 +35,17 @@ $background-button-hover: $color-white;
   &__interface {
     color: $color-text-button;
   }
+
+  &__context-menu {
+    color: $color-text-button;
+    border-left: 0px;
+    border-right: 0px;
+    border-top: 0px;
+    justify-content: flex-start;
+    background-color: $color-white;
+
+    &:hover {
+      background-color: $background-button;
+    }
+  }
 }
