@@ -1,5 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { State, Task, DataTabs, FetchAdd, FetchUpdateStatus } from './tasksType';
+import { getProperty, setProperty } from '@helpers/index';
+import {
+  State,
+  Task,
+  Tasks,
+  DataTabs,
+  FetchAdd,
+  FetchUpdateStatus,
+  FetchUpdateText,
+} from './tasksType';
+
+const getIndex = (data: Task[] | null, id: number) => {
+  const index = data?.findIndex((item) => item.id === id) ?? null;
+
+  if (index === -1) {
+    return null;
+  }
+
+  return index;
+};
 
 const initialState: State = {
   tasks: {
@@ -85,25 +104,17 @@ const tasks = createSlice({
       };
 
       for (const id of tasksId) {
-        const completed = remove(tasksTemp.completed, id);
+        const keys = Object.keys(tasksTemp);
 
-        if (!completed.isEqual && Array.isArray(completed.items)) {
-          tasksTemp.completed = completed.items;
-          continue;
-        }
+        for (const key of keys) {
+          let item = getProperty(tasksTemp, key as keyof Tasks);
+          const list = remove(item, id);
 
-        const current = remove(tasksTemp.current, id);
-
-        if (!current.isEqual && Array.isArray(current.items)) {
-          tasksTemp.current = current.items;
-          continue;
-        }
-
-        const inProgress = remove(tasksTemp.inProgress, id);
-
-        if (!inProgress.isEqual && Array.isArray(inProgress.items)) {
-          tasksTemp.inProgress = inProgress.items;
-          continue;
+          if (!list.isEqual && Array.isArray(list.items)) {
+            item = list.items;
+            setProperty(tasksTemp, key as keyof Tasks, item);
+            break;
+          }
         }
       }
 
@@ -114,16 +125,6 @@ const tasks = createSlice({
       const { status, tasksId } = action.payload;
 
       const tasksTemp = state.tasks;
-
-      const getIndex = (data: Task[] | null, id: number) => {
-        const index = data?.findIndex((item) => item.id === id) ?? null;
-
-        if (index === -1) {
-          return null;
-        }
-
-        return index;
-      };
 
       const addTask = (item: Task) => {
         switch (status) {
@@ -148,57 +149,57 @@ const tasks = createSlice({
       };
 
       for (const id of tasksId) {
-        let index = getIndex(tasksTemp.current, id);
+        const keys = Object.keys(tasksTemp);
 
-        if (index !== null && Array.isArray(tasksTemp.current)) {
-          tasksTemp.current[index].status = status;
+        for (const key of keys) {
+          const item = getProperty(tasksTemp, key as keyof Tasks);
+          const index = getIndex(item, id);
 
-          addTask(tasksTemp.current[index]);
+          if (index !== null && Array.isArray(item)) {
+            item[index].status = status;
 
-          tasksTemp.current.splice(index, 1);
+            addTask(item[index]);
 
-          continue;
-        }
+            item.splice(index, 1);
 
-        index = getIndex(tasksTemp.inProgress, id);
-
-        if (index !== null && Array.isArray(tasksTemp.inProgress)) {
-          tasksTemp.inProgress[index].status = status;
-
-          addTask(tasksTemp.inProgress[index]);
-
-          tasksTemp.inProgress.splice(index, 1);
-          continue;
-        }
-
-        index = getIndex(tasksTemp.completed, id);
-
-        if (index !== null && Array.isArray(tasksTemp.completed)) {
-          tasksTemp.completed[index].status = status;
-
-          addTask(tasksTemp.completed[index]);
-
-          tasksTemp.completed.splice(index, 1);
-          continue;
+            setProperty(tasksTemp, key as keyof Tasks, item);
+            break;
+          }
         }
       }
 
       state.tasks = tasksTemp;
     },
 
-    // editTask(state, action: PayloadAction<Task>) {
-    //   const { id, text } = action.payload;
-    //   if (text.trim()) {
-    //     if (Array.isArray(state.tasks)) {
-    //       const index = state.tasks.findIndex((item) => item.id === id);
+    editTask(state, action: PayloadAction<FetchUpdateText>) {
+      const { id, text } = action.payload;
 
-    //       state.tasks[index].text = text;
-    //     }
-    //   }
-    // },
-    // fetchEditTask(state, action: PayloadAction<Task>) {
-    //   //
-    // },
+      const tasksTemp = state.tasks;
+
+      if (text.trim()) {
+        const keys = Object.keys(tasksTemp);
+
+        for (const key of keys) {
+          const item = getProperty(tasksTemp, key as keyof Tasks);
+          const index = getIndex(item, id);
+
+          if (index !== null && Array.isArray(item)) {
+            item[index].text = text;
+
+            setProperty(tasksTemp, key as keyof Tasks, item);
+            break;
+          }
+        }
+      }
+
+      state.tasks = tasksTemp;
+    },
+    errorTask(state, action: PayloadAction<number>) {
+      state.errorCode = action.payload;
+    },
+    fetchEditTask(state, action: PayloadAction<FetchUpdateText>) {
+      //
+    },
     fetchRemoveTask(state, action: PayloadAction<number[]>) {
       //
     },
@@ -210,9 +211,6 @@ const tasks = createSlice({
     },
     fetchTasksData(state, action: PayloadAction<string>) {
       state.isLoading = true;
-    },
-    errorTask(state, action: PayloadAction<number>) {
-      state.errorCode = action.payload;
     },
   },
 });

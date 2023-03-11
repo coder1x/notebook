@@ -42,6 +42,7 @@ const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
     if (textData && onUpdate instanceof Function) {
       onUpdate(textData);
       setTextData('');
+      setIsActive(false);
     }
   };
 

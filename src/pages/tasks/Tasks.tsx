@@ -8,9 +8,9 @@ import {
   Editor,
   Loading,
   TodoList,
-  Placeholder,
   Tabs,
   Manager,
+  ContextMenu,
 } from '@components/index';
 
 import {
@@ -26,6 +26,10 @@ type EditorActions = {
   setIsActive: (data: boolean) => void;
   setTextData: (data: string) => void;
   setEditorType: (data: string) => void;
+};
+
+type ContextMenuActions = {
+  setIsActive: (data: boolean) => void;
 };
 
 const Tasks: FC = () => {
@@ -46,6 +50,10 @@ const Tasks: FC = () => {
   const tasksId: MutableRefObject<number[]> = useRef([]);
   const projectIdRef: MutableRefObject<string> = useRef('');
   const editorRef: MutableRefObject<null | EditorActions> = useRef(null);
+
+  const taskData: MutableRefObject<{ id: number; text: string } | null> = useRef(null);
+
+  const contextMenuRef: MutableRefObject<null | ContextMenuActions> = useRef(null);
 
   useEffect(() => {
     if (!token) {
@@ -165,6 +173,114 @@ const Tasks: FC = () => {
     }
   };
 
+  const handleTodoItemContextMenu = (item: { id: number; text: string }) => {
+    const contextMenu = contextMenuRef.current;
+
+    if (contextMenu) {
+      contextMenu.setIsActive(true);
+    }
+
+    taskData.current = item;
+  };
+
+  const handleContextMenuView = () => {
+    if (!taskData.current) {
+      return false;
+    }
+
+    handleTodoListClick(taskData.current.text);
+
+    return true;
+  };
+
+  const handleContextMenuToTasksClick = () => {
+    if (!taskData.current) {
+      return false;
+    }
+
+    dispatch(
+      tasksActions.fetchUpdateStatus({
+        tasksId: [taskData.current.id],
+        status: 1,
+      })
+    );
+    tasksId.current = [];
+
+    return true;
+  };
+
+  const handleContextMenuRunClick = () => {
+    if (!taskData.current) {
+      return false;
+    }
+
+    dispatch(
+      tasksActions.fetchUpdateStatus({
+        tasksId: [taskData.current.id],
+        status: 2,
+      })
+    );
+    tasksId.current = [];
+
+    return true;
+  };
+
+  const handleContextMenuCompleteClick = () => {
+    if (!taskData.current) {
+      return false;
+    }
+
+    dispatch(
+      tasksActions.fetchUpdateStatus({
+        tasksId: [taskData.current.id],
+        status: 3,
+      })
+    );
+    tasksId.current = [];
+
+    return true;
+  };
+
+  const handleContextMenuRemoveClick = () => {
+    if (!taskData.current) {
+      return false;
+    }
+
+    dispatch(tasksActions.fetchRemoveTask([taskData.current.id]));
+    tasksId.current = [];
+
+    return true;
+  };
+
+  const handleContextMenuEditClick = () => {
+    const editor = editorRef.current;
+
+    if (!taskData.current || !editor) {
+      return false;
+    }
+
+    editor.setEditorType('editData');
+    editor.setTextData(taskData.current.text);
+    editor.setIsActive(true);
+
+    return true;
+  };
+
+  const handleUpdateTask = (text: string) => {
+    if (!taskData.current) {
+      return false;
+    }
+
+    dispatch(
+      tasksActions.fetchEditTask({
+        id: taskData.current.id,
+        text,
+      })
+    );
+
+    return true;
+  };
+
   const totalCurrent = tasks.current?.length ?? 0;
   const totalInProgress = tasks.inProgress?.length ?? 0;
   const totalCompleted = tasks.completed?.length ?? 0;
@@ -219,6 +335,7 @@ const Tasks: FC = () => {
                   list={tasks.current ?? []}
                   onCheckboxClick={handleCheckboxClick}
                   onClick={handleTodoListClick}
+                  onContextMenu={handleTodoItemContextMenu}
                   isChecked={isChecked}
                   type="task"
                   status={1}
@@ -233,6 +350,7 @@ const Tasks: FC = () => {
                   list={tasks.inProgress ?? []}
                   onCheckboxClick={handleCheckboxClick}
                   onClick={handleTodoListClick}
+                  onContextMenu={handleTodoItemContextMenu}
                   isChecked={isChecked}
                   type="task"
                   status={2}
@@ -247,6 +365,7 @@ const Tasks: FC = () => {
                   list={tasks.completed ?? []}
                   onCheckboxClick={handleCheckboxClick}
                   onClick={handleTodoListClick}
+                  onContextMenu={handleTodoItemContextMenu}
                   isChecked={isChecked}
                   type="task"
                   status={3}
@@ -264,7 +383,36 @@ const Tasks: FC = () => {
         totalPerformed={totalInProgress}
         totalCompleted={totalCompleted}
       />
-      <Editor onAddData={handleAddDataTask} ref={editorRef} />
+      <Editor onAddData={handleAddDataTask} onUpdate={handleUpdateTask} ref={editorRef} />
+      <ContextMenu
+        buttons={[
+          {
+            name: 'Просмотр',
+            handler: handleContextMenuView,
+          },
+          {
+            name: 'Редактировать',
+            handler: handleContextMenuEditClick,
+          },
+          {
+            name: 'Удалить',
+            handler: handleContextMenuRemoveClick,
+          },
+          {
+            name: 'В задачи',
+            handler: handleContextMenuToTasksClick,
+          },
+          {
+            name: 'Выполнить',
+            handler: handleContextMenuRunClick,
+          },
+          {
+            name: 'Завершить',
+            handler: handleContextMenuCompleteClick,
+          },
+        ]}
+        ref={contextMenuRef}
+      />
     </Manager>
   );
 };

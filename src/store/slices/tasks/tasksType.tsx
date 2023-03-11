@@ -20,14 +20,21 @@ type FetchUpdateStatus = {
   status: number;
 };
 
+type FetchUpdateText = {
+  id: number;
+  text: string;
+};
+
+type Tasks = {
+  current: Task[] | null;
+  inProgress: Task[] | null;
+  completed: Task[] | null;
+};
+
 type State = {
-  tasks: {
-    current: Task[] | null;
-    inProgress: Task[] | null;
-    completed: Task[] | null;
-  };
+  tasks: Tasks;
   errorCode: number;
   isLoading: boolean;
 };
 
-export { State, Task, DataTabs, FetchAdd, FetchUpdateStatus };
+export { State, Task, Tasks, DataTabs, FetchAdd, FetchUpdateStatus, FetchUpdateText };

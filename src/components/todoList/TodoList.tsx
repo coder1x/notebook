@@ -12,6 +12,7 @@ type Props = {
   list: TodoData[];
   onCheckboxClick: (id: number, checked: boolean) => void;
   onClick?: (data: string) => void;
+  onContextMenu?: (item: { id: number; text: string }) => void;
   isChecked?: boolean;
 };
 
@@ -19,6 +20,7 @@ const TodoList: FC<Props> = ({
   list,
   onCheckboxClick,
   onClick,
+  onContextMenu,
   type,
   status = 1,
   isChecked = false,
@@ -32,6 +34,12 @@ const TodoList: FC<Props> = ({
       if (onClick instanceof Function) {
         onClick(element.innerHTML);
       }
+    }
+  };
+
+  const handleTodoItemContextMenu = (item: { id: number; text: string }) => {
+    if (onContextMenu instanceof Function) {
+      onContextMenu(item);
     }
   };
 
@@ -54,6 +62,7 @@ const TodoList: FC<Props> = ({
                 id={id}
                 text={project.text}
                 clickCheckbox={onCheckboxClick}
+                onContextMenu={handleTodoItemContextMenu}
                 isChecked={isChecked}
                 type={type}
                 status={status}

@@ -17,6 +17,12 @@ type UpdateStatusData = {
   status: number;
 };
 
+type UpdateTextData = {
+  token: string;
+  id: number;
+  text: string;
+};
+
 function getTasks(token: string, projectId: string) {
   return makeRequest(`tasks/getTasks.php?token=${token}&projectId=${projectId}`);
 }
@@ -33,4 +39,8 @@ function updateStatus(data: UpdateStatusData) {
   return makeRequest('tasks/updateStatus.php', getOptions(data, 'PUT'));
 }
 
-export { addTask, removeTask, getTasks, updateStatus };
+function updateText(data: UpdateTextData) {
+  return makeRequest('tasks/updateText.php', getOptions(data, 'PATCH'));
+}
+
+export { addTask, removeTask, getTasks, updateStatus, updateText };

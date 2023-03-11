@@ -17,7 +17,7 @@ const Menu: FC<Props> = ({ buttons }) => {
   };
 
   return (
-    <div className="menu">
+    <nav className="menu">
       <MenuButton onClick={handleMenuButtonClick} />
       <div className={`menu__wrapper${isActive ? ' menu__wrapper_active' : ''}`}>
         {buttons &&
@@ -34,7 +34,7 @@ const Menu: FC<Props> = ({ buttons }) => {
             );
           })}
       </div>
-    </div>
+    </nav>
   );
 };
 

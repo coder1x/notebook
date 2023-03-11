@@ -1,4 +1,4 @@
-import { FC, memo, useState, useEffect } from 'react';
+import { FC, memo, useState, useEffect, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 type Props = {
@@ -7,15 +7,32 @@ type Props = {
   id: number;
   text: string;
   clickCheckbox: Function;
+  onContextMenu: Function;
   isChecked?: boolean;
 };
 
-const TodoItem: FC<Props> = ({ id, text, clickCheckbox, type, isChecked = false, status }) => {
+const TodoItem: FC<Props> = ({
+  id,
+  text,
+  clickCheckbox,
+  onContextMenu,
+  type,
+  isChecked = false,
+  status,
+}) => {
   const [checked, setChecked] = useState(isChecked);
 
   const handlerCheckboxChange = () => {
     setChecked(!checked);
     clickCheckbox(id, !checked);
+  };
+
+  const handleTodoItemContextMenu = (event: MouseEvent<HTMLLIElement>) => {
+    event.preventDefault();
+    onContextMenu({
+      id,
+      text,
+    });
   };
 
   useEffect(() => {
@@ -26,7 +43,7 @@ const TodoItem: FC<Props> = ({ id, text, clickCheckbox, type, isChecked = false,
   }, [isChecked]);
 
   return (
-    <li className="todo-item">
+    <li className="todo-item" onContextMenu={handleTodoItemContextMenu}>
       <label className="todo-item__input-wrapper">
         <input
           className="todo-item__input visually-hidden"

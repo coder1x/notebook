@@ -1,7 +1,7 @@
 import { call, put, takeLeading } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
-import { addTask, getTasks, removeTask, updateStatus } from '@api/index';
+import { addTask, getTasks, removeTask, updateStatus, updateText } from '@api/index';
 import { tasksActions, tasksType } from '@store/slices';
 import { getDataToCookies } from '@helpers/index';
 
@@ -83,6 +83,27 @@ function* fetchUpdateStatus(action: PayloadAction<tasksType.FetchUpdateStatus>) 
   }
 }
 
+function* fetchUpdateText(action: PayloadAction<tasksType.FetchUpdateText>) {
+  const { id, text } = action.payload;
+
+  try {
+    const data: UpdateTask = yield call(updateText, {
+      token: getDataToCookies('TodoToken'),
+      id,
+      text,
+    });
+
+    if (data.error) {
+      yield put(tasksActions.errorTask(data.code));
+      throw new Error(data.messageError);
+    }
+
+    yield put(tasksActions.editTask(action.payload));
+  } catch (error) {
+    console.log('error', error);
+  }
+}
+
 function* fetchAddTask(action: PayloadAction<tasksType.FetchAdd>) {
   const { text, projectId } = action.payload;
 
@@ -126,4 +147,8 @@ function* sagaUpdateStatus() {
   yield takeLeading(tasksActions.fetchUpdateStatus.type, fetchUpdateStatus);
 }
 
-export { sagaAddTask, sagaRemoveTask, sagaUpdateStatus, sagaGetTasks };
+function* sagaUpdateText() {
+  yield takeLeading(tasksActions.fetchEditTask.type, fetchUpdateText);
+}
+
+export { sagaAddTask, sagaRemoveTask, sagaUpdateStatus, sagaUpdateText, sagaGetTasks };
