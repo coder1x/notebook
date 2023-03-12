@@ -8,7 +8,7 @@ type Props = {
     type?: string;
     disabled?: boolean;
     modifier?: Modifier;
-    onClick?: Function;
+    onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   };
 };
 

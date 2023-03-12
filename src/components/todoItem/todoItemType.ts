@@ -3,8 +3,8 @@ type Props = {
   status: number;
   id: number;
   text: string;
-  clickCheckbox: Function;
-  onContextMenu: Function;
+  clickCheckbox: (id: number, isChecked: boolean) => void;
+  onContextMenu: (data: { id: number; text: string }) => void;
   isChecked?: boolean;
 };
 

@@ -5,7 +5,7 @@ class Throttle {
 
   action: string;
 
-  onChange: Function;
+  onChange: () => void;
 
   customEvent: string;
 
@@ -17,7 +17,7 @@ class Throttle {
 
   private currentTime: number = Date.now();
 
-  constructor(onChange: Function, action = 'resize', sleep = 200) {
+  constructor(onChange: () => void, action = 'resize', sleep = 200) {
     this.action = action;
     this.customEvent = 'EventThrottleCustom';
     this.sleep = sleep;
