@@ -12,7 +12,6 @@ import {
   Manager,
   ContextMenu,
 } from '@components/index';
-
 import {
   tokenState,
   tasksState,
@@ -21,22 +20,14 @@ import {
   errorCodeTasksState,
 } from '@store/selectors';
 import { tasksActions, signInActions } from '@store/slices';
-
-type EditorActions = {
-  setIsActive: (data: boolean) => void;
-  setTextData: (data: string) => void;
-  setEditorType: (data: string) => void;
-};
-
-type ContextMenuActions = {
-  setIsActive: (data: boolean) => void;
-};
+import { EditorActions, ContextMenuActions } from './tasksType';
 
 const Tasks: FC = () => {
   const { projectId } = useParams();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const errorCode = useSelector(errorCodeTasksState);
   const isAuthorized = useSelector(isAuthorizedState);
   const token = useSelector(tokenState);
@@ -45,14 +36,12 @@ const Tasks: FC = () => {
 
   const [isChecked, setIsChecked] = useState(false);
 
-  document.title = 'Менеджер проектов';
+  document.title = 'Менеджер задач';
 
   const tasksId: MutableRefObject<number[]> = useRef([]);
   const projectIdRef: MutableRefObject<string> = useRef('');
   const editorRef: MutableRefObject<null | EditorActions> = useRef(null);
-
   const taskData: MutableRefObject<{ id: number; text: string } | null> = useRef(null);
-
   const contextMenuRef: MutableRefObject<null | ContextMenuActions> = useRef(null);
 
   useEffect(() => {
@@ -93,8 +82,12 @@ const Tasks: FC = () => {
     const editor = editorRef.current;
 
     if (editor) {
-      editor.setEditorType('addData');
-      editor.setIsActive(true);
+      editor.setConfig({
+        ...editor.config,
+        title: 'Добавить задачу',
+        type: 'addData',
+        isActive: true,
+      });
     }
   };
 
@@ -167,9 +160,12 @@ const Tasks: FC = () => {
     const editor = editorRef.current;
 
     if (editor) {
-      editor.setEditorType('viewData');
-      editor.setTextData(data);
-      editor.setIsActive(true);
+      editor.setConfig({
+        ...editor.config,
+        title: 'Просмотр задачи',
+        type: 'viewData',
+        isActive: true,
+      });
     }
   };
 
@@ -259,9 +255,12 @@ const Tasks: FC = () => {
       return false;
     }
 
-    editor.setEditorType('editData');
-    editor.setTextData(taskData.current.text);
-    editor.setIsActive(true);
+    editor.setConfig({
+      ...editor.config,
+      title: 'Редактирование задачи',
+      type: 'editData',
+      isActive: true,
+    });
 
     return true;
   };

@@ -1,17 +1,18 @@
 import { FC, useState, forwardRef, useImperativeHandle, useCallback } from 'react';
 
 import { Button, ChangeCustom } from '@components/index';
-import Props from './editorType';
+import { Props, Config } from './editorType';
 
 const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
-  const [textData, setTextData] = useState('');
-  const [isActive, setIsActive] = useState(false);
-  const [editorType, setEditorType] = useState<'addData' | 'editData' | 'viewData'>('addData');
-
-  let headerText = '';
+  const [config, setConfig] = useState<Config>({
+    title: '',
+    text: '',
+    isActive: false,
+    type: 'addData',
+  });
 
   useImperativeHandle(ref, () => {
-    return { setIsActive, setTextData, setEditorType };
+    return { config, setConfig };
   });
 
   const handleTextareaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,29 +22,43 @@ const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
       return false;
     }
 
-    setTextData(text);
+    setConfig({
+      ...config,
+      text,
+    });
 
     return true;
   };
 
   const handleButtonAddClick = () => {
-    if (textData && onAddData instanceof Function) {
-      onAddData(textData);
-      setTextData('');
+    const { text } = config;
+
+    if (text && onAddData instanceof Function) {
+      onAddData(text);
+      setConfig({
+        ...config,
+        text: '',
+      });
     }
   };
 
   const handleButtonUpdateClick = () => {
-    if (textData && onUpdate instanceof Function) {
-      onUpdate(textData);
-      setTextData('');
-      setIsActive(false);
+    const { text } = config;
+
+    if (text && onUpdate instanceof Function) {
+      onUpdate(text);
+
+      setConfig({
+        ...config,
+        text: '',
+        isActive: false,
+      });
     }
   };
 
   let buttonComponent = <></>;
 
-  switch (editorType) {
+  switch (config.type) {
     case 'addData':
       buttonComponent = (
         <Button
@@ -53,7 +68,6 @@ const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
           }}
         />
       );
-      headerText = 'Добавить запись';
       break;
     case 'editData':
       buttonComponent = (
@@ -64,22 +78,23 @@ const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
           }}
         />
       );
-      headerText = 'Редактирование записи';
       break;
     case 'viewData':
-      headerText = 'Просмотр записи';
       break;
   }
 
   const handleButtonCloseClick = useCallback(() => {
-    setTextData('');
-    setIsActive(false);
+    setConfig({
+      ...config,
+      text: '',
+      isActive: false,
+    });
   }, []);
 
   return (
-    <article className={`editor${isActive ? ' editor_visible' : ''}`}>
+    <article className={`editor${config.isActive ? ' editor_visible' : ''}`}>
       <div className="editor__header-wrapper">
-        <h2 className="editor__header-text">{headerText}</h2>
+        <h2 className="editor__header-text">{config.title}</h2>
         <button className="editor__close" onClick={handleButtonCloseClick}>
           X
         </button>
@@ -93,7 +108,7 @@ const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
             onChange: handleTextareaChange,
             'aria-label': 'Редактор текста',
           }}
-          value={textData}
+          value={config.text}
         />
       </div>
       <div className="editor__bottom-wrapper">

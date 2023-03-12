@@ -8,6 +8,7 @@ import Button from './button/Button';
 import Captcha from './captcha/Captcha';
 import MessageForm from './messageForm/MessageForm';
 import Editor from './editor/Editor';
+import * as EditorType from './editor/editorType';
 import Menu from './menu/Menu';
 import TodoItem from './todoItem/TodoItem';
 import Loading from './loading/Loading';
@@ -44,4 +45,5 @@ export {
   Manager,
   MenuButton,
   ContextMenu,
+  EditorType,
 };

@@ -11,16 +11,7 @@ import {
   isAuthorizedState,
 } from '@store/selectors';
 import { projectsActions, signInActions } from '@store/slices';
-
-type ContextMenuActions = {
-  setIsActive: (data: boolean) => void;
-};
-
-type EditorActions = {
-  setIsActive: (data: boolean) => void;
-  setTextData: (data: string) => void;
-  setEditorType: (data: string) => void;
-};
+import { ContextMenuActions, EditorActions } from './projectsType';
 
 const Projects: FC = () => {
   const dispatch = useDispatch();
@@ -79,7 +70,11 @@ const Projects: FC = () => {
     const editor = editorRef.current;
 
     if (editor) {
-      editor.setIsActive(true);
+      editor.setConfig({
+        ...editor.config,
+        title: 'Добавить проект',
+        isActive: true,
+      });
     }
   };
 
@@ -127,9 +122,12 @@ const Projects: FC = () => {
     const editor = editorRef.current;
 
     if (editor) {
-      editor.setEditorType('viewData');
-      editor.setTextData(projectData.current.text);
-      editor.setIsActive(true);
+      editor.setConfig({
+        title: 'Просмотр проекта',
+        type: 'viewData',
+        text: projectData.current.text,
+        isActive: true,
+      });
     }
 
     return true;
@@ -142,9 +140,12 @@ const Projects: FC = () => {
       return false;
     }
 
-    editor.setEditorType('editData');
-    editor.setTextData(projectData.current.text);
-    editor.setIsActive(true);
+    editor.setConfig({
+      title: 'Редактирование проекта',
+      type: 'editData',
+      text: projectData.current.text,
+      isActive: true,
+    });
 
     return true;
   };
