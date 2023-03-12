@@ -2,17 +2,8 @@ import { call, put, take, actionChannel } from 'redux-saga/effects';
 import { buffers } from 'redux-saga';
 
 import { checkCaptcha } from '@api/index';
-
 import { captchaActions } from '@store/slices';
-
-type FetchData = {
-  error: boolean;
-  messageError: string;
-};
-
-interface Captcha extends FetchData {
-  value?: boolean;
-}
+import { Captcha } from './captchaType';
 
 function* fetchCheckCaptcha(text: string) {
   try {

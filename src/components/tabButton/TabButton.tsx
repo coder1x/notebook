@@ -1,6 +1,8 @@
 import { useState, useEffect, memo, FC } from 'react';
 
-const TabButton: FC<any> = ({ index, name, onClick, isActiveButton, idTab }) => {
+import Props from './tabButtonType';
+
+const TabButton: FC<Props> = ({ index, name, onClick, isActiveButton, idTab }) => {
   const [isActive, setIsActive] = useState(isActiveButton);
 
   useEffect(() => {

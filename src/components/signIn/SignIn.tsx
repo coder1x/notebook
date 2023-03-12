@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { tokenState, isSignInErrorState, errorNameState, nameState } from '@store/selectors';
 import { signInActions, nameValidatorActions } from '@store/slices';
-
 import { Button, TextField, MessageForm } from '@components/index';
 
 const SignIn: FC = () => {

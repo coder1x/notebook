@@ -1,11 +1,6 @@
 import { FC, createElement, KeyboardEvent, useEffect, useRef } from 'react';
 
-type Props = {
-  type: 'input' | 'textarea';
-  value: string | number;
-  attributes?: Object;
-  onChangeCustom?: Function;
-};
+import Props from './changeCustomType';
 
 const ChangeCustom: FC<Props> = ({ type, value, attributes, onChangeCustom }) => {
   const prevValue = useRef('');

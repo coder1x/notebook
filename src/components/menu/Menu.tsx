@@ -2,12 +2,7 @@ import { FC, useState } from 'react';
 
 import { Button, MenuButton } from '@components/index';
 
-type Props = {
-  buttons: {
-    name: string;
-    handler: () => void;
-  }[];
-};
+import Props from './menuType';
 
 const Menu: FC<Props> = ({ buttons }) => {
   const [isActive, setIsActive] = useState(false);

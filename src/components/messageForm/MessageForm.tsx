@@ -1,9 +1,6 @@
 import { FC } from 'react';
 
-type Props = {
-  isError: boolean;
-  text: string;
-};
+import Props from './messageFormType';
 
 const MessageForm: FC<Props> = ({ isError, text }) => {
   const messageWrapperModifier = isError ? ' message-form_error' : '';

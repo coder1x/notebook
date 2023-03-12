@@ -35,12 +35,12 @@ function removeTask(data: RemovingData) {
   return makeRequest('tasks/remove.php', getOptions(data, 'DELETE'));
 }
 
-function updateStatus(data: UpdateStatusData) {
+function updateTaskStatus(data: UpdateStatusData) {
   return makeRequest('tasks/updateStatus.php', getOptions(data, 'PUT'));
 }
 
-function updateText(data: UpdateTextData) {
+function updateTaskText(data: UpdateTextData) {
   return makeRequest('tasks/updateText.php', getOptions(data, 'PATCH'));
 }
 
-export { addTask, removeTask, getTasks, updateStatus, updateText };
+export { addTask, removeTask, getTasks, updateTaskStatus, updateTaskText };

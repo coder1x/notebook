@@ -1,15 +1,7 @@
 import { FC, memo, useState, useEffect, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 
-type Props = {
-  type: 'project' | 'task';
-  status: number;
-  id: number;
-  text: string;
-  clickCheckbox: Function;
-  onContextMenu: Function;
-  isChecked?: boolean;
-};
+import Props from './todoItemType';
 
 const TodoItem: FC<Props> = ({
   id,

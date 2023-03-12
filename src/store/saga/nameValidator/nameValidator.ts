@@ -1,17 +1,9 @@
 import { call, put, take, actionChannel } from 'redux-saga/effects';
-import { checkName } from '@api/index';
 import { buffers } from 'redux-saga';
 
+import { checkName } from '@api/index';
 import { nameValidatorActions } from '@store/slices';
-
-type FetchData = {
-  error: boolean;
-  messageError: string;
-};
-
-interface Data extends FetchData {
-  value?: boolean;
-}
+import { Data } from './nameValidatorType';
 
 function* fetchCheckName(name: string) {
   try {

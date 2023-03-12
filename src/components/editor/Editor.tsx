@@ -1,12 +1,7 @@
-import { FC, useState, forwardRef, Ref, useImperativeHandle, useCallback } from 'react';
+import { FC, useState, forwardRef, useImperativeHandle, useCallback } from 'react';
 
 import { Button, ChangeCustom } from '@components/index';
-
-type Props = {
-  onAddData?: (data: string) => void;
-  onUpdate?: (data: string) => void;
-  ref: Ref<unknown> | undefined;
-};
+import Props from './editorType';
 
 const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
   const [textData, setTextData] = useState('');

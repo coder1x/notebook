@@ -3,7 +3,7 @@ import registration from './signUp';
 import checkName from './nameValidator';
 import authorization from './signIn';
 import { addProject, removeProject, getProjects, updateProjectText } from './projects';
-import { addTask, removeTask, getTasks, updateStatus, updateText } from './tasks';
+import { addTask, removeTask, getTasks, updateTaskStatus, updateTaskText } from './tasks';
 
 export {
   checkCaptcha,
@@ -16,7 +16,7 @@ export {
   addTask,
   removeTask,
   getTasks,
-  updateStatus,
-  updateText,
+  updateTaskStatus,
+  updateTaskText,
   updateProjectText,
 };

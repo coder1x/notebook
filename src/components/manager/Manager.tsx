@@ -1,9 +1,6 @@
 import { FC } from 'react';
 
-type Props = {
-  title: string;
-  children: React.ReactNode;
-};
+import Props from './managerType';
 
 const Manager: FC<Props> = ({ children, title }) => {
   return (

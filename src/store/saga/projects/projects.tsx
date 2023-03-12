@@ -1,39 +1,25 @@
 import { call, put, takeLeading } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
+
 import { removeProject, addProject, getProjects, updateProjectText } from '@api/index';
 import { projectsActions, projectsType } from '@store/slices';
 import { getDataToCookies } from '@helpers/index';
+import { AddProject, Data, Projects, RemoveProject, UpdateProjectText } from './projectsType';
 
-type FetchData = {
-  error: boolean;
-  messageError: string;
-  code: number;
-};
+function* errorHandler(data: Data) {
+  if (!data.error) {
+    return false;
+  }
 
-interface Projects extends FetchData {
-  value?: projectsType.Project[];
-}
-
-interface AddProject extends FetchData {
-  value?: number;
-}
-
-interface RemoveProject extends FetchData {
-  value?: number;
-}
-
-interface UpdateProjectText extends FetchData {
-  value?: number;
+  yield put(projectsActions.errorProject(data.code));
+  throw new Error(data.messageError);
 }
 
 function* fetchGetProjects() {
   try {
     const data: Projects = yield call(getProjects, getDataToCookies('TodoToken'));
 
-    if (data.error) {
-      yield put(projectsActions.errorProject(data.code));
-      throw new Error(data.messageError);
-    }
+    yield errorHandler(data);
 
     yield put(projectsActions.setProjects(data.value ?? []));
   } catch (error) {
@@ -50,10 +36,7 @@ function* fetchRemoveProject(action: PayloadAction<number[]>) {
       projectsId,
     });
 
-    if (data.error) {
-      yield put(projectsActions.errorProject(data.code));
-      throw new Error(data.messageError);
-    }
+    yield errorHandler(data);
 
     if (data.value) {
       yield put(projectsActions.removeProject(projectsId));
@@ -72,10 +55,7 @@ function* fetchAddProject(action: PayloadAction<string>) {
       text,
     });
 
-    if (data.error) {
-      yield put(projectsActions.errorProject(data.code));
-      throw new Error(data.messageError);
-    }
+    yield errorHandler(data);
 
     yield put(
       projectsActions.addProject({
@@ -98,10 +78,7 @@ function* fetchUpdateText(action: PayloadAction<projectsType.Project>) {
       text,
     });
 
-    if (data.error) {
-      yield put(projectsActions.errorProject(data.code));
-      throw new Error(data.messageError);
-    }
+    yield errorHandler(data);
 
     yield put(projectsActions.editProject(action.payload));
   } catch (error) {

@@ -1,6 +1,8 @@
 import { useState, useEffect, FC } from 'react';
 
-const TabItem: FC<any> = ({ index, content, isActiveTab, idTab }) => {
+import Props from './tabItemType';
+
+const TabItem: FC<Props> = ({ index, content, isActiveTab, idTab }) => {
   const [isActive, setIsActive] = useState(isActiveTab);
 
   useEffect(() => {

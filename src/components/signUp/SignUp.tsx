@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState, FC, useCallback, useEffect, useRef, MutableRefObject } from 'react';
 
 import { signUpActions, nameValidatorActions } from '@store/slices';
-
 import {
   errorNameState,
   isErrorCaptchaState,
@@ -10,7 +9,6 @@ import {
   messageState,
   isRegistrationErrorState,
 } from '@store/selectors';
-
 import { Button, TextField, Captcha, MessageForm } from '@components/index';
 
 const SignUp: FC = () => {

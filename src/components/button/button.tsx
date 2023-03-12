@@ -1,19 +1,7 @@
 import { createElement, FC, MouseEventHandler } from 'react';
 import { Link } from 'react-router-dom';
 
-type Modifier = 'submit' | 'interface' | 'contextMenu';
-
-type Props = {
-  tag?: string;
-  href?: string;
-  options: {
-    type?: string;
-    disabled?: boolean;
-    modifier?: Modifier;
-    onClick?: Function;
-  };
-  text: string;
-};
+import { Modifier, Props } from './buttonType';
 
 const Button: FC<Props> = ({ tag, href = '/', options, text }) => {
   const optionsClone = { ...options };

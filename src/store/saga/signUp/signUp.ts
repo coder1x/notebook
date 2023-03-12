@@ -2,17 +2,8 @@ import { call, put, takeLeading } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 import { registration } from '@api/index';
-
 import { signUpActions, signUpType } from '@store/slices';
-
-type FetchData = {
-  error: boolean;
-  messageError: string;
-};
-
-interface Data extends FetchData {
-  value?: boolean;
-}
+import { Data } from './signUpType';
 
 function* fetchRegistration(action: PayloadAction<signUpType.Data>) {
   try {

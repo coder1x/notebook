@@ -1,17 +1,9 @@
 import { call, put, takeLeading } from 'redux-saga/effects';
+import { PayloadAction } from '@reduxjs/toolkit';
 
 import authorization from '@api/signIn';
-import { PayloadAction } from '@reduxjs/toolkit';
 import { signInActions, signInType } from '@store/slices';
-
-type FetchData = {
-  error: boolean;
-  messageError: string;
-};
-
-interface Data extends FetchData {
-  value?: string | null;
-}
+import { Data } from './signInType';
 
 function* fetchAuthorization(action: PayloadAction<signInType.Data>) {
   const { name, password } = action.payload;

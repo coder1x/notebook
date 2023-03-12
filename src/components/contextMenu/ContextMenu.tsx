@@ -1,14 +1,7 @@
-import { FC, useState, forwardRef, Ref, useImperativeHandle, useEffect } from 'react';
+import { FC, useState, forwardRef, useImperativeHandle, useEffect } from 'react';
 
 import { Button } from '@components/index';
-
-type Props = {
-  buttons: {
-    name: string;
-    handler: () => void;
-  }[];
-  ref: Ref<unknown> | undefined;
-};
+import Props from './contextMenuType';
 
 const ContextMenu: FC<Props> = forwardRef(({ buttons }, ref) => {
   const [isActive, setIsActive] = useState(false);

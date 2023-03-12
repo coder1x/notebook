@@ -1,20 +1,8 @@
 import { FC, MouseEvent } from 'react';
+
 import { TodoItem, Placeholder } from '@components/index';
 
-type TodoData = {
-  id: number;
-  text: string;
-};
-
-type Props = {
-  type: 'project' | 'task';
-  status?: number;
-  list: TodoData[];
-  onCheckboxClick: (id: number, checked: boolean) => void;
-  onClick?: (data: string) => void;
-  onContextMenu?: (item: { id: number; text: string }) => void;
-  isChecked?: boolean;
-};
+import Props from './todoListType';
 
 const TodoList: FC<Props> = ({
   list,

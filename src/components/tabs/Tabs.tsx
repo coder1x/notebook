@@ -1,17 +1,20 @@
-import { TabButton, TabItem } from '@components/index';
 import { useState, useCallback, FC } from 'react';
 
-const Tabs: FC<any> = ({ tabs }) => {
+import { TabButton, TabItem } from '@components/index';
+
+import Props from './tabsType';
+
+const Tabs: FC<Props> = ({ tabs }) => {
   const [idTab, setIdTab] = useState(1);
 
-  const buttonTabs: any = [];
-  const content: any = [];
+  const buttonTabs: JSX.Element[] = [];
+  const content: JSX.Element[] = [];
 
   const handleTabClick = useCallback((id: number) => {
     setIdTab(id);
   }, []);
 
-  tabs.forEach((item: any, index: number) => {
+  tabs.forEach((item, index) => {
     buttonTabs.push(
       <TabButton
         key={item.index}

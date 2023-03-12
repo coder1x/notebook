@@ -1,40 +1,25 @@
 import { call, put, takeLeading } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
-import { addTask, getTasks, removeTask, updateStatus, updateText } from '@api/index';
+import { addTask, getTasks, removeTask, updateTaskStatus, updateTaskText } from '@api/index';
 import { tasksActions, tasksType } from '@store/slices';
 import { getDataToCookies } from '@helpers/index';
+import { AddTask, Data, RemoveTask, Tasks, UpdateTask } from './tasksType';
 
-type FetchData = {
-  error: boolean;
-  messageError: string;
-  code: number;
-};
+function* errorHandler(data: Data) {
+  if (!data.error) {
+    return false;
+  }
 
-interface Tasks extends FetchData {
-  value?: tasksType.Task[];
-}
-
-interface AddTask extends FetchData {
-  value?: number;
-}
-
-interface RemoveTask extends FetchData {
-  value?: number;
-}
-
-interface UpdateTask extends FetchData {
-  value?: number;
+  yield put(tasksActions.errorTask(data.code));
+  throw new Error(data.messageError);
 }
 
 function* fetchGetTasks(action: PayloadAction<string>) {
   try {
     const data: Tasks = yield call(getTasks, getDataToCookies('TodoToken'), action.payload);
 
-    if (data.error) {
-      yield put(tasksActions.errorTask(data.code));
-      throw new Error(data.messageError);
-    }
+    yield errorHandler(data);
 
     yield put(tasksActions.setTasks(data.value ?? []));
   } catch (error) {
@@ -51,10 +36,7 @@ function* fetchRemoveTask(action: PayloadAction<number[]>) {
       tasksId,
     });
 
-    if (data.error) {
-      yield put(tasksActions.errorTask(data.code));
-      throw new Error(data.messageError);
-    }
+    yield errorHandler(data);
 
     yield put(tasksActions.removeTask(tasksId));
   } catch (error) {
@@ -66,16 +48,13 @@ function* fetchUpdateStatus(action: PayloadAction<tasksType.FetchUpdateStatus>) 
   const { status, tasksId } = action.payload;
 
   try {
-    const data: UpdateTask = yield call(updateStatus, {
+    const data: UpdateTask = yield call(updateTaskStatus, {
       token: getDataToCookies('TodoToken'),
       tasksId,
       status,
     });
 
-    if (data.error) {
-      yield put(tasksActions.errorTask(data.code));
-      throw new Error(data.messageError);
-    }
+    yield errorHandler(data);
 
     yield put(tasksActions.updateStatus(action.payload));
   } catch (error) {
@@ -87,16 +66,13 @@ function* fetchUpdateText(action: PayloadAction<tasksType.FetchUpdateText>) {
   const { id, text } = action.payload;
 
   try {
-    const data: UpdateTask = yield call(updateText, {
+    const data: UpdateTask = yield call(updateTaskText, {
       token: getDataToCookies('TodoToken'),
       id,
       text,
     });
 
-    if (data.error) {
-      yield put(tasksActions.errorTask(data.code));
-      throw new Error(data.messageError);
-    }
+    yield errorHandler(data);
 
     yield put(tasksActions.editTask(action.payload));
   } catch (error) {
@@ -114,10 +90,7 @@ function* fetchAddTask(action: PayloadAction<tasksType.FetchAdd>) {
       projectId,
     });
 
-    if (data.error) {
-      yield put(tasksActions.errorTask(data.code));
-      throw new Error(data.messageError);
-    }
+    yield errorHandler(data);
 
     yield put(
       tasksActions.addTask({

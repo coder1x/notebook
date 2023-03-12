@@ -1,8 +1,6 @@
 import { FC } from 'react';
 
-type Props = {
-  text: string;
-};
+import Props from './placeholderType';
 
 const Placeholder: FC<Props> = ({ text }) => {
   return (

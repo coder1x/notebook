@@ -1,18 +1,7 @@
-import { FC, memo, ChangeEvent } from 'react';
+import { FC, memo } from 'react';
 
 import { ChangeCustom } from '@components/index';
-
-type Props = {
-  type: 'text' | 'email' | 'password';
-  placeholder?: string;
-  name: string;
-  value?: string;
-  isError?: boolean;
-  message?: string;
-  ariaLabel: string;
-  onChangeCustom?: (object: ChangeEvent<HTMLInputElement>) => void;
-  onChange?: (object: ChangeEvent<HTMLInputElement>) => void;
-};
+import Props from './textFieldType';
 
 const TextField: FC<Props> = ({
   type,
