@@ -13,10 +13,12 @@ $background-button-hover: $color-white;
   background-color: $background-button;
   border: 1px solid $border-button;
   cursor: pointer;
+  color: $dark-gray-80;
 
   &_current {
     border: 1px solid #939393;
     box-shadow: 0 0 1px rgb(0 0 0 / 50%);
+    color: $color-black;
   }
 
   &:hover {

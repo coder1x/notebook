@@ -216,15 +216,15 @@ const Projects: FC = () => {
       <ContextMenu
         buttons={[
           {
-            name: 'Просмотр',
+            name: '📄 Просмотр',
             handler: handleContextMenuView,
           },
           {
-            name: 'Редактировать',
+            name: '📝 Редактировать',
             handler: handleContextMenuEditClick,
           },
           {
-            name: 'Удалить',
+            name: '🪣 Удалить',
             handler: handleContextMenuRemoveClick,
           },
         ]}

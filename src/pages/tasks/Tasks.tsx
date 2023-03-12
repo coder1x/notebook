@@ -161,7 +161,7 @@ const Tasks: FC = () => {
 
     if (editor) {
       editor.setConfig({
-        ...editor.config,
+        text: data.replace('📄 ', ''),
         title: 'Просмотр задачи',
         type: 'viewData',
         isActive: true,
@@ -256,7 +256,7 @@ const Tasks: FC = () => {
     }
 
     editor.setConfig({
-      ...editor.config,
+      text: taskData.current.text,
       title: 'Редактирование задачи',
       type: 'editData',
       isActive: true,
@@ -386,27 +386,27 @@ const Tasks: FC = () => {
       <ContextMenu
         buttons={[
           {
-            name: 'Просмотр',
+            name: '📄 Просмотр',
             handler: handleContextMenuView,
           },
           {
-            name: 'Редактировать',
+            name: '📝 Редактировать',
             handler: handleContextMenuEditClick,
           },
           {
-            name: 'Удалить',
+            name: '🪣 Удалить',
             handler: handleContextMenuRemoveClick,
           },
           {
-            name: 'В задачи',
+            name: '📗 В задачи',
             handler: handleContextMenuToTasksClick,
           },
           {
-            name: 'Выполнить',
+            name: '📙 Выполнить',
             handler: handleContextMenuRunClick,
           },
           {
-            name: 'Завершить',
+            name: '📕 Завершить',
             handler: handleContextMenuCompleteClick,
           },
         ]}

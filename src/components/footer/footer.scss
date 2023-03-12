@@ -1,5 +1,4 @@
 $color-checkbox-border: $dark-gray-100;
-$color-text-total: #555;
 
 .footer {
   display: flex;
@@ -7,13 +6,14 @@ $color-text-total: #555;
   margin-top: auto;
   padding-top: 20px;
   border-top: 1px solid $color-checkbox-border;
+  color: $dark-gray-80;
 
   :first-child {
     margin-left: 0;
   }
 
   &__text-total {
-    color: $color-text-total;
+    color: $dark-gray-80;
   }
 
   &__item {
