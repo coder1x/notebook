@@ -38,6 +38,10 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 
+    @include media-breakpoint-down($sm-middle) {
+      -webkit-line-clamp: 4;
+    }
+
     &_no-decoration {
       text-decoration: none;
     }
