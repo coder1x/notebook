@@ -71,7 +71,8 @@ const Projects: FC = () => {
 
     if (editor) {
       editor.setConfig({
-        ...editor.config,
+        text: '',
+        type: 'addData',
         title: 'Добавить проект',
         isActive: true,
       });

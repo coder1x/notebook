@@ -83,7 +83,7 @@ const Tasks: FC = () => {
 
     if (editor) {
       editor.setConfig({
-        ...editor.config,
+        text: '',
         title: 'Добавить задачу',
         type: 'addData',
         isActive: true,
