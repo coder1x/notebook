@@ -1,7 +1,7 @@
 .content-item {
   display: none;
   height: calc(100vh - 265px);
-  border: 1px solid #cacaca;
+  border: 1px solid $dark-gray-20;
 
   &_current {
     display: block;

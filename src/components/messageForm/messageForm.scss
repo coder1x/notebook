@@ -1,18 +1,16 @@
-$color-text-button: $dark-gray-90;
-
 .message-form {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   min-height: 40px;
-  border-bottom: 3px solid $color-successful;
+  border-bottom: 3px solid $green-80;
 
   &__text {
-    color: $color-text-button;
+    color: $dark-gray-80;
   }
 
   &_error {
-    border-bottom: 3px solid $color-error;
+    border-bottom: 3px solid $yellow-90;
   }
 }

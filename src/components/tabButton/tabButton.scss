@@ -1,32 +1,27 @@
-$color-focus-button: #222;
-$background-button: $light-gray;
-$border-button: $pale-gray;
-$background-button-hover: $color-white;
-
 .tab-button {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   padding: 10px;
-  white-space: nowrap;
-  background-color: $background-button;
-  border: 1px solid $border-button;
-  cursor: pointer;
   color: $dark-gray-80;
+  white-space: nowrap;
+  background-color: $dark-gray-10;
+  border: 1px solid $dark-gray-20;
+  cursor: pointer;
 
   &_current {
-    border: 1px solid #939393;
-    box-shadow: 0 0 1px rgb(0 0 0 / 50%);
     color: $color-black;
+    border: 1px solid $dark-gray-80;
+    box-shadow: 0 0 1px $dark-transparent;
   }
 
   &:hover {
-    background-color: $background-button-hover;
+    background-color: $color-white;
   }
 
   &:focus {
-    outline: 2px solid $color-focus-button;
+    outline: 2px solid $dark-gray-100;
     outline-offset: 5px;
   }
 }

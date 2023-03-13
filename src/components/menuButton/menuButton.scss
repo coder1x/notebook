@@ -5,7 +5,7 @@
   border: 0;
   cursor: pointer;
 
-  @include media-breakpoint-down($lg_middle) {
+  @include media-breakpoint-down($lg-middle) {
     display: block;
     margin-bottom: 20px;
   }

@@ -1,16 +1,5 @@
-$color-checkbox: $color-focus-button;
-$color-checkbox-border: $dark-gray-100;
-$color-checkbox-hover: #666;
-$color-border-focus: $color-focus-button;
-$color-focus: $color-focus-button;
-$background-header-wrapper: $black-90;
-$background-editor: $color-white;
-$shadow-editor: 0 0 10px rgb(0 0 0 / 50%);
-$color-header-text: $color-white;
-$border-textarea: 1px solid rgb(0 0 0 / 12%);
-$background-button-wrapper: $color-white;
-$background-close: $orange-80;
-$background-close-hover: $orange-75;
+$shadow-editor: 0 0 10px $dark-transparent;
+$border-textarea: 1px solid $dark-gray-20;
 
 .editor {
   position: fixed;
@@ -20,7 +9,7 @@ $background-close-hover: $orange-75;
   flex-direction: column;
   width: calc(100% - 20px);
   max-width: 600px;
-  background: $background-editor;
+  background: $color-white;
   box-shadow: $shadow-editor;
   transform: translate(-50%, -50%);
 
@@ -33,12 +22,12 @@ $background-close-hover: $orange-75;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    background: $background-header-wrapper;
+    background: $dark-gray-100;
   }
 
   &__header-text {
     margin-left: 10px;
-    color: $color-header-text;
+    color: $color-white;
     font-size: 16px;
   }
 
@@ -59,22 +48,22 @@ $background-close-hover: $orange-75;
   &__bottom-wrapper {
     display: flex;
     justify-content: flex-end;
-    background: $background-button-wrapper;
+    background: $color-white;
   }
 
   &__close {
     z-index: 1;
     padding: 5px;
-    background-color: $background-close;
+    background-color: $orange-80;
     border: 0;
     cursor: pointer;
 
     &:hover {
-      background-color: $background-close-hover;
+      background-color: $orange-75;
     }
 
     &:focus {
-      outline: 2px solid $color-focus;
+      outline: 2px solid $dark-gray-100;
       outline-offset: 5px;
     }
   }

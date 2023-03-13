@@ -20,7 +20,7 @@
     width: 100%;
     margin-bottom: 20px;
 
-    @include media-breakpoint-down($lg_middle) {
+    @include media-breakpoint-down($lg-middle) {
       display: none;
     }
 
@@ -35,7 +35,7 @@
       max-width: 200px;
       padding: 10px;
       background-color: $color-white;
-      box-shadow: 0 0 10px rgb(0 0 0 / 50%);
+      box-shadow: 0 0 10px $dark-transparent;
 
       button {
         margin: 0;

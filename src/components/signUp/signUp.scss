@@ -1,10 +1,4 @@
-$color-err: $dark-red;
-$color-focus-input: $dark-gray-80;
-$color-border-input: $dark-gray-20;
-$color-border-block: $dark-gray-20;
 $shadow-block: 0 0 25px rgb(0 0 0 / 20%);
-$color-text: $dark-gray-90;
-$color-text-button: $dark-gray-90;
 
 .registration {
   position: fixed;
@@ -20,7 +14,7 @@ $color-text-button: $dark-gray-90;
   padding: 10px;
   font-family: $font;
   background-color: $color-white;
-  border: 1px solid $color-border-block;
+  border: 1px solid $dark-gray-20;
   box-shadow: $shadow-block;
   transform: translate(-50%);
 

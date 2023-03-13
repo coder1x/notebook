@@ -1,12 +1,10 @@
-$color-checkbox-border: $dark-gray-100;
-
 .footer {
   display: flex;
   flex-direction: row;
   margin-top: auto;
   padding-top: 20px;
-  border-top: 1px solid $color-checkbox-border;
   color: $dark-gray-80;
+  border-top: 1px solid $dark-gray-100;
 
   :first-child {
     margin-left: 0;

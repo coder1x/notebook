@@ -14,7 +14,7 @@ body {
   min-height: 100%;
   margin: 0;
   padding: 0;
-  color: $color-grey;
+  color: $dark-gray-80;
   background: linear-gradient(225deg, rgb(245 247 231) 19%, rgb(160 215 217) 63%);
   text-rendering: optimizespeed;
 }
@@ -22,7 +22,7 @@ body {
 h1,
 h2,
 h3 {
-  color: $color-dark-grey;
+  color: $dark-gray-100;
   font-weight: normal;
   font-family: $font-title;
 }
@@ -58,7 +58,7 @@ ol {
 }
 
 a {
-  color: $color-dark-grey;
+  color: $dark-gray-100;
   text-decoration: none;
 }
 
@@ -95,11 +95,11 @@ input[type='radio'].visually-hidden {
 }
 
 ::-webkit-scrollbar-track {
-  background-color: $color-dark-grey;
+  background-color: $dark-gray-100;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: $color-grey-light;
+  background-color: $dark-gray-20;
   border-radius: 0;
 }
 

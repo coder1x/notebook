@@ -5,45 +5,34 @@ $size-padding: 20px;
 $min-size-padding: 10px;
 
 $xxs: 320px;
-$xs_middle: 419px;
+$xs-middle: 419px;
 $xs: 575px;
-$sm_middle: 612px;
+$sm-middle: 612px;
 $sm: 767px;
-$md_middle: 867px;
+$md-middle: 867px;
 $md: 991px;
-$lg_middle: 1099px;
+$lg-middle: 1099px;
 $lg: 1199px;
-$xl_middle: 1299px;
+$xl-middle: 1299px;
 $xl: 1440px;
 $xxl: 1920px;
 
 //----------- COLORS -------------
 
 $color-white: #fff;
-$background-section: #fcfcfc;
 $color-black: #000;
-$color-focus-button: #222;
-$black-90: #303030;
-$color-dark-grey: #252525;
 $dark-gray-100: #333;
-$dark-gray-90: #444;
-$color-dark-grey-hover: #545454;
-$color-grey: #555;
+$dark-transparent: rgb(0 0 0 / 50%);
 $dark-gray-80: #818181;
-$color-placeholder: #b3b3b3;
-$dark-gray-20: #cacaca;
-$pale-gray: #d6d6d6;
-$color-grey-light: #e1e1e1;
-$color-background: #edeef0;
-$light-gray: #fafafa;
+$dark-gray-20: #e1e1e1;
+$dark-gray-10: #fafafa;
 
 $orange-80: #f56c30;
 $orange-75: #f57c48;
 $dark-red: #7a1a1a;
-$color-error: #eae470;
-$color-successful: #b3ea70;
-$color-border-message: #fcf9eb;
-$background-message: #fcf9eb;
+$yellow-90: #eae470;
+$green-80: #b3ea70;
+$yellow-20: #fcf9eb;
 
 //------------- FONTS ------------
 
