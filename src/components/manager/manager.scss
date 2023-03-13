@@ -11,6 +11,10 @@ $color-border: $dark-gray-20;
   border: 1px solid $color-border;
   border-radius: 2px;
 
+  @include media-breakpoint-down($sm-middle) {
+    height: auto;
+  }
+
   &__title {
     margin-right: auto;
     margin-bottom: 40px;

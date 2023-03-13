@@ -1,10 +1,57 @@
+$shadow-editor: 0 0 10px $dark-transparent;
+
 .footer {
-  display: flex;
-  flex-direction: row;
-  margin-top: auto;
-  padding-top: 20px;
-  color: $dark-gray-80;
-  border-top: 1px solid $dark-gray-100;
+  position: relative;
+
+  &__list {
+    display: flex;
+    flex-direction: row;
+    margin-top: auto;
+    padding-top: 20px;
+    color: $dark-gray-80;
+    border-top: 1px solid $dark-gray-100;
+
+    @include media-breakpoint-down($lg-middle) {
+      display: none;
+    }
+
+    &_visible {
+      display: flex;
+      flex-direction: column;
+      border: 0px;
+      position: absolute;
+      bottom: 34px;
+      left: 10px;
+      background-color: $color-white;
+      border: 0px;
+      box-shadow: $shadow-editor;
+      padding: 10px;
+
+      :nth-child(n) {
+        margin-left: 0px;
+        margin-bottom: 10px;
+      }
+
+      :last-child {
+        margin-bottom: 0px;
+      }
+    }
+  }
+
+  &__informer {
+    margin-top: 10px;
+    display: none;
+    font-size: 20px;
+    font-weight: 800;
+    border: 0px;
+    background-color: $color-white;
+
+    @include media-breakpoint-down($lg-middle) {
+      display: block;
+      text-align: center;
+      vertical-align: middle;
+    }
+  }
 
   :first-child {
     margin-left: 0;

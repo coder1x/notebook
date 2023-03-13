@@ -5,6 +5,10 @@
   &__navigation {
     display: flex;
     flex-direction: row;
+
+    @include media-breakpoint-down($sm-middle) {
+      flex-direction: column;
+    }
   }
 
   &__content {
