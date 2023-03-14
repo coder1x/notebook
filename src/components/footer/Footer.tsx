@@ -1,5 +1,6 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 
+import { Throttle } from '@helpers/index';
 import Props from './footerType';
 
 const Footer: FC<Props> = ({
@@ -11,13 +12,38 @@ const Footer: FC<Props> = ({
 }) => {
   const [isActive, setIsActive] = useState(false);
 
+  useEffect(() => {
+    const resize = () => {
+      setIsActive(false);
+    };
+
+    new Throttle(resize);
+
+    resize();
+  }, []);
+
+  useEffect(() => {
+    const handleDocumentEvent = (event: MouseEvent) => {
+      const element = event.target as HTMLElement;
+      if (!element.closest('.footer__informer')) {
+        setIsActive(false);
+      }
+    };
+
+    document.addEventListener('pointerdown', handleDocumentEvent);
+    return () => document.removeEventListener('pointerdown', handleDocumentEvent);
+  }, []);
+
   const handleButtonClick = () => {
     setIsActive(!isActive);
   };
 
   return (
     <div className="footer">
-      <button className="footer__informer" onClick={handleButtonClick}>
+      <button
+        className={`footer__informer${isActive ? ' footer__informer_active' : ''}`}
+        onClick={handleButtonClick}
+        aria-label="Информация о записях">
         Ⓘ
       </button>
       <ul className={`footer__list ${isActive ? ' footer__list_visible' : ''}`}>

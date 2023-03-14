@@ -20,6 +20,7 @@ import {
   errorCodeTasksState,
 } from '@store/selectors';
 import { tasksActions, signInActions } from '@store/slices';
+import { Throttle } from '@helpers/index';
 import { EditorActions, ContextMenuActions } from './tasksType';
 
 const Tasks: FC = () => {
@@ -35,12 +36,14 @@ const Tasks: FC = () => {
   const isLoading = useSelector(isLoadingTasksState);
 
   const [isChecked, setIsChecked] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   document.title = 'Менеджер задач';
 
   const tasksId: MutableRefObject<number[]> = useRef([]);
   const projectIdRef: MutableRefObject<string> = useRef('');
   const editorRef: MutableRefObject<null | EditorActions> = useRef(null);
+  const menuRef: MutableRefObject<null | EditorActions> = useRef(null);
   const taskData: MutableRefObject<{ id: number; text: string } | null> = useRef(null);
   const contextMenuRef: MutableRefObject<null | ContextMenuActions> = useRef(null);
 
@@ -78,8 +81,31 @@ const Tasks: FC = () => {
     }
   }, [dispatch, errorCode]);
 
+  useEffect(() => {
+    const resize = () => {
+      setIsMobile(window.innerWidth <= 1098);
+    };
+
+    new Throttle(resize);
+
+    resize();
+  }, []);
+
+  const closeMenu = () => {
+    const menu = menuRef.current;
+
+    if (menu) {
+      menu.setConfig({
+        ...menu.config,
+        isActive: false,
+      });
+    }
+  };
+
   const handleButtonAddClick = () => {
     const editor = editorRef.current;
+
+    closeMenu();
 
     if (editor) {
       editor.setConfig({
@@ -94,6 +120,8 @@ const Tasks: FC = () => {
   const handleButtonRemoveClick = () => {
     dispatch(tasksActions.fetchRemoveTask(tasksId.current));
     tasksId.current = [];
+
+    closeMenu();
   };
 
   const handleButtonToTasksClick = () => {
@@ -104,6 +132,8 @@ const Tasks: FC = () => {
       })
     );
     tasksId.current = [];
+
+    closeMenu();
   };
 
   const handleButtonRunClick = () => {
@@ -114,6 +144,8 @@ const Tasks: FC = () => {
       })
     );
     tasksId.current = [];
+
+    closeMenu();
   };
 
   const handleButtonCompleteClick = () => {
@@ -124,13 +156,19 @@ const Tasks: FC = () => {
       })
     );
     tasksId.current = [];
+
+    closeMenu();
   };
 
   const handleButtonTaskClick = () => {
+    closeMenu();
+
     navigate('/projects');
   };
 
   const handleButtonExitClick = () => {
+    closeMenu();
+
     dispatch(tasksActions.clearState());
     dispatch(signInActions.removeSignInToken());
   };
@@ -289,38 +327,39 @@ const Tasks: FC = () => {
       <Menu
         buttons={[
           {
-            name: 'Добавить',
+            name: `${isMobile ? '➕ ' : ''}Добавить`,
             handler: handleButtonAddClick,
           },
           {
-            name: 'Удалить',
+            name: `${isMobile ? '🪣 ' : ''}Удалить`,
             handler: handleButtonRemoveClick,
           },
           {
-            name: 'Выбрать всё',
+            name: `${isMobile ? '✅ ' : ''}Выбрать всё`,
             handler: handleButtonAllClick,
           },
           {
-            name: 'В задачи',
+            name: `${isMobile ? '📗 ' : ''}В задачи`,
             handler: handleButtonToTasksClick,
           },
           {
-            name: 'Выполнить',
+            name: `${isMobile ? '📙 ' : ''}Выполнить`,
             handler: handleButtonRunClick,
           },
           {
-            name: 'Завершить',
+            name: `${isMobile ? '📕 ' : ''}Завершить`,
             handler: handleButtonCompleteClick,
           },
           {
-            name: 'Проекты',
+            name: `${isMobile ? '📂 ' : ''}Проекты`,
             handler: handleButtonTaskClick,
           },
           {
-            name: 'Выйти',
+            name: `${isMobile ? '↪ ' : ''}Выйти`,
             handler: handleButtonExitClick,
           },
         ]}
+        ref={menuRef}
       />
       {isLoading ? (
         <Loading />

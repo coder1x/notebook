@@ -1,20 +1,44 @@
-import { FC, useState } from 'react';
+import { FC, useState, forwardRef, useEffect, useImperativeHandle } from 'react';
 
 import { Button, MenuButton } from '@components/index';
+import { Throttle } from '@helpers/index';
 
-import Props from './menuType';
+import { Props, Config } from './menuType';
 
-const Menu: FC<Props> = ({ buttons }) => {
-  const [isActive, setIsActive] = useState(false);
+const Menu: FC<Props> = forwardRef(({ buttons }, ref) => {
+  const [config, setConfig] = useState<Config>({
+    isActive: false,
+    type: 'desktop',
+  });
+
+  useEffect(() => {
+    const resize = () => {
+      setConfig({
+        isActive: false,
+        type: window.innerWidth <= 1098 ? 'mobile' : 'desktop',
+      });
+    };
+
+    new Throttle(resize);
+
+    resize();
+  }, []);
+
+  useImperativeHandle(ref, () => {
+    return { config, setConfig };
+  });
 
   const handleMenuButtonClick = () => {
-    setIsActive(!isActive);
+    setConfig({
+      ...config,
+      isActive: !config.isActive,
+    });
   };
 
   return (
     <nav className="menu">
-      <MenuButton onClick={handleMenuButtonClick} />
-      <div className={`menu__wrapper${isActive ? ' menu__wrapper_active' : ''}`}>
+      <MenuButton onClick={handleMenuButtonClick} isActive={config.isActive} />
+      <div className={`menu__wrapper${config.isActive ? ' menu__wrapper_active' : ''}`}>
         {buttons &&
           buttons.map((item, index) => {
             return (
@@ -22,7 +46,7 @@ const Menu: FC<Props> = ({ buttons }) => {
                 key={index}
                 text={item.name}
                 options={{
-                  modifier: 'interface',
+                  modifier: config.type === 'desktop' ? 'interface' : 'contextMenu',
                   onClick: item.handler,
                 }}
               />
@@ -31,6 +55,6 @@ const Menu: FC<Props> = ({ buttons }) => {
       </div>
     </nav>
   );
-};
+});
 
 export default Menu;

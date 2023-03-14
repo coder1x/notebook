@@ -53,13 +53,13 @@ const TodoItem: FC<Props> = ({
         </Link>
       ) : status === 3 ? (
         <del tabIndex={0} className="todo-item__text js-todo-item__text">
-          {`📄 ${text}`}
+          {text}
         </del>
       ) : (
         <ins
           tabIndex={0}
           className="todo-item__text js-todo-item__text todo-item__text_no-decoration">
-          {`📄 ${text}`}
+          {text}
         </ins>
       )}
     </li>

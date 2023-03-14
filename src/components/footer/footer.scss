@@ -46,6 +46,11 @@ $shadow-editor: 0 0 10px $dark-transparent;
     font-weight: 800;
     border: 0px;
     background-color: $color-white;
+    cursor: pointer;
+
+    &_active {
+      color: $orange-75;
+    }
 
     @include media-breakpoint-down($lg-middle) {
       display: block;

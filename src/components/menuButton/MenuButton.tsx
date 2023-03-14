@@ -1,12 +1,9 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 import Props from './menuButtonType';
 
-const MenuButton: FC<Props> = ({ onClick }) => {
-  const [isActive, setIsActive] = useState(false);
-
+const MenuButton: FC<Props> = ({ onClick, isActive = false }) => {
   const handleButtonClick = () => {
-    setIsActive(!isActive);
     onClick();
   };
 

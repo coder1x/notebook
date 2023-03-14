@@ -1,4 +1,5 @@
 type Props = {
+  isActive: boolean;
   onClick: () => void;
 };
 

@@ -11,14 +11,14 @@
   }
 
   &__icon {
-    filter: drop-shadow(0 0 1px #888);
+    filter: drop-shadow(0 0 1px $dark-gray-80);
     transition: 0.3s ease-in-out;
-    fill: #242424;
+    fill: $dark-gray-100;
 
     &_active {
-      filter: drop-shadow(0 0 1px #111);
+      filter: drop-shadow(0 0 1px $dark-gray-100);
       transition: 0.3s ease-in-out;
-      fill: #276d64;
+      fill: $orange-75;
     }
   }
 }

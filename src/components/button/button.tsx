@@ -1,4 +1,4 @@
-import { createElement, FC, MouseEventHandler } from 'react';
+import { createElement, FC, MouseEventHandler, memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Modifier, Props } from './buttonType';
@@ -39,4 +39,4 @@ const Button: FC<Props> = ({ tag, href = '/', options, text }) => {
   );
 };
 
-export default Button;
+export default memo(Button);

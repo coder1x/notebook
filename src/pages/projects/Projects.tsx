@@ -28,6 +28,7 @@ const Projects: FC = () => {
   document.title = 'Менеджер проектов';
 
   const projectsId: MutableRefObject<number[]> = useRef([]);
+  const menuRef: MutableRefObject<null | EditorActions> = useRef(null);
   const contextMenuRef: MutableRefObject<null | ContextMenuActions> = useRef(null);
   const projectData: MutableRefObject<{ id: number; text: string } | null> = useRef(null);
 
@@ -66,8 +67,21 @@ const Projects: FC = () => {
     }
   }, [dispatch, errorCode]);
 
+  const closeMenu = () => {
+    const menu = menuRef.current;
+
+    if (menu) {
+      menu.setConfig({
+        ...menu.config,
+        isActive: false,
+      });
+    }
+  };
+
   const handleButtonAddClick = () => {
     const editor = editorRef.current;
+
+    closeMenu();
 
     if (editor) {
       editor.setConfig({
@@ -82,11 +96,13 @@ const Projects: FC = () => {
   const handleButtonRemoveClick = () => {
     dispatch(projectsActions.fetchRemoveProject(projectsId.current));
     projectsId.current = [];
+    closeMenu();
   };
 
   const handleButtonExitClick = () => {
     dispatch(projectsActions.clearState());
     dispatch(signInActions.removeSignInToken());
+    closeMenu();
   };
 
   const handleCheckboxClick = useCallback((id: number, checked: boolean) => {
@@ -198,6 +214,7 @@ const Projects: FC = () => {
             handler: handleButtonExitClick,
           },
         ]}
+        ref={menuRef}
       />
       {isLoading ? (
         <Loading />
