@@ -1,8 +1,8 @@
 $shadow-editor: 0 0 10px $dark-transparent;
 
 .footer {
-  margin-top: auto;
   position: relative;
+  margin-top: auto;
 
   &__list {
     display: flex;
@@ -15,24 +15,24 @@ $shadow-editor: 0 0 10px $dark-transparent;
     transition: all 0.2s linear;
 
     @include media-breakpoint-down($lg-middle) {
-      z-index: -1;
-      flex-direction: column;
-      border: 0px;
       position: absolute;
       bottom: 36px;
       left: 1px;
-      background-color: $color-white;
-      box-shadow: $shadow-editor;
+      z-index: -1;
+      flex-direction: column;
       padding: 10px;
+      background-color: $color-white;
+      border: 0;
+      box-shadow: $shadow-editor;
       opacity: 0;
 
       :nth-child(n) {
-        margin-left: 0px;
         margin-bottom: 10px;
+        margin-left: 0;
       }
 
       :last-child {
-        margin-bottom: 0px;
+        margin-bottom: 0;
       }
     }
 
@@ -43,12 +43,12 @@ $shadow-editor: 0 0 10px $dark-transparent;
   }
 
   &__informer {
-    margin-top: 10px;
     display: none;
-    font-size: 20px;
+    margin-top: 10px;
     font-weight: 800;
-    border: 0px;
+    font-size: 20px;
     background-color: $color-white;
+    border: 0;
     cursor: pointer;
 
     &_active {
