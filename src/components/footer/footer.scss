@@ -11,22 +11,20 @@ $shadow-editor: 0 0 10px $dark-transparent;
     padding-top: 20px;
     color: $dark-gray-80;
     border-top: 1px solid $dark-gray-100;
+    opacity: 1;
+    transition: all 0.2s linear;
 
     @include media-breakpoint-down($lg-middle) {
-      display: none;
-    }
-
-    &_visible {
-      display: flex;
+      z-index: -1;
       flex-direction: column;
       border: 0px;
       position: absolute;
       bottom: 36px;
       left: 1px;
       background-color: $color-white;
-      border: 0px;
       box-shadow: $shadow-editor;
       padding: 10px;
+      opacity: 0;
 
       :nth-child(n) {
         margin-left: 0px;
@@ -36,6 +34,11 @@ $shadow-editor: 0 0 10px $dark-transparent;
       :last-child {
         margin-bottom: 0px;
       }
+    }
+
+    &_visible {
+      z-index: 1;
+      opacity: 1;
     }
   }
 
