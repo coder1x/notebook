@@ -1,4 +1,4 @@
-import { useState, useCallback, FC } from 'react';
+import { useState, FC, memo } from 'react';
 
 import { TabButton, TabItem } from '@components/index';
 
@@ -10,9 +10,9 @@ const Tabs: FC<Props> = ({ tabs }) => {
   const buttonTabs: JSX.Element[] = [];
   const content: JSX.Element[] = [];
 
-  const handleTabClick = useCallback((id: number) => {
+  const handleTabClick = (id: number) => {
     setIdTab(id);
-  }, []);
+  };
 
   tabs.forEach((item, index) => {
     buttonTabs.push(
@@ -45,4 +45,4 @@ const Tabs: FC<Props> = ({ tabs }) => {
   );
 };
 
-export default Tabs;
+export default memo(Tabs);

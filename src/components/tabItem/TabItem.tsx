@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from 'react';
+import { useState, useEffect, FC, memo } from 'react';
 
 import Props from './tabItemType';
 
@@ -16,4 +16,4 @@ const TabItem: FC<Props> = ({ index, content, isActiveTab, idTab }) => {
   );
 };
 
-export default TabItem;
+export default memo(TabItem);

@@ -42,7 +42,7 @@ function* fetchRemoveProject(action: PayloadAction<number[]>) {
       yield put(projectsActions.removeProject(projectsId));
     }
   } catch (error) {
-    console.log('error', error);
+    console.log('Error', error);
   }
 }
 
@@ -64,7 +64,7 @@ function* fetchAddProject(action: PayloadAction<string>) {
       })
     );
   } catch (error) {
-    console.log('error', error);
+    console.log('Error', error);
   }
 }
 
@@ -82,7 +82,7 @@ function* fetchUpdateText(action: PayloadAction<projectsType.Project>) {
 
     yield put(projectsActions.editProject(action.payload));
   } catch (error) {
-    console.log('error', error);
+    console.log('Error', error);
   }
 }
 

@@ -42,6 +42,7 @@
     cursor: pointer;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    user-select: none;
 
     @include media-breakpoint-down($sm-middle) {
       -webkit-line-clamp: 4;

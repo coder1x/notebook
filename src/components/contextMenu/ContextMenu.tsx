@@ -1,4 +1,4 @@
-import { FC, useState, forwardRef, useImperativeHandle, useEffect } from 'react';
+import { FC, useState, forwardRef, useImperativeHandle, useEffect, memo } from 'react';
 
 import { Button } from '@components/index';
 import Props from './contextMenuType';
@@ -44,4 +44,4 @@ const ContextMenu: FC<Props> = forwardRef(({ buttons }, ref) => {
   );
 });
 
-export default ContextMenu;
+export default memo(ContextMenu);

@@ -1,4 +1,4 @@
-import { useState, useEffect, memo, FC } from 'react';
+import { useState, useEffect, FC } from 'react';
 
 import Props from './tabButtonType';
 
@@ -25,4 +25,4 @@ const TabButton: FC<Props> = ({ index, name, onClick, isActiveButton, idTab }) =
   );
 };
 
-export default memo(TabButton);
+export default TabButton;

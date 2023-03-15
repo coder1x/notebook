@@ -40,7 +40,7 @@ function* fetchRemoveTask(action: PayloadAction<number[]>) {
 
     yield put(tasksActions.removeTask(tasksId));
   } catch (error) {
-    console.log('error', error);
+    console.log('Error', error);
   }
 }
 
@@ -58,7 +58,7 @@ function* fetchUpdateStatus(action: PayloadAction<tasksType.FetchUpdateStatus>) 
 
     yield put(tasksActions.updateStatus(action.payload));
   } catch (error) {
-    console.log('error', error);
+    console.log('Error', error);
   }
 }
 
@@ -76,7 +76,7 @@ function* fetchUpdateText(action: PayloadAction<tasksType.FetchUpdateText>) {
 
     yield put(tasksActions.editTask(action.payload));
   } catch (error) {
-    console.log('error', error);
+    console.log('Error', error);
   }
 }
 
@@ -100,7 +100,7 @@ function* fetchAddTask(action: PayloadAction<tasksType.FetchAdd>) {
       })
     );
   } catch (error) {
-    console.log('error', error);
+    console.log('Error', error);
   }
 }
 

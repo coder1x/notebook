@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, MutableRefObject, FC, useCallback } from 'react';
+import { useEffect, useRef, useState, MutableRefObject, FC, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -78,7 +78,7 @@ const Projects: FC = () => {
     }
   };
 
-  const handleButtonAddClick = () => {
+  const handleButtonAddClick = useCallback(() => {
     const editor = editorRef.current;
 
     closeMenu();
@@ -91,19 +91,19 @@ const Projects: FC = () => {
         isActive: true,
       });
     }
-  };
+  }, []);
 
-  const handleButtonRemoveClick = () => {
+  const handleButtonRemoveClick = useCallback(() => {
     dispatch(projectsActions.fetchRemoveProject(projectsId.current));
     projectsId.current = [];
     closeMenu();
-  };
+  }, [dispatch]);
 
-  const handleButtonExitClick = () => {
+  const handleButtonExitClick = useCallback(() => {
     dispatch(projectsActions.clearState());
     dispatch(signInActions.removeSignInToken());
     closeMenu();
-  };
+  }, [dispatch]);
 
   const handleCheckboxClick = useCallback((id: number, checked: boolean) => {
     if (checked) {
@@ -113,15 +113,18 @@ const Projects: FC = () => {
     }
   }, []);
 
-  const handleAddDataProject = (text: string) => {
-    dispatch(projectsActions.fetchAddProject(text.trim()));
-  };
+  const handleAddDataProject = useCallback(
+    (text: string) => {
+      dispatch(projectsActions.fetchAddProject(text.trim()));
+    },
+    [dispatch]
+  );
 
-  const handleButtonAllClick = () => {
+  const handleButtonAllClick = useCallback(() => {
     setIsChecked(!isChecked);
-  };
+  }, [isChecked]);
 
-  const handleTodoItemContextMenu = (item: { id: number; text: string }) => {
+  const handleTodoItemContextMenu = useCallback((item: { id: number; text: string }) => {
     const contextMenu = contextMenuRef.current;
 
     if (contextMenu) {
@@ -129,9 +132,9 @@ const Projects: FC = () => {
     }
 
     projectData.current = item;
-  };
+  }, []);
 
-  const handleContextMenuView = () => {
+  const handleContextMenuView = useCallback(() => {
     if (!projectData.current) {
       return false;
     }
@@ -148,9 +151,9 @@ const Projects: FC = () => {
     }
 
     return true;
-  };
+  }, []);
 
-  const handleContextMenuEditClick = () => {
+  const handleContextMenuEditClick = useCallback(() => {
     const editor = editorRef.current;
 
     if (!projectData.current || !editor) {
@@ -165,9 +168,9 @@ const Projects: FC = () => {
     });
 
     return true;
-  };
+  }, []);
 
-  const handleContextMenuRemoveClick = () => {
+  const handleContextMenuRemoveClick = useCallback(() => {
     if (!projectData.current) {
       return false;
     }
@@ -176,46 +179,67 @@ const Projects: FC = () => {
     projectsId.current = [];
 
     return true;
-  };
+  }, [dispatch]);
 
-  const handleUpdateTask = (text: string) => {
-    if (!projectData.current) {
-      return false;
-    }
+  const handleUpdateTask = useCallback(
+    (text: string) => {
+      if (!projectData.current) {
+        return false;
+      }
 
-    dispatch(
-      projectsActions.fetchEditProject({
-        id: projectData.current.id,
-        text,
-      })
-    );
+      dispatch(
+        projectsActions.fetchEditProject({
+          id: projectData.current.id,
+          text,
+        })
+      );
 
-    return true;
-  };
+      return true;
+    },
+    [dispatch]
+  );
+
+  const menuButtons = useMemo(() => {
+    return [
+      {
+        name: 'Добавить',
+        handler: handleButtonAddClick,
+      },
+      {
+        name: 'Удалить',
+        handler: handleButtonRemoveClick,
+      },
+      {
+        name: 'Выбрать всё',
+        handler: handleButtonAllClick,
+      },
+      {
+        name: 'Выйти',
+        handler: handleButtonExitClick,
+      },
+    ];
+  }, [handleButtonAddClick, handleButtonAllClick, handleButtonExitClick, handleButtonRemoveClick]);
+
+  const contextMenuButtons = useMemo(() => {
+    return [
+      {
+        name: '📄 Просмотр',
+        handler: handleContextMenuView,
+      },
+      {
+        name: '📝 Редактировать',
+        handler: handleContextMenuEditClick,
+      },
+      {
+        name: '🪣 Удалить',
+        handler: handleContextMenuRemoveClick,
+      },
+    ];
+  }, [handleContextMenuEditClick, handleContextMenuRemoveClick, handleContextMenuView]);
 
   return (
     <Manager title="Менеджер проектов">
-      <Menu
-        buttons={[
-          {
-            name: 'Добавить',
-            handler: handleButtonAddClick,
-          },
-          {
-            name: 'Удалить',
-            handler: handleButtonRemoveClick,
-          },
-          {
-            name: 'Выбрать всё',
-            handler: handleButtonAllClick,
-          },
-          {
-            name: 'Выйти',
-            handler: handleButtonExitClick,
-          },
-        ]}
-        ref={menuRef}
-      />
+      <Menu buttons={menuButtons} ref={menuRef} />
       {isLoading ? (
         <Loading />
       ) : (
@@ -231,23 +255,7 @@ const Projects: FC = () => {
       )}
       <Footer total={projects?.length ?? 0} />
       <Editor onAddData={handleAddDataProject} onUpdate={handleUpdateTask} ref={editorRef} />
-      <ContextMenu
-        buttons={[
-          {
-            name: '📄 Просмотр',
-            handler: handleContextMenuView,
-          },
-          {
-            name: '📝 Редактировать',
-            handler: handleContextMenuEditClick,
-          },
-          {
-            name: '🪣 Удалить',
-            handler: handleContextMenuRemoveClick,
-          },
-        ]}
-        ref={contextMenuRef}
-      />
+      <ContextMenu buttons={contextMenuButtons} ref={contextMenuRef} />
     </Manager>
   );
 };

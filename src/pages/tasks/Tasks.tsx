@@ -1,4 +1,4 @@
-import { useEffect, useRef, MutableRefObject, FC, useCallback, useState } from 'react';
+import { useEffect, useRef, MutableRefObject, FC, useCallback, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -102,7 +102,7 @@ const Tasks: FC = () => {
     }
   };
 
-  const handleButtonAddClick = () => {
+  const handleButtonAddClick = useCallback(() => {
     const editor = editorRef.current;
 
     closeMenu();
@@ -115,16 +115,16 @@ const Tasks: FC = () => {
         isActive: true,
       });
     }
-  };
+  }, []);
 
-  const handleButtonRemoveClick = () => {
+  const handleButtonRemoveClick = useCallback(() => {
     dispatch(tasksActions.fetchRemoveTask(tasksId.current));
     tasksId.current = [];
 
     closeMenu();
-  };
+  }, [dispatch]);
 
-  const handleButtonToTasksClick = () => {
+  const handleButtonToTasksClick = useCallback(() => {
     dispatch(
       tasksActions.fetchUpdateStatus({
         tasksId: tasksId.current,
@@ -134,9 +134,9 @@ const Tasks: FC = () => {
     tasksId.current = [];
 
     closeMenu();
-  };
+  }, [dispatch]);
 
-  const handleButtonRunClick = () => {
+  const handleButtonRunClick = useCallback(() => {
     dispatch(
       tasksActions.fetchUpdateStatus({
         tasksId: tasksId.current,
@@ -146,9 +146,9 @@ const Tasks: FC = () => {
     tasksId.current = [];
 
     closeMenu();
-  };
+  }, [dispatch]);
 
-  const handleButtonCompleteClick = () => {
+  const handleButtonCompleteClick = useCallback(() => {
     dispatch(
       tasksActions.fetchUpdateStatus({
         tasksId: tasksId.current,
@@ -158,29 +158,32 @@ const Tasks: FC = () => {
     tasksId.current = [];
 
     closeMenu();
-  };
+  }, [dispatch]);
 
-  const handleButtonTaskClick = () => {
+  const handleButtonTaskClick = useCallback(() => {
     closeMenu();
 
     navigate('/projects');
-  };
+  }, [navigate]);
 
-  const handleButtonExitClick = () => {
+  const handleButtonExitClick = useCallback(() => {
     closeMenu();
 
     dispatch(tasksActions.clearState());
     dispatch(signInActions.removeSignInToken());
-  };
+  }, [dispatch]);
 
-  const handleAddDataTask = (text: string) => {
-    dispatch(
-      tasksActions.fetchAddTask({
-        text: text.trim(),
-        projectId: projectId ?? '',
-      })
-    );
-  };
+  const handleAddDataTask = useCallback(
+    (text: string) => {
+      dispatch(
+        tasksActions.fetchAddTask({
+          text: text.trim(),
+          projectId: projectId ?? '',
+        })
+      );
+    },
+    [dispatch, projectId]
+  );
 
   const handleCheckboxClick = useCallback((id: number, checked: boolean) => {
     if (checked) {
@@ -190,11 +193,11 @@ const Tasks: FC = () => {
     }
   }, []);
 
-  const handleButtonAllClick = () => {
+  const handleButtonAllClick = useCallback(() => {
     setIsChecked(!isChecked);
-  };
+  }, [isChecked]);
 
-  const handleTodoListClick = (data: string) => {
+  const handleTodoListClick = useCallback((data: string) => {
     const editor = editorRef.current;
 
     if (editor) {
@@ -205,9 +208,9 @@ const Tasks: FC = () => {
         isActive: true,
       });
     }
-  };
+  }, []);
 
-  const handleTodoItemContextMenu = (item: { id: number; text: string }) => {
+  const handleTodoItemContextMenu = useCallback((item: { id: number; text: string }) => {
     const contextMenu = contextMenuRef.current;
 
     if (contextMenu) {
@@ -215,9 +218,9 @@ const Tasks: FC = () => {
     }
 
     taskData.current = item;
-  };
+  }, []);
 
-  const handleContextMenuView = () => {
+  const handleContextMenuView = useCallback(() => {
     if (!taskData.current) {
       return false;
     }
@@ -225,9 +228,9 @@ const Tasks: FC = () => {
     handleTodoListClick(taskData.current.text);
 
     return true;
-  };
+  }, [handleTodoListClick]);
 
-  const handleContextMenuToTasksClick = () => {
+  const handleContextMenuToTasksClick = useCallback(() => {
     if (!taskData.current) {
       return false;
     }
@@ -241,9 +244,9 @@ const Tasks: FC = () => {
     tasksId.current = [];
 
     return true;
-  };
+  }, [dispatch]);
 
-  const handleContextMenuRunClick = () => {
+  const handleContextMenuRunClick = useCallback(() => {
     if (!taskData.current) {
       return false;
     }
@@ -257,9 +260,9 @@ const Tasks: FC = () => {
     tasksId.current = [];
 
     return true;
-  };
+  }, [dispatch]);
 
-  const handleContextMenuCompleteClick = () => {
+  const handleContextMenuCompleteClick = useCallback(() => {
     if (!taskData.current) {
       return false;
     }
@@ -273,9 +276,9 @@ const Tasks: FC = () => {
     tasksId.current = [];
 
     return true;
-  };
+  }, [dispatch]);
 
-  const handleContextMenuRemoveClick = () => {
+  const handleContextMenuRemoveClick = useCallback(() => {
     if (!taskData.current) {
       return false;
     }
@@ -284,9 +287,9 @@ const Tasks: FC = () => {
     tasksId.current = [];
 
     return true;
-  };
+  }, [dispatch]);
 
-  const handleContextMenuEditClick = () => {
+  const handleContextMenuEditClick = useCallback(() => {
     const editor = editorRef.current;
 
     if (!taskData.current || !editor) {
@@ -301,119 +304,167 @@ const Tasks: FC = () => {
     });
 
     return true;
-  };
+  }, []);
 
-  const handleUpdateTask = (text: string) => {
-    if (!taskData.current) {
-      return false;
-    }
+  const handleUpdateTask = useCallback(
+    (text: string) => {
+      if (!taskData.current) {
+        return false;
+      }
 
-    dispatch(
-      tasksActions.fetchEditTask({
-        id: taskData.current.id,
-        text,
-      })
-    );
+      dispatch(
+        tasksActions.fetchEditTask({
+          id: taskData.current.id,
+          text,
+        })
+      );
 
-    return true;
-  };
+      return true;
+    },
+    [dispatch]
+  );
 
   const totalCurrent = tasks.current?.length ?? 0;
   const totalInProgress = tasks.inProgress?.length ?? 0;
   const totalCompleted = tasks.completed?.length ?? 0;
 
+  const menuButtons = useMemo(() => {
+    return [
+      {
+        name: `${isMobile ? '➕ ' : ''}Добавить`,
+        handler: handleButtonAddClick,
+      },
+      {
+        name: `${isMobile ? '🪣 ' : ''}Удалить`,
+        handler: handleButtonRemoveClick,
+      },
+      {
+        name: `${isMobile ? '✅ ' : ''}Выбрать всё`,
+        handler: handleButtonAllClick,
+      },
+      {
+        name: `${isMobile ? '📗 ' : ''}В задачи`,
+        handler: handleButtonToTasksClick,
+      },
+      {
+        name: `${isMobile ? '📙 ' : ''}Выполнить`,
+        handler: handleButtonRunClick,
+      },
+      {
+        name: `${isMobile ? '📕 ' : ''}Завершить`,
+        handler: handleButtonCompleteClick,
+      },
+      {
+        name: `${isMobile ? '📂 ' : ''}Проекты`,
+        handler: handleButtonTaskClick,
+      },
+      {
+        name: `${isMobile ? '↪ ' : ''}Выйти`,
+        handler: handleButtonExitClick,
+      },
+    ];
+  }, [
+    handleButtonAddClick,
+    handleButtonAllClick,
+    handleButtonCompleteClick,
+    handleButtonExitClick,
+    handleButtonRemoveClick,
+    handleButtonRunClick,
+    handleButtonTaskClick,
+    handleButtonToTasksClick,
+    isMobile,
+  ]);
+
+  const contextMenuButtons = useMemo(() => {
+    return [
+      {
+        name: '📄 Просмотр',
+        handler: handleContextMenuView,
+      },
+      {
+        name: '📝 Редактировать',
+        handler: handleContextMenuEditClick,
+      },
+      {
+        name: '🪣 Удалить',
+        handler: handleContextMenuRemoveClick,
+      },
+      {
+        name: '📗 В задачи',
+        handler: handleContextMenuToTasksClick,
+      },
+      {
+        name: '📙 Выполнить',
+        handler: handleContextMenuRunClick,
+      },
+      {
+        name: '📕 Завершить',
+        handler: handleContextMenuCompleteClick,
+      },
+    ];
+  }, [
+    handleContextMenuCompleteClick,
+    handleContextMenuEditClick,
+    handleContextMenuRemoveClick,
+    handleContextMenuRunClick,
+    handleContextMenuToTasksClick,
+    handleContextMenuView,
+  ]);
+
+  const tabs = useMemo(() => {
+    return [
+      {
+        name: 'Задачи',
+        content: (
+          <TodoList
+            list={tasks.current ?? []}
+            onCheckboxClick={handleCheckboxClick}
+            onClick={handleTodoListClick}
+            onContextMenu={handleTodoItemContextMenu}
+            isChecked={isChecked}
+            type="task"
+            status={1}
+          />
+        ),
+        index: 1,
+      },
+      {
+        name: 'Выполняются',
+        content: (
+          <TodoList
+            list={tasks.inProgress ?? []}
+            onCheckboxClick={handleCheckboxClick}
+            onClick={handleTodoListClick}
+            onContextMenu={handleTodoItemContextMenu}
+            isChecked={isChecked}
+            type="task"
+            status={2}
+          />
+        ),
+        index: 2,
+      },
+      {
+        name: 'Завершённые',
+        content: (
+          <TodoList
+            list={tasks.completed ?? []}
+            onCheckboxClick={handleCheckboxClick}
+            onClick={handleTodoListClick}
+            onContextMenu={handleTodoItemContextMenu}
+            isChecked={isChecked}
+            type="task"
+            status={3}
+          />
+        ),
+        index: 3,
+      },
+    ];
+  }, [handleCheckboxClick, handleTodoItemContextMenu, handleTodoListClick, isChecked, tasks]);
+
   return (
     <Manager title="Менеджер задач">
-      <Menu
-        buttons={[
-          {
-            name: `${isMobile ? '➕ ' : ''}Добавить`,
-            handler: handleButtonAddClick,
-          },
-          {
-            name: `${isMobile ? '🪣 ' : ''}Удалить`,
-            handler: handleButtonRemoveClick,
-          },
-          {
-            name: `${isMobile ? '✅ ' : ''}Выбрать всё`,
-            handler: handleButtonAllClick,
-          },
-          {
-            name: `${isMobile ? '📗 ' : ''}В задачи`,
-            handler: handleButtonToTasksClick,
-          },
-          {
-            name: `${isMobile ? '📙 ' : ''}Выполнить`,
-            handler: handleButtonRunClick,
-          },
-          {
-            name: `${isMobile ? '📕 ' : ''}Завершить`,
-            handler: handleButtonCompleteClick,
-          },
-          {
-            name: `${isMobile ? '📂 ' : ''}Проекты`,
-            handler: handleButtonTaskClick,
-          },
-          {
-            name: `${isMobile ? '↪ ' : ''}Выйти`,
-            handler: handleButtonExitClick,
-          },
-        ]}
-        ref={menuRef}
-      />
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <Tabs
-          tabs={[
-            {
-              name: 'Задачи',
-              content: (
-                <TodoList
-                  list={tasks.current ?? []}
-                  onCheckboxClick={handleCheckboxClick}
-                  onClick={handleTodoListClick}
-                  onContextMenu={handleTodoItemContextMenu}
-                  isChecked={isChecked}
-                  type="task"
-                  status={1}
-                />
-              ),
-              index: 1,
-            },
-            {
-              name: 'Выполняются',
-              content: (
-                <TodoList
-                  list={tasks.inProgress ?? []}
-                  onCheckboxClick={handleCheckboxClick}
-                  onClick={handleTodoListClick}
-                  onContextMenu={handleTodoItemContextMenu}
-                  isChecked={isChecked}
-                  type="task"
-                  status={2}
-                />
-              ),
-              index: 2,
-            },
-            {
-              name: 'Завершённые',
-              content: (
-                <TodoList
-                  list={tasks.completed ?? []}
-                  onCheckboxClick={handleCheckboxClick}
-                  onClick={handleTodoListClick}
-                  onContextMenu={handleTodoItemContextMenu}
-                  isChecked={isChecked}
-                  type="task"
-                  status={3}
-                />
-              ),
-              index: 3,
-            },
-          ]}
-        />
-      )}
+      <Menu buttons={menuButtons} ref={menuRef} />
+      {isLoading ? <Loading /> : <Tabs tabs={tabs} />}
       <Footer
         type={'tasks'}
         total={totalCurrent + totalInProgress + totalCompleted}
@@ -422,35 +473,7 @@ const Tasks: FC = () => {
         totalCompleted={totalCompleted}
       />
       <Editor onAddData={handleAddDataTask} onUpdate={handleUpdateTask} ref={editorRef} />
-      <ContextMenu
-        buttons={[
-          {
-            name: '📄 Просмотр',
-            handler: handleContextMenuView,
-          },
-          {
-            name: '📝 Редактировать',
-            handler: handleContextMenuEditClick,
-          },
-          {
-            name: '🪣 Удалить',
-            handler: handleContextMenuRemoveClick,
-          },
-          {
-            name: '📗 В задачи',
-            handler: handleContextMenuToTasksClick,
-          },
-          {
-            name: '📙 Выполнить',
-            handler: handleContextMenuRunClick,
-          },
-          {
-            name: '📕 Завершить',
-            handler: handleContextMenuCompleteClick,
-          },
-        ]}
-        ref={contextMenuRef}
-      />
+      <ContextMenu buttons={contextMenuButtons} ref={contextMenuRef} />
     </Manager>
   );
 };

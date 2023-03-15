@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, memo } from 'react';
 
 import { Throttle } from '@helpers/index';
 import Props from './footerType';
@@ -73,4 +73,4 @@ const Footer: FC<Props> = ({
   );
 };
 
-export default Footer;
+export default memo(Footer);

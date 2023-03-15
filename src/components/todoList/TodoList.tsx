@@ -1,4 +1,4 @@
-import { FC, MouseEvent } from 'react';
+import { FC, MouseEvent, memo, useCallback } from 'react';
 
 import { TodoItem, Placeholder } from '@components/index';
 
@@ -25,11 +25,14 @@ const TodoList: FC<Props> = ({
     }
   };
 
-  const handleTodoItemContextMenu = (item: { id: number; text: string }) => {
-    if (onContextMenu instanceof Function) {
-      onContextMenu(item);
-    }
-  };
+  const handleTodoItemContextMenu = useCallback(
+    (item: { id: number; text: string }) => {
+      if (onContextMenu instanceof Function) {
+        onContextMenu(item);
+      }
+    },
+    [onContextMenu]
+  );
 
   return (
     <ul className="todo-list" onClick={handleTodoItemClick}>
@@ -64,4 +67,4 @@ const TodoList: FC<Props> = ({
   );
 };
 
-export default TodoList;
+export default memo(TodoList);

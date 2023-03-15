@@ -1,4 +1,4 @@
-import { FC, useState, forwardRef, useImperativeHandle, useCallback } from 'react';
+import { FC, useState, forwardRef, useImperativeHandle, useCallback, memo } from 'react';
 
 import { Button, ChangeCustom } from '@components/index';
 import { Props, Config } from './editorType';
@@ -124,4 +124,4 @@ const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
   );
 });
 
-export default Editor;
+export default memo(Editor);

@@ -1,4 +1,4 @@
-import { FC, useState, forwardRef, useEffect, useImperativeHandle } from 'react';
+import { FC, useState, forwardRef, useEffect, useImperativeHandle, memo } from 'react';
 
 import { Button, MenuButton } from '@components/index';
 import { Throttle } from '@helpers/index';
@@ -57,4 +57,4 @@ const Menu: FC<Props> = forwardRef(({ buttons }, ref) => {
   );
 });
 
-export default Menu;
+export default memo(Menu);
