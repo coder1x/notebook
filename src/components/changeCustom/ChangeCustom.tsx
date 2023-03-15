@@ -53,8 +53,8 @@ const ChangeCustom: FC<Props> = ({ type, value, attributes, onChangeCustom }) =>
       defaultValue: value,
       onBlur: handleElementBlur,
       onKeyUp: handleElementKeyUp,
+      ref: nativeElement,
     },
-    ref: nativeElement,
     ...(attributes ?? {}),
   });
 };

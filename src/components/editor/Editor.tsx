@@ -20,7 +20,7 @@ const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
     type: 'addData',
   });
 
-  const editorRef = useRef<HTMLTextAreaElement | null>(null);
+  const editorRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     const button = editorRef.current;
@@ -54,6 +54,7 @@ const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
 
     if (text && onAddData instanceof Function) {
       onAddData(text);
+
       setConfig({
         ...config,
         text: '',
@@ -114,7 +115,7 @@ const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
     <article className={`editor${config.isActive ? ' editor_visible' : ''}`}>
       <div className="editor__header-wrapper">
         <h2 className="editor__header-text">{config.title}</h2>
-        <button className="editor__close" onClick={handleButtonCloseClick}>
+        <button className="editor__close" onClick={handleButtonCloseClick} ref={editorRef}>
           X
         </button>
       </div>
@@ -126,7 +127,6 @@ const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
             className: 'editor__textarea',
             onChange: handleTextareaChange,
             'aria-label': 'Редактор текста',
-            ref: editorRef,
           }}
           value={config.text}
         />
