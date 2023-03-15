@@ -3,6 +3,7 @@ type Props = {
     name: string;
     content: JSX.Element;
     index: number;
+    color?: string;
   }[];
 };
 

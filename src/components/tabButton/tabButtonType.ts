@@ -4,6 +4,7 @@ type Props = {
   onClick: (id: number) => void;
   isActiveButton: boolean;
   idTab: number;
+  color?: string;
 };
 
 export default Props;

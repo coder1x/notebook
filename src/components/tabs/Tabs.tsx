@@ -15,6 +15,11 @@ const Tabs: FC<Props> = ({ tabs }) => {
   };
 
   tabs.forEach((item, index) => {
+    let color;
+    if ('color' in item) {
+      color = item.color;
+    }
+
     buttonTabs.push(
       <TabButton
         key={item.index}
@@ -23,6 +28,7 @@ const Tabs: FC<Props> = ({ tabs }) => {
         onClick={handleTabClick}
         isActiveButton={!index}
         idTab={idTab}
+        color={color}
       />
     );
 

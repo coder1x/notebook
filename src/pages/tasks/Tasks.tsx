@@ -427,6 +427,7 @@ const Tasks: FC = () => {
           />
         ),
         index: 1,
+        color: '#8CB758',
       },
       {
         name: 'Выполняются',
@@ -442,6 +443,7 @@ const Tasks: FC = () => {
           />
         ),
         index: 2,
+        color: '#f57c48',
       },
       {
         name: 'Завершённые',
@@ -457,6 +459,7 @@ const Tasks: FC = () => {
           />
         ),
         index: 3,
+        color: '#CA0B4A',
       },
     ];
   }, [handleCheckboxClick, handleTodoItemContextMenu, handleTodoListClick, isChecked, tasks]);

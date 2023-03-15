@@ -2,7 +2,14 @@ import { useState, useEffect, FC } from 'react';
 
 import Props from './tabButtonType';
 
-const TabButton: FC<Props> = ({ index, name, onClick, isActiveButton, idTab }) => {
+const TabButton: FC<Props> = ({
+  index,
+  name,
+  onClick,
+  isActiveButton,
+  idTab,
+  color = '#e1e1e1',
+}) => {
   const [isActive, setIsActive] = useState(isActiveButton);
 
   useEffect(() => {
@@ -18,8 +25,8 @@ const TabButton: FC<Props> = ({ index, name, onClick, isActiveButton, idTab }) =
   return (
     <button
       className={`tab-button${isActive ? ` ${'tab-button_current'}` : ''}`}
-      data-index={index}
-      onClick={handleButtonClick}>
+      onClick={handleButtonClick}
+      style={{ borderBottom: `2px solid ${color}` }}>
       {name}
     </button>
   );
