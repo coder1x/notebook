@@ -43,6 +43,7 @@ const TodoItem: FC<Props> = ({
           name={String(id)}
           onChange={handlerCheckboxChange}
           checked={checked}
+          tabIndex={-1}
         />
         <span className="todo-item__before"></span>
         <span className="visually-hidden">Выбрать элемент</span>

@@ -9,6 +9,7 @@ type Props = {
     disabled?: boolean;
     modifier?: Modifier;
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+    tabIndex?: number;
   };
 };
 

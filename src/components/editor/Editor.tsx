@@ -1,15 +1,34 @@
-import { FC, useState, forwardRef, useImperativeHandle, useCallback, memo } from 'react';
+import {
+  FC,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  useCallback,
+  memo,
+  useRef,
+  useEffect,
+} from 'react';
 
 import { Button, ChangeCustom } from '@components/index';
 import { Props, Config } from './editorType';
 
 const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
   const [config, setConfig] = useState<Config>({
-    title: '',
+    title: 'Текстовый редактор',
     text: '',
     isActive: false,
     type: 'addData',
   });
+
+  const editorRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+    const button = editorRef.current;
+
+    if (config.isActive && button) {
+      button.focus();
+    }
+  }, [config.isActive]);
 
   useImperativeHandle(ref, () => {
     return { config, setConfig };
@@ -89,7 +108,7 @@ const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
       text: '',
       isActive: false,
     });
-  }, []);
+  }, [config]);
 
   return (
     <article className={`editor${config.isActive ? ' editor_visible' : ''}`}>
@@ -107,6 +126,7 @@ const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
             className: 'editor__textarea',
             onChange: handleTextareaChange,
             'aria-label': 'Редактор текста',
+            ref: editorRef,
           }}
           value={config.text}
         />

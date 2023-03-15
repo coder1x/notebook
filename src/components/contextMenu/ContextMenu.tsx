@@ -1,10 +1,20 @@
-import { FC, useState, forwardRef, useImperativeHandle, useEffect, memo } from 'react';
+import { FC, useState, forwardRef, useImperativeHandle, useEffect, memo, useRef } from 'react';
 
 import { Button } from '@components/index';
 import Props from './contextMenuType';
 
 const ContextMenu: FC<Props> = forwardRef(({ buttons }, ref) => {
   const [isActive, setIsActive] = useState(false);
+
+  const contextMenuRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const element = contextMenuRef.current;
+
+    if (isActive && element) {
+      element.focus();
+    }
+  }, [isActive]);
 
   useEffect(() => {
     const handleDocumentEvent = (event: MouseEvent) => {
@@ -23,7 +33,10 @@ const ContextMenu: FC<Props> = forwardRef(({ buttons }, ref) => {
   });
 
   return (
-    <div className={`context-menu${isActive ? ' context-menu_visible' : ''}`}>
+    <div
+      className={`context-menu${isActive ? ' context-menu_visible' : ''}`}
+      ref={contextMenuRef}
+      tabIndex={1}>
       {buttons &&
         buttons.map((item, index) => {
           return (
@@ -36,6 +49,7 @@ const ContextMenu: FC<Props> = forwardRef(({ buttons }, ref) => {
                   setIsActive(false);
                   item.handler();
                 },
+                tabIndex: index + 2,
               }}
             />
           );
