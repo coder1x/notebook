@@ -19,7 +19,7 @@ import {
   isAuthorizedState,
   errorCodeTasksState,
 } from '@store/selectors';
-import { tasksActions, signInActions } from '@store/slices';
+import { tasksActions, projectsActions, signInActions } from '@store/slices';
 import { Throttle } from '@helpers/index';
 import { EditorActions, ContextMenuActions } from './tasksType';
 
@@ -169,6 +169,7 @@ const Tasks: FC = () => {
   const handleButtonExitClick = useCallback(() => {
     closeMenu();
 
+    dispatch(projectsActions.clearState());
     dispatch(tasksActions.clearState());
     dispatch(signInActions.removeSignInToken());
   }, [dispatch]);
