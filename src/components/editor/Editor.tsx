@@ -20,6 +20,8 @@ const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
     type: 'addData',
   });
 
+  const [isDisclosed, setIsDisclosed] = useState(false);
+
   const editorRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
@@ -111,10 +113,20 @@ const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
     });
   }, [config]);
 
+  const handleButtonDisclosedClick = () => {
+    setIsDisclosed(!isDisclosed);
+  };
+
+  const visible = config.isActive ? ' editor_visible' : '';
+  const disclosed = isDisclosed ? ' editor_disclosed' : '';
+
   return (
-    <article className={`editor${config.isActive ? ' editor_visible' : ''}`}>
+    <article className={`editor${visible}${disclosed}`}>
       <div className="editor__header-wrapper">
         <h2 className="editor__header-text">{config.title}</h2>
+        <button className="editor__close" onClick={handleButtonDisclosedClick}>
+          [-]
+        </button>
         <button className="editor__close" onClick={handleButtonCloseClick} ref={editorRef}>
           X
         </button>
