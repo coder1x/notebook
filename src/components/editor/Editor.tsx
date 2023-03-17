@@ -118,10 +118,16 @@ const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
   };
 
   const visible = config.isActive ? ' editor_visible' : '';
-  const disclosed = isDisclosed ? ' editor_disclosed' : '';
+
+  const { documentElement } = document;
+
+  const size = {
+    maxWidth: documentElement.clientWidth,
+    height: documentElement.clientHeight,
+  };
 
   return (
-    <article className={`editor${visible}${disclosed}`}>
+    <article className={`editor${visible}`} style={isDisclosed ? size : {}}>
       <div className="editor__header-wrapper">
         <h2 className="editor__header-text">{config.title}</h2>
         <button className="editor__close" onClick={handleButtonDisclosedClick}>

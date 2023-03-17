@@ -21,12 +21,6 @@ $border-textarea: 1px solid $dark-gray-20;
     opacity: 1;
   }
 
-  &_disclosed {
-    max-width: unset;
-    width: 100vw;
-    height: 100vh;
-  }
-
   &__header-wrapper {
     display: flex;
     flex-direction: row;
