@@ -198,12 +198,12 @@ const Tasks: FC = () => {
     setIsChecked(!isChecked);
   }, [isChecked]);
 
-  const handleTodoListClick = useCallback((data: string) => {
+  const handleTodoListClick = useCallback((item: { id: number; text: string }) => {
     const editor = editorRef.current;
 
     if (editor) {
       editor.setConfig({
-        text: data.replace('📄 ', ''),
+        text: item.text,
         title: 'Просмотр задачи',
         type: 'viewData',
         isActive: true,
@@ -226,7 +226,12 @@ const Tasks: FC = () => {
       return false;
     }
 
-    handleTodoListClick(taskData.current.text);
+    const { id, text } = taskData.current;
+
+    handleTodoListClick({
+      id,
+      text,
+    });
 
     return true;
   }, [handleTodoListClick]);

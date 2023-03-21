@@ -1,4 +1,4 @@
-import { FC, MouseEvent, KeyboardEvent, memo, useCallback } from 'react';
+import { FC, memo } from 'react';
 
 import { TodoItem, Placeholder } from '@components/index';
 
@@ -15,36 +15,8 @@ const TodoList: FC<Props> = ({
 }) => {
   let { length = 0 } = list;
 
-  const handleElementClick = (element: HTMLElement) => {
-    if (element.classList.contains('js-todo-item__text')) {
-      if (onClick instanceof Function) {
-        onClick(element.innerHTML);
-      }
-    }
-  };
-
-  const handleTodoItemClick = (event: MouseEvent<HTMLUListElement>) => {
-    handleElementClick(event.target as HTMLElement);
-  };
-
-  const handleTodoItemKeyDown = (event: KeyboardEvent<HTMLUListElement>) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      handleElementClick(event.target as HTMLElement);
-    }
-  };
-
-  const handleTodoItemContextMenu = useCallback(
-    (item: { id: number; text: string }) => {
-      if (onContextMenu instanceof Function) {
-        onContextMenu(item);
-      }
-    },
-    [onContextMenu]
-  );
-
   return (
-    <ul className="todo-list" onClick={handleTodoItemClick} onKeyDown={handleTodoItemKeyDown}>
+    <ul className="todo-list">
       {length === 0 ? (
         <li className="todo-list__empty">
           <Placeholder text="Нет записей" />
@@ -62,7 +34,8 @@ const TodoList: FC<Props> = ({
                 id={id}
                 text={project.text}
                 clickCheckbox={onCheckboxClick}
-                onContextMenu={handleTodoItemContextMenu}
+                onContextMenu={onContextMenu}
+                onClick={onClick}
                 isChecked={isChecked}
                 type={type}
                 status={status}

@@ -3,13 +3,15 @@ type TodoData = {
   text: string;
 };
 
+type Action = (data: { id: number; text: string }) => void;
+
 type Props = {
   type: 'project' | 'task';
   list: TodoData[];
   onCheckboxClick: (id: number, checked: boolean) => void;
   status?: number;
-  onClick?: (data: string) => void;
-  onContextMenu?: (item: { id: number; text: string }) => void;
+  onClick?: Action;
+  onContextMenu?: Action;
   isChecked?: boolean;
 };
 

@@ -1,4 +1,4 @@
-import { FC, memo, useState, useEffect, MouseEvent } from 'react';
+import { FC, KeyboardEvent, memo, useState, useEffect, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import Props from './todoItemType';
@@ -8,6 +8,7 @@ const TodoItem: FC<Props> = ({
   text,
   clickCheckbox,
   onContextMenu,
+  onClick,
   type,
   isChecked = false,
   status,
@@ -19,12 +20,34 @@ const TodoItem: FC<Props> = ({
     clickCheckbox(id, !checked);
   };
 
+  const handleElementClick = () => {
+    if (onClick instanceof Function) {
+      onClick({
+        id,
+        text,
+      });
+    }
+  };
+
   const handleTodoItemContextMenu = (event: MouseEvent<HTMLLIElement>) => {
     event.preventDefault();
-    onContextMenu({
-      id,
-      text,
-    });
+    if (onContextMenu instanceof Function) {
+      onContextMenu({
+        id,
+        text,
+      });
+    }
+  };
+
+  const handleTodoItemClick = () => {
+    handleElementClick();
+  };
+
+  const handleTodoItemKeyDown = (event: KeyboardEvent<HTMLLIElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleElementClick();
+    }
   };
 
   useEffect(() => {
@@ -35,7 +58,11 @@ const TodoItem: FC<Props> = ({
   }, [isChecked]);
 
   return (
-    <li className="todo-item" onContextMenu={handleTodoItemContextMenu}>
+    <li
+      className="todo-item"
+      onContextMenu={handleTodoItemContextMenu}
+      onClick={handleTodoItemClick}
+      onKeyDown={handleTodoItemKeyDown}>
       <label className="todo-item__input-wrapper">
         <input
           className="todo-item__input visually-hidden"
