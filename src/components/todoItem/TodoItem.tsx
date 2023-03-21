@@ -20,12 +20,14 @@ const TodoItem: FC<Props> = ({
     clickCheckbox(id, !checked);
   };
 
-  const handleElementClick = () => {
-    if (onClick instanceof Function) {
-      onClick({
-        id,
-        text,
-      });
+  const handleElementClick = (element: HTMLElement) => {
+    if (element.classList.contains('js-todo-item__text')) {
+      if (onClick instanceof Function) {
+        onClick({
+          id,
+          text,
+        });
+      }
     }
   };
 
@@ -39,14 +41,16 @@ const TodoItem: FC<Props> = ({
     }
   };
 
-  const handleTodoItemClick = () => {
-    handleElementClick();
+  const handleTodoItemClick = (event: MouseEvent<HTMLLIElement>) => {
+    const element = event.target as HTMLElement;
+    handleElementClick(element);
   };
 
   const handleTodoItemKeyDown = (event: KeyboardEvent<HTMLLIElement>) => {
+    const element = event.target as HTMLElement;
     if (event.key === 'Enter') {
       event.preventDefault();
-      handleElementClick();
+      handleElementClick(element);
     }
   };
 
