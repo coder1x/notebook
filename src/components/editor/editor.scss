@@ -27,6 +27,7 @@ $border-textarea: 1px solid $dark-gray-20;
     align-items: center;
     justify-content: space-between;
     background: $dark-gray-100;
+    cursor: move;
   }
 
   &__header-text {
@@ -38,6 +39,7 @@ $border-textarea: 1px solid $dark-gray-20;
   &__text {
     display: flex;
     height: 100%;
+    z-index: 1010;
   }
 
   &__textarea {

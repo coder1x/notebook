@@ -19,7 +19,7 @@ function getDataToCookies(key: string) {
       return item.includes(key);
     });
 
-    return data?.replace(`${key}=`, '') ?? '';
+    return (data?.replace(`${key}=`, '') ?? '').trim();
   }
 
   return '';
