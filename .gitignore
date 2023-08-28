@@ -4,4 +4,3 @@ dist/
 debug.log
 coverage/
 .vscode/
-.env

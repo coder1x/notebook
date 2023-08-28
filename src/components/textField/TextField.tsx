@@ -6,6 +6,7 @@ import Props from './textFieldType';
 const TextField: FC<Props> = ({
   type,
   placeholder = '',
+  autocomplete,
   name,
   value = '',
   ariaLabel = '',
@@ -13,7 +14,7 @@ const TextField: FC<Props> = ({
   message = '',
   onChangeCustom,
   // eslint-disable-next-line prettier/prettier
-  onChange = () => { },
+  onChange = () => {},
 }) => {
   return (
     <div className="text-field">
@@ -22,6 +23,7 @@ const TextField: FC<Props> = ({
         attributes={{
           type,
           placeholder,
+          autoComplete: autocomplete,
           name,
           className: `text-field__input${isError ? ' text-field__input_error' : ''}`,
           'aria-label': ariaLabel,

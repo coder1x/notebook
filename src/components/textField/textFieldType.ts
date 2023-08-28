@@ -5,6 +5,7 @@ type Props = {
   ariaLabel: string;
   name: string;
   placeholder?: string;
+  autocomplete?: string;
   value?: string;
   isError?: boolean;
   message?: string;

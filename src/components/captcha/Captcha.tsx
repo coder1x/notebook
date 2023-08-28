@@ -80,7 +80,6 @@ const Captcha: FC<Props> = forwardRef(({ onStatus }, ref) => {
       />
       <button
         className={`captcha__reset-button${isReset ? ' captcha__reset-button_animation' : ''}`}
-        type="submit"
         onAnimationEnd={handleButtonAnimationEnd}
         onClick={handleResetCodeClick}>
         <svg

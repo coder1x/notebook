@@ -124,6 +124,7 @@ const SignIn: FC = () => {
               type="text"
               placeholder="Имя"
               name="name"
+              autocomplete="username"
               isError={Boolean(textMessageName)}
               message={textMessageName}
               value={name}
@@ -137,6 +138,7 @@ const SignIn: FC = () => {
               type="password"
               placeholder="Пароль"
               name="password"
+              autocomplete="current-password"
               isError={isErrorPassword}
               message={isErrorPassword ? 'Пароль должен быть не короче 6 символов' : ''}
               value={''}

@@ -177,6 +177,7 @@ const SignUp: FC = () => {
               type="text"
               placeholder="Имя"
               name="name"
+              autocomplete="username"
               isError={Boolean(textMessageName)}
               message={textMessageName}
               value={name}
@@ -190,6 +191,7 @@ const SignUp: FC = () => {
               type="password"
               placeholder="Пароль"
               name="password"
+              autocomplete="new-password"
               isError={isErrorPasswordOne}
               message={isErrorPasswordOne ? 'Пароль должен быть не короче 6 символов' : ''}
               value={passwordOne}
@@ -202,6 +204,7 @@ const SignUp: FC = () => {
               type="password"
               placeholder="Повторить пароль"
               name="passwordTwo"
+              autocomplete="new-password"
               isError={isErrorPasswordTwo}
               message={isErrorPasswordTwo ? 'Пароли не совпадают' : ''}
               value={passwordTwo}

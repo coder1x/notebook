@@ -1,3 +1,4 @@
+// @ts-nocheck
 import 'focus-visible/dist/focus-visible.min.js';
 import '@styles/styles';
 import './pages/index';
