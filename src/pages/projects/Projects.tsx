@@ -94,10 +94,16 @@ const Projects: FC = () => {
   }, []);
 
   const handleButtonRemoveClick = useCallback(() => {
-    dispatch(projectsActions.fetchRemoveProject(projectsId.current));
+    const { current } = projectsId;
+
+    if (!current.length) return;
+
+    if (isChecked) setIsChecked(false);
+
+    dispatch(projectsActions.fetchRemoveProject(current));
     projectsId.current = [];
     closeMenu();
-  }, [dispatch]);
+  }, [dispatch, isChecked]);
 
   const handleButtonExitClick = useCallback(() => {
     dispatch(projectsActions.clearState());
@@ -121,8 +127,8 @@ const Projects: FC = () => {
   );
 
   const handleButtonAllClick = useCallback(() => {
-    setIsChecked(!isChecked);
-  }, [isChecked]);
+    setIsChecked(projects?.length ? !isChecked : false);
+  }, [isChecked, projects?.length]);
 
   const handleTodoItemContextMenu = useCallback((item: { id: number; text: string }) => {
     const contextMenu = contextMenuRef.current;
@@ -171,12 +177,14 @@ const Projects: FC = () => {
   }, []);
 
   const handleContextMenuRemoveClick = useCallback(() => {
-    if (!projectData.current) {
+    const { current } = projectData;
+
+    if (!current) {
       return false;
     }
 
-    dispatch(projectsActions.fetchRemoveProject([projectData.current.id]));
-    projectsId.current = [];
+    dispatch(projectsActions.fetchRemoveProject([current.id]));
+    projectsId.current = projectsId.current.filter((item) => item !== current.id);
 
     return true;
   }, [dispatch]);
@@ -231,7 +239,7 @@ const Projects: FC = () => {
         handler: handleContextMenuEditClick,
       },
       {
-        name: '🪣 Удалить',
+        name: '❌ Удалить',
         handler: handleContextMenuRemoveClick,
       },
     ];

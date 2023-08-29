@@ -1,5 +1,8 @@
+import { authorization } from '../../helpers/index';
+
 describe('Authorization', () => {
   beforeEach(() => {
+    cy.viewport(1280, 720);
     cy.visit('/');
     cy.get('[name=name]').as('inputName');
     cy.get('[name=password]').as('inputPassword');
@@ -63,19 +66,7 @@ describe('Authorization', () => {
   });
 
   it('correct authorization', () => {
-    cy.wait(500);
-    cy.get('@inputName').clear();
-    cy.wait(500);
-    cy.get('@inputPassword').clear();
-    cy.wait(500);
-    cy.get('@inputName').type('test', { delay: 100 });
-    cy.wait(500);
-    cy.get('@inputPassword').type('123456', { delay: 100 });
-    cy.wait(1000);
-    cy.get('@inputPassword').blur();
-    cy.wait(100);
-    cy.get('[type=submit]').click();
-    cy.wait(1000);
-    cy.contains('button', 'Выйти');
+    authorization('test', '123456');
+    cy.contains('button', 'Выйти').click();
   });
 });

@@ -118,11 +118,17 @@ const Tasks: FC = () => {
   }, []);
 
   const handleButtonRemoveClick = useCallback(() => {
-    dispatch(tasksActions.fetchRemoveTask(tasksId.current));
+    const { current } = tasksId;
+
+    if (!current.length) return;
+
+    if (isChecked) setIsChecked(false);
+
+    dispatch(tasksActions.fetchRemoveTask(current));
     tasksId.current = [];
 
     closeMenu();
-  }, [dispatch]);
+  }, [dispatch, isChecked]);
 
   const handleButtonToTasksClick = useCallback(() => {
     dispatch(
@@ -195,8 +201,8 @@ const Tasks: FC = () => {
   }, []);
 
   const handleButtonAllClick = useCallback(() => {
-    setIsChecked(!isChecked);
-  }, [isChecked]);
+    setIsChecked(tasks.current?.length ? !isChecked : false);
+  }, [isChecked, tasks]);
 
   const handleTodoListClick = useCallback((item: { id: number; text: string }) => {
     const editor = editorRef.current;
@@ -285,12 +291,14 @@ const Tasks: FC = () => {
   }, [dispatch]);
 
   const handleContextMenuRemoveClick = useCallback(() => {
-    if (!taskData.current) {
+    const { current } = taskData;
+
+    if (!current) {
       return false;
     }
 
-    dispatch(tasksActions.fetchRemoveTask([taskData.current.id]));
-    tasksId.current = [];
+    dispatch(tasksActions.fetchRemoveTask([current.id]));
+    tasksId.current = tasksId.current.filter((item) => item !== current.id);
 
     return true;
   }, [dispatch]);
@@ -341,7 +349,7 @@ const Tasks: FC = () => {
         handler: handleButtonAddClick,
       },
       {
-        name: `${isMobile ? '🪣 ' : ''}Удалить`,
+        name: `${isMobile ? '❌ ' : ''}Удалить`,
         handler: handleButtonRemoveClick,
       },
       {
@@ -392,7 +400,7 @@ const Tasks: FC = () => {
         handler: handleContextMenuEditClick,
       },
       {
-        name: '🪣 Удалить',
+        name: '❌ Удалить',
         handler: handleContextMenuRemoveClick,
       },
       {

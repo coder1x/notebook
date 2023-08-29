@@ -8,11 +8,7 @@
     },
     "sourceType": "module"
   },
-  "plugins": [
-    "@typescript-eslint",
-    "jest",
-    "jest-react"
-  ],
+  "plugins": ["@typescript-eslint", "jest", "jest-react", "cypress"],
   "rules": {
     "no-unused-vars": [
       "warn",
@@ -36,9 +32,7 @@
     "no-new": "off",
     "no-loss-of-precision": "off",
     "nonblock-statement-body-position": "error",
-    "semi": [
-      1
-    ],
+    "semi": [1],
     "max-len": [
       "error",
       {
@@ -52,12 +46,14 @@
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",
     "jest/prefer-to-have-length": "warn",
-    "jest/valid-expect": "error"
+    "jest/valid-expect": "off",
+    "cypress/no-unnecessary-waiting": "off"
   },
   "extends": [
     "airbnb-base",
     "react-app",
     // "react-app/jest",
+    "plugin:cypress/recommended",
     "plugin:prettier/recommended",
     "plugin:jest-react/recommended"
   ],

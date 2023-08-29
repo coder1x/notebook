@@ -130,10 +130,10 @@ const Editor: FC<Props> = forwardRef(({ onUpdate, onAddData }, ref) => {
     <article className={`editor${visible}`} style={isDisclosed ? size : {}}>
       <div className="editor__header-wrapper">
         <h2 className="editor__header-text">{config.title}</h2>
-        <button className="editor__close" onClick={handleButtonDisclosedClick}>
+        <button className="editor__button-header" onClick={handleButtonDisclosedClick}>
           [-]
         </button>
-        <button className="editor__close" onClick={handleButtonCloseClick} ref={editorRef}>
+        <button className="editor__button-header" onClick={handleButtonCloseClick} ref={editorRef}>
           X
         </button>
       </div>
