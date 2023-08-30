@@ -73,7 +73,9 @@ const Captcha: FC<Props> = forwardRef(({ onStatus }, ref) => {
     <div className="captcha">
       <img
         className="captcha__images"
-        src={`${process.env.URL_API}captcha/captcha.php${urlParams}`}
+        src={`${
+          process.env.URL_API ?? 'http://localhost:8000/todo/'
+        }captcha/captcha.php${urlParams}`}
         width="120"
         height="20"
         alt="Капча"

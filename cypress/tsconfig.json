@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "lib": ["dom", "es6", "dom.iterable", "esnext"],
     "baseUrl": ".",
     "sourceMap": false,
-    "allowJs": true,
+    "allowJs": false,
     "skipLibCheck": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -14,7 +14,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "isolatedModules": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
@@ -22,16 +22,16 @@
     "noImplicitAny": true,
     "paths": {
       "@components/*": ["src/components/*"],
-      "@pages/*": ["src/pages/*"],
-      "@api/*": ["src/api/*"],
       "@store/*": ["src/store/*"],
       "@hooks/*": ["src/hooks/*"],
+      "@pages/*": ["src/pages/*"],
+      "@api/*": ["src/api/*"],
       "@appRoutes/*": ["src/appRoutes/*"],
       "@shared/*": ["src/shared/*"],
       "@helpers/*": ["src/shared/helpers/*"]
     },
-    "types": ["node"],
+    "types": ["cypress", "node"],
     "jsx": "react-jsx"
   },
-  "include": ["src/**/*.ts"]
+  "include": ["../node_modules/cypress", "./**/*.ts"]
 }

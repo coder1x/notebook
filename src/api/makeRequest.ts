@@ -8,7 +8,11 @@ function getOptions(data: any, method = 'POST') {
   };
 }
 
-function makeRequest(url: string, options = {}, baseUrl = process.env.URL_API) {
+function makeRequest(
+  url: string,
+  options = {},
+  baseUrl = process.env.URL_API ?? 'http://localhost:8000/todo/'
+) {
   return fetch(baseUrl + url, options).then((response) => {
     if (response.status !== 200) {
       return response.text().then((text) => {

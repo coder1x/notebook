@@ -11,7 +11,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "strictNullChecks": true,
@@ -30,8 +30,9 @@
       "@shared/*": ["src/shared/*"],
       "@helpers/*": ["src/shared/helpers/*"]
     },
-    "types": ["cypress", "node"],
+    "types": ["jest", "node"],
     "jsx": "react-jsx"
   },
-  "include": ["**/*.ts"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["cypress", "./cypress.config.ts"]
 }
