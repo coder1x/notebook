@@ -9,6 +9,7 @@
     "stylelint": "stylelint \"src/**/*.scss\"",
     "stylelint:fix": "stylelint \"src/**/*.scss\" --fix",
     "test": "jest",
+    "cy:run": "cypress run",
     "cy:open": "cypress open"
   },
   "author": "coder1 <c.o.d.e.r.1@mail.ru>",
