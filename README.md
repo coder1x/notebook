@@ -46,6 +46,10 @@ npm start
 
 URL: `http://localhost:3030/`
 
+Тестовый аккаунт:  
+логин: test  
+пароль: 123456
+
 ### Сборка проекта в production
 
 ```commandline
@@ -59,6 +63,8 @@ npm run build
 ```commandline
 npm run cy:open
 ```
+
+Перед этим обязательно запустите сервер ( npm start )
 
 ### Тестирование Jest
 

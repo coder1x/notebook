@@ -30,7 +30,7 @@
       "@shared/*": ["src/shared/*"],
       "@helpers/*": ["src/shared/helpers/*"]
     },
-    "types": ["node"],
+    "types": ["jest", "node"],
     "jsx": "react-jsx"
   },
   "include": ["src/**/*.ts"]
