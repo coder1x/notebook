@@ -37,9 +37,9 @@ $border-textarea: 1px solid $dark-gray-20;
   }
 
   &__text {
+    z-index: 1010;
     display: flex;
     height: 100%;
-    z-index: 1010;
   }
 
   &__textarea {

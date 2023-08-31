@@ -131,16 +131,22 @@ const tasks = createSlice({
           case 1:
             if (Array.isArray(tasksTemp.current)) {
               tasksTemp.current.push(item);
+            } else {
+              tasksTemp.current = [item];
             }
             break;
           case 2:
             if (Array.isArray(tasksTemp.inProgress)) {
               tasksTemp.inProgress.push(item);
+            } else {
+              tasksTemp.inProgress = [item];
             }
             break;
           case 3:
             if (Array.isArray(tasksTemp.completed)) {
               tasksTemp.completed.push(item);
+            } else {
+              tasksTemp.completed = [item];
             }
             break;
           default:
