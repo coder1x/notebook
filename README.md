@@ -1,25 +1,91 @@
-# notebook
+# Notebook
 
-## Demo page:
-[start page on the server](https://thylacine.ru/) `https://thylacine.ru/`
+## Записная книжка. Технологии: [React, TS, SCSS, Redux-Saga, PHP, Cypress, Jest]
 
-## Version Node  
+## Демо страница:
 
-* Node version v18.12.1
+[стартовая страница на сервере](https://thylacine.ru/) `https://thylacine.ru/`
 
-#### Installing dependencies
+## Работа с локальной версией
+
+- Node version v16.20.1
+
+### Установка зависимостей
+
 ```commandline
 npm i
 ```
 
-#### Development Mode
+### Установка: PHP, Apache, MySql + настройки
+
+```commandline
+docker-compose up
+```
+
+после этой команды в Docker отключаем notebook контейнер
+
+### Установка дополнительных библиотек, драйверов
+
+```commandline
+docker-compose build
+```
+
+эта команда производится один раз
+
+### Запускаем сервер с готовыми настройками и расширениями
+
+```commandline
+docker-compose up
+```
+
+### Запуск проекта
+
 ```commandline
 npm start
 ```
-works for: `http://localhost:8080/`
 
+URL: `http://localhost:3030/`
 
-#### Production build
+### Сборка проекта в production
+
 ```commandline
 npm run build
 ```
+
+Появляется каталог dist в корне проекта
+
+### Тестирование Cypress
+
+```commandline
+npm run cy:open
+```
+
+### Тестирование Jest
+
+```commandline
+npm run test
+```
+
+### Проверка и исправление ошибок в стилях
+
+```commandline
+npm run stylelint:fix
+```
+
+### Работа с сервером
+
+- **init.sql** - Таблицы базы данных MySql, а также запись тестового пользователя test (создаются на сервере в Docker автоматически)
+- **index.php** - Подключение к базе данных через PDO драйвер и полный доступ к CORS запросам
+- **errorCodes.txt** - Список кодов возможных ошибок, возвращаемых сервером
+- **captcha** - Капча, код имеет длину 6 символов, которые рандомно генерируются из шрифтов ComicSansMS и возвращаются в виде растрового изображения
+
+### Работа с Cypress
+
+- **helpers** - Вспомогательные утилиты для тестирования (авторизация, создание / удаление записей)
+- **e2e** - Каталог, в котором располагаются тесты, проверяющие полную работу системы вместе с серверной частью (Docker должен быть обязательно запущен)
+- **tsconfig.json** - Так как Cypress из-за глобальных типов конфликтует с Jest, TS правила необходимо изолировать отдельно
+
+### Работа с Jest
+
+- **\_\_test\_\_** - Каталог, где распологаются файлы Jest тестов
+- **fileName.test.ts** - Пример именования файлов в каталоге \_\_test\_\_
