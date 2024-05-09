@@ -1,10 +1,17 @@
 import { call, put, takeLeading } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
-import { addTask, getTasks, removeTask, updateTaskStatus, updateTaskText } from '@api/index';
+import {
+  addTask,
+  getTasks,
+  removeTask,
+  updateTaskStatus,
+  updateTaskText,
+  changePositionTask,
+} from '@api/index';
 import { tasksActions, tasksType } from '@store/slices';
 import { getDataToCookies } from '@helpers/index';
-import { AddTask, Data, RemoveTask, Tasks, UpdateTask } from './tasksType';
+import { AddTask, Data, RemoveTask, Tasks, UpdateTask, ChangePosition } from './tasksType';
 
 function* errorHandler(data: Data) {
   if (!data.error) {
@@ -21,7 +28,33 @@ function* fetchGetTasks(action: PayloadAction<string>) {
 
     yield errorHandler(data);
 
-    yield put(tasksActions.setTasks(data.value ?? []));
+    if (!data.value) {
+      throw new Error(data.messageError);
+    }
+
+    yield put(tasksActions.setTasks(data.value));
+  } catch (error) {
+    console.log('Error', error);
+  }
+}
+
+function* fetchGetNewPositionTasks(action: PayloadAction<ChangePosition>) {
+  const { from, to } = action.payload;
+
+  try {
+    const data: Tasks = yield call(changePositionTask, {
+      token: getDataToCookies('TodoToken'),
+      from,
+      to,
+    });
+
+    yield errorHandler(data);
+
+    if (!data.value) {
+      throw new Error(data.messageError);
+    }
+
+    yield put(tasksActions.changePositionTasks(data.value));
   } catch (error) {
     console.log('Error', error);
   }
@@ -92,11 +125,14 @@ function* fetchAddTask(action: PayloadAction<tasksType.FetchAdd>) {
 
     yield errorHandler(data);
 
+    const { id, position } = data.value;
+
     yield put(
       tasksActions.addTask({
-        id: Number(data.value) ?? 0,
+        id: Number(id) ?? 0,
         text,
         status: 1,
+        position: Number(position) ?? 0,
       })
     );
   } catch (error) {
@@ -124,4 +160,15 @@ function* sagaUpdateText() {
   yield takeLeading(tasksActions.fetchEditTask.type, fetchUpdateText);
 }
 
-export { sagaAddTask, sagaRemoveTask, sagaUpdateStatus, sagaUpdateText, sagaGetTasks };
+function* sagaGetNewPositionTasks() {
+  yield takeLeading(tasksActions.fetchTasksPosition.type, fetchGetNewPositionTasks);
+}
+
+export {
+  sagaAddTask,
+  sagaRemoveTask,
+  sagaUpdateStatus,
+  sagaUpdateText,
+  sagaGetTasks,
+  sagaGetNewPositionTasks,
+};

@@ -7,11 +7,17 @@ type FetchData = {
 };
 
 interface Tasks extends FetchData {
-  value?: tasksType.Task[];
+  value?: {
+    title: string;
+    data: tasksType.Task[];
+  };
 }
 
 interface AddTask extends FetchData {
-  value?: number;
+  value: {
+    id: number;
+    position: number;
+  };
 }
 
 interface RemoveTask extends FetchData {
@@ -24,4 +30,15 @@ interface UpdateTask extends FetchData {
 
 type Data = Tasks | AddTask | RemoveTask | UpdateTask;
 
-export { FetchData, Tasks, AddTask, RemoveTask, UpdateTask, Data };
+type ChangePosition = {
+  from: {
+    id: number;
+    position: number;
+  };
+  to: {
+    id: number;
+    position: number;
+  };
+};
+
+export { FetchData, Tasks, AddTask, RemoveTask, UpdateTask, Data, ChangePosition };

@@ -2,6 +2,7 @@ type Task = {
   id: number;
   text: string;
   status: number;
+  position: number;
 };
 
 type DataTabs = {
@@ -35,6 +36,27 @@ type State = {
   tasks: Tasks;
   errorCode: number;
   isLoading: boolean;
+  title: string;
 };
 
-export { State, Task, Tasks, DataTabs, FetchAdd, FetchUpdateStatus, FetchUpdateText };
+type ChangePosition = {
+  from: {
+    id: number;
+    position: number;
+  };
+  to: {
+    id: number;
+    position: number;
+  };
+};
+
+export {
+  State,
+  Task,
+  Tasks,
+  DataTabs,
+  FetchAdd,
+  FetchUpdateStatus,
+  FetchUpdateText,
+  ChangePosition,
+};

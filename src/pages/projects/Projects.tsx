@@ -245,6 +245,27 @@ const Projects: FC = () => {
     ];
   }, [handleContextMenuEditClick, handleContextMenuRemoveClick, handleContextMenuView]);
 
+  const handleChangePosition = useCallback(
+    (fromKey: string, toKey: string) => {
+      const fromData = fromKey.split('|');
+      const toData = toKey.split('|');
+
+      dispatch(
+        projectsActions.fetchProjectsPosition({
+          from: {
+            id: Number(fromData[0]),
+            position: Number(fromData[1]),
+          },
+          to: {
+            id: Number(toData[0]),
+            position: Number(toData[1]),
+          },
+        })
+      );
+    },
+    [dispatch]
+  );
+
   return (
     <Manager title="Менеджер проектов">
       <Menu buttons={menuButtons} ref={menuRef} />
@@ -255,6 +276,7 @@ const Projects: FC = () => {
           <TodoList
             list={projects}
             onCheckboxClick={handleCheckboxClick}
+            onChangePosition={handleChangePosition}
             onContextMenu={handleTodoItemContextMenu}
             isChecked={isChecked}
             type="project"

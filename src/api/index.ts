@@ -2,8 +2,21 @@ import checkCaptcha from './captcha';
 import registration from './signUp';
 import checkName from './nameValidator';
 import authorization from './signIn';
-import { addProject, removeProject, getProjects, updateProjectText } from './projects';
-import { addTask, removeTask, getTasks, updateTaskStatus, updateTaskText } from './tasks';
+import {
+  addProject,
+  removeProject,
+  getProjects,
+  updateProjectText,
+  changePositionProject,
+} from './projects';
+import {
+  addTask,
+  removeTask,
+  getTasks,
+  updateTaskStatus,
+  updateTaskText,
+  changePositionTask,
+} from './tasks';
 
 export {
   checkCaptcha,
@@ -19,4 +32,6 @@ export {
   updateTaskStatus,
   updateTaskText,
   updateProjectText,
+  changePositionProject,
+  changePositionTask,
 };

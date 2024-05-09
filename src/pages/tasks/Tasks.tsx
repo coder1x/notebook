@@ -18,10 +18,12 @@ import {
   isLoadingTasksState,
   isAuthorizedState,
   errorCodeTasksState,
+  projectTitleState,
 } from '@store/selectors';
 import { tasksActions, projectsActions, signInActions } from '@store/slices';
 import { Throttle } from '@helpers/index';
 import { EditorActions, ContextMenuActions } from './tasksType';
+import removeDuplicates from './utils';
 
 const Tasks: FC = () => {
   const { projectId } = useParams();
@@ -34,11 +36,12 @@ const Tasks: FC = () => {
   const token = useSelector(tokenState);
   const tasks = useSelector(tasksState);
   const isLoading = useSelector(isLoadingTasksState);
+  const title = useSelector(projectTitleState);
 
   const [isChecked, setIsChecked] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  document.title = 'Менеджер задач';
+  document.title = title || 'Менеджер задач';
 
   const tasksId: MutableRefObject<number[]> = useRef([]);
   const projectIdRef: MutableRefObject<string> = useRef('');
@@ -249,7 +252,7 @@ const Tasks: FC = () => {
 
     dispatch(
       tasksActions.fetchUpdateStatus({
-        tasksId: [taskData.current.id],
+        tasksId: removeDuplicates([...tasksId.current, taskData.current.id]),
         status: 1,
       })
     );
@@ -265,7 +268,7 @@ const Tasks: FC = () => {
 
     dispatch(
       tasksActions.fetchUpdateStatus({
-        tasksId: [taskData.current.id],
+        tasksId: removeDuplicates([...tasksId.current, taskData.current.id]),
         status: 2,
       })
     );
@@ -281,7 +284,7 @@ const Tasks: FC = () => {
 
     dispatch(
       tasksActions.fetchUpdateStatus({
-        tasksId: [taskData.current.id],
+        tasksId: removeDuplicates([...tasksId.current, taskData.current.id]),
         status: 3,
       })
     );
@@ -297,11 +300,11 @@ const Tasks: FC = () => {
       return false;
     }
 
-    dispatch(tasksActions.fetchRemoveTask([current.id]));
-    tasksId.current = tasksId.current.filter((item) => item !== current.id);
-
+    dispatch(tasksActions.fetchRemoveTask(removeDuplicates([...tasksId.current, current.id])));
+    if (isChecked) setIsChecked(false);
+    tasksId.current = [];
     return true;
-  }, [dispatch]);
+  }, [dispatch, isChecked]);
 
   const handleContextMenuEditClick = useCallback(() => {
     const editor = editorRef.current;
@@ -425,6 +428,27 @@ const Tasks: FC = () => {
     handleContextMenuView,
   ]);
 
+  const handleChangePosition = useCallback(
+    (fromKey: string, toKey: string) => {
+      const fromData = fromKey.split('|');
+      const toData = toKey.split('|');
+
+      dispatch(
+        tasksActions.fetchTasksPosition({
+          from: {
+            id: Number(fromData[0]),
+            position: Number(fromData[1]),
+          },
+          to: {
+            id: Number(toData[0]),
+            position: Number(toData[1]),
+          },
+        })
+      );
+    },
+    [dispatch]
+  );
+
   const tabs = useMemo(() => {
     return [
       {
@@ -433,6 +457,7 @@ const Tasks: FC = () => {
           <TodoList
             list={tasks.current ?? []}
             onCheckboxClick={handleCheckboxClick}
+            onChangePosition={handleChangePosition}
             onClick={handleTodoListClick}
             onContextMenu={handleTodoItemContextMenu}
             isChecked={isChecked}
@@ -449,6 +474,7 @@ const Tasks: FC = () => {
           <TodoList
             list={tasks.inProgress ?? []}
             onCheckboxClick={handleCheckboxClick}
+            onChangePosition={handleChangePosition}
             onClick={handleTodoListClick}
             onContextMenu={handleTodoItemContextMenu}
             isChecked={isChecked}
@@ -465,6 +491,7 @@ const Tasks: FC = () => {
           <TodoList
             list={tasks.completed ?? []}
             onCheckboxClick={handleCheckboxClick}
+            onChangePosition={handleChangePosition}
             onClick={handleTodoListClick}
             onContextMenu={handleTodoItemContextMenu}
             isChecked={isChecked}
@@ -479,9 +506,9 @@ const Tasks: FC = () => {
   }, [handleCheckboxClick, handleTodoItemContextMenu, handleTodoListClick, isChecked, tasks]);
 
   return (
-    <Manager title="Менеджер задач">
+    <Manager title={title}>
       <Menu buttons={menuButtons} ref={menuRef} />
-      {isLoading ? <Loading /> : <Tabs tabs={tabs} />}
+      <Tabs tabs={tabs} isLoading={isLoading} />
       <Footer
         type={'tasks'}
         total={totalCurrent + totalInProgress + totalCompleted}

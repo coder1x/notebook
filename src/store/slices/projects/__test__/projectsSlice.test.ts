@@ -15,10 +15,12 @@ describe('Projects slice', () => {
       {
         id: 1,
         text: 'проект 1',
+        position: 1,
       },
       {
         id: 2,
         text: 'проект 2',
+        position: 2,
       },
     ];
 
@@ -45,6 +47,7 @@ describe('Projects slice', () => {
     const projectData = {
       id: 1,
       text: 'проект 1',
+      position: 1,
     };
 
     store.dispatch(projectsActions.addProject(projectData));
@@ -58,6 +61,7 @@ describe('Projects slice', () => {
         projectsActions.addProject({
           id: i,
           text: `проект ${i}`,
+          position: i,
         })
       );
     }
@@ -65,17 +69,17 @@ describe('Projects slice', () => {
     store.dispatch(projectsActions.removeProject([1, 3]));
 
     expect(store.getState().projects.projects).toEqual([
-      { id: 2, text: 'проект 2' },
-      { id: 4, text: 'проект 4' },
+      { id: 2, text: 'проект 2', position: 2 },
+      { id: 4, text: 'проект 4', position: 4 },
     ]);
   });
 
   it('action editProject', () => {
-    store.dispatch(projectsActions.editProject({ id: 4, text: 'проект 4 ****' }));
+    store.dispatch(projectsActions.editProject({ id: 4, text: 'проект 4 ****', position: 4 }));
 
     expect(store.getState().projects.projects).toEqual([
-      { id: 2, text: 'проект 2' },
-      { id: 4, text: 'проект 4 ****' },
+      { id: 2, text: 'проект 2', position: 2 },
+      { id: 4, text: 'проект 4 ****', position: 4 },
     ]);
   });
 

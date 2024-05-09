@@ -9,6 +9,7 @@ import {
   sagaRemoveProject,
   sagaGetProjects,
   sagaUpdateProjectText,
+  sagaGetNewPositionProjects,
 } from './projects/projects';
 import {
   sagaAddTask,
@@ -16,6 +17,7 @@ import {
   sagaRemoveTask,
   sagaUpdateStatus,
   sagaUpdateText,
+  sagaGetNewPositionTasks,
 } from './tasks/tasks';
 
 function* mySaga() {
@@ -33,6 +35,8 @@ function* mySaga() {
     sagaUpdateStatus(),
     sagaUpdateText(),
     sagaUpdateProjectText(),
+    sagaGetNewPositionProjects(),
+    sagaGetNewPositionTasks(),
   ]);
 }
 

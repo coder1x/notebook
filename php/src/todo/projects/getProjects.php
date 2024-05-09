@@ -21,8 +21,9 @@ function getData($main, $token)
 
   while ($item = $statement->fetch(\PDO::FETCH_ASSOC)) {
     $data[] = [
-      'id' => (int)$item['project_id'],
-      'text' => $item['name']
+      'id' => (int) $item['project_id'],
+      'text' => $item['name'],
+      'position' => (int) $item['position']
     ];
   }
 

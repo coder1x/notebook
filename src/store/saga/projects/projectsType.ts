@@ -11,7 +11,10 @@ interface Projects extends FetchData {
 }
 
 interface AddProject extends FetchData {
-  value?: number;
+  value: {
+    id: number;
+    position: number;
+  };
 }
 
 interface RemoveProject extends FetchData {
@@ -24,4 +27,15 @@ interface UpdateProjectText extends FetchData {
 
 type Data = Projects | AddProject | RemoveProject | UpdateProjectText;
 
-export { FetchData, Projects, AddProject, RemoveProject, UpdateProjectText, Data };
+type ChangePosition = {
+  from: {
+    id: number;
+    position: number;
+  };
+  to: {
+    id: number;
+    position: number;
+  };
+};
+
+export { FetchData, Projects, AddProject, RemoveProject, UpdateProjectText, Data, ChangePosition };

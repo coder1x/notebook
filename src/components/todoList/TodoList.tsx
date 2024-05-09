@@ -7,13 +7,16 @@ import Props from './todoListType';
 const TodoList: FC<Props> = ({
   list,
   onCheckboxClick,
+  onChangePosition,
   onClick,
   onContextMenu,
   type,
   status = 1,
   isChecked = false,
 }) => {
-  let { length = 0 } = list;
+  const { length = 0 } = list;
+
+  const cloneList = list.concat().sort((a, b) => b.position - a.position);
 
   return (
     <ul className="todo-list">
@@ -22,18 +25,20 @@ const TodoList: FC<Props> = ({
           <Placeholder text="Нет записей" />
         </li>
       ) : (
-        list.map((item, index, array) => {
-          const project = array[(length -= 1)];
+        cloneList.map((item) => {
+          // const project = array[(length -= 1)];
 
-          if (Object.keys(project).length !== 0) {
-            const { id } = project;
+          if (Object.keys(item).length !== 0) {
+            const { id, position, text } = item;
 
             return (
               <TodoItem
                 key={id}
                 id={id}
-                text={project.text}
+                position={position}
+                text={text}
                 clickCheckbox={onCheckboxClick}
+                onChangePosition={onChangePosition}
                 onContextMenu={onContextMenu}
                 onClick={onClick}
                 isChecked={isChecked}

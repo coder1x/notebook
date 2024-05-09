@@ -1,10 +1,10 @@
 import { useState, FC, memo } from 'react';
 
-import { TabButton, TabItem } from '@components/index';
+import { Loading, TabButton, TabItem } from '@components/index';
 
 import Props from './tabsType';
 
-const Tabs: FC<Props> = ({ tabs }) => {
+const Tabs: FC<Props> = ({ tabs, isLoading }) => {
   const [idTab, setIdTab] = useState(1);
 
   const buttonTabs: JSX.Element[] = [];
@@ -46,7 +46,7 @@ const Tabs: FC<Props> = ({ tabs }) => {
   return (
     <div className="tabs">
       <div className="tabs__navigation">{buttonTabs}</div>
-      <div className="tabs__content">{content}</div>
+      <div className="tabs__content">{isLoading ? <Loading /> : content}</div>
     </div>
   );
 };

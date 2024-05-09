@@ -58,7 +58,7 @@ describe('Project tasks', () => {
     cy.wait(100);
     cy.get('.button__context-menu').eq(2).click();
     cy.wait(200);
-    checkFooterInfo('8', '8', '0', '0');
+    checkFooterInfo('6', '6', '0', '0');
     cy.wait(100);
     remuveNote();
     cy.wait(200);
@@ -105,8 +105,8 @@ describe('Project tasks', () => {
     cy.wait(200);
     cy.get('.tab-button').contains('Выполняются').click();
     cy.wait(100);
-    cy.get('.content-item_current').find('ins').eq(0).should('have.text', 'описание задачи 3');
-    cy.get('.content-item_current').find('ins').eq(1).should('have.text', 'описание задачи 6');
+    cy.get('.content-item_current').find('ins').eq(0).should('have.text', 'описание задачи 6');
+    cy.get('.content-item_current').find('ins').eq(1).should('have.text', 'описание задачи 3');
 
     // перемещение в завершённые
     cy.get('.tab-button').contains('Задачи').click();
@@ -118,8 +118,8 @@ describe('Project tasks', () => {
     checkFooterInfo('6', '2', '2', '2');
     cy.get('.tab-button').contains('Завершённые').click();
     cy.wait(100);
-    cy.get('.content-item_current').find('del').eq(0).should('have.text', 'описание задачи 1');
-    cy.get('.content-item_current').find('del').eq(1).should('have.text', 'описание задачи 5');
+    cy.get('.content-item_current').find('del').eq(0).should('have.text', 'описание задачи 5');
+    cy.get('.content-item_current').find('del').eq(1).should('have.text', 'описание задачи 1');
 
     // из завершённых переместить обратно в задачи (контекстное меню)
     cy.get('.content-item_current').find('.todo-item__input-wrapper').eq(0).as('todoItem1').click();

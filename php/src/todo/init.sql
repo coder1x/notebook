@@ -64,3 +64,27 @@ ALTER TABLE `tasks`
   ADD CONSTRAINT `project_id` FOREIGN KEY (`project_id`) REFERENCES `projects` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 INSERT INTO `users` (`sessionToken`, `token`, `name`, `password`) VALUES ('206822e9087c5d9213a18408c92ac1ec285cbc3e069320ea9a4461768b0210ffe10ad', 'b8c31ae891ece8a0685dfa139618438df5c19b3e17f3c3392db2bdabc62d6039e10ad', 'test', 'e10adc3949ba59abbe56e057f20f883e');
+
+DELIMITER $$
+
+CREATE TRIGGER update_position_trigger_projects
+BEFORE INSERT ON projects
+FOR EACH ROW
+BEGIN
+    SET NEW.position = (SELECT IFNULL(MAX(position), 0) + 1 FROM projects);
+END;
+$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER update_position_trigger_tasks 
+BEFORE INSERT ON tasks
+FOR EACH ROW
+BEGIN
+    SET NEW.position = (SELECT IFNULL(MAX(position), 0) + 1 FROM tasks);
+END;
+$$
+
+DELIMITER ;

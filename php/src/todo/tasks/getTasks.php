@@ -23,13 +23,36 @@ function getData($main, $token, $projectId)
 
   while ($item = $statement->fetch(\PDO::FETCH_ASSOC)) {
     $data[] = [
-      'id' => (int)$item['task_id'],
+      'id' => (int) $item['task_id'],
       'text' => $item['text'],
-      'status' => (int)$item['status']
+      'status' => (int) $item['status'],
+      'position' => (int) $item['position']
     ];
   }
 
-  return outputData($data);
+  try {
+    $sql = 'SELECT * FROM projects WHERE token = :token AND project_id = :project_id';
+
+    $statement = $main->PDO->prepare($sql);
+    $statement->bindValue(':token', $token);
+    $statement->bindValue(':project_id', $projectId);
+    $statement->execute();
+  } catch (PDOException $error) {
+    return messageError($error->getMessage(), 50);
+  }
+
+  $projectName = '';
+
+  while ($item = $statement->fetch(\PDO::FETCH_ASSOC)) {
+    $projectName = $item['name'];
+  }
+
+  return outputData(
+    [
+      'title' => $projectName,
+      'data' => $data,
+    ]
+  );
 }
 
 function model($main)

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { State, Project } from './projectsType';
+import { State, Project, EditProject, ChangePosition } from './projectsType';
 
 const initialState: State = {
   projects: null,
@@ -16,24 +16,31 @@ const projects = createSlice({
       state.isLoading = false;
     },
 
+    changePositionProjects(state, action: PayloadAction<Project[]>) {
+      state.projects = action.payload;
+      state.isLoading = false;
+    },
+
     clearState(state) {
       state.projects = null;
       state.errorCode = 0;
     },
 
     addProject(state, action: PayloadAction<Project>) {
-      const { id, text } = action.payload;
+      const { id, text, position } = action.payload;
 
       if (Array.isArray(state.projects)) {
         state.projects.push({
           id,
           text,
+          position,
         });
       } else {
         state.projects = [
           {
             id,
             text,
+            position,
           },
         ];
       }
@@ -64,7 +71,7 @@ const projects = createSlice({
 
       state.projects = projectsTemp;
     },
-    fetchEditProject(state, action: PayloadAction<Project>) {
+    fetchEditProject(state, action: PayloadAction<EditProject>) {
       //
     },
     fetchRemoveProject(state, action: PayloadAction<number[]>) {
@@ -74,6 +81,9 @@ const projects = createSlice({
       //
     },
     fetchProjectsData(state) {
+      state.isLoading = true;
+    },
+    fetchProjectsPosition(state, action: PayloadAction<ChangePosition>) {
       state.isLoading = true;
     },
     errorProject(state, action: PayloadAction<number>) {

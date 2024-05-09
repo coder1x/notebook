@@ -20,19 +20,27 @@ function add($main, $dataUser, $text)
     $statement->bindValue(':name', $text);
     $statement->execute();
 
-    $sql = 'SELECT MAX(project_id) FROM projects';
-    $statement  =  $main->PDO->prepare($sql);
+    $sql = 'SELECT MAX(project_id), MAX(position) FROM projects WHERE token = :token';
+    $statement = $main->PDO->prepare($sql);
+    $statement->bindValue(':token', $token);
     $statement->execute();
   } catch (PDOException $error) {
     return messageError($error->getMessage(), 50);
   }
 
   $ID = 0;
+  $position = 0;
   while ($item = $statement->fetch(\PDO::FETCH_ASSOC)) {
     $ID = $item['MAX(project_id)'];
+    $position = $item['MAX(position)'];
   }
 
-  return outputData($ID);
+  return outputData(
+    [
+      'id' => $ID,
+      'position' => $position,
+    ]
+  );
 }
 
 function model($main)

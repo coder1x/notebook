@@ -9,6 +9,7 @@ describe('Tasks slice', () => {
         inProgress: null,
         completed: null,
       },
+      title: '',
       isLoading: true,
       errorCode: 0,
     });
@@ -20,38 +21,50 @@ describe('Tasks slice', () => {
         id: 1,
         text: 'задача 1',
         status: 1,
+        position: 1,
       },
       {
         id: 2,
         text: 'задача 2',
         status: 1,
+        position: 2,
       },
       {
         id: 3,
         text: 'задача 3',
         status: 2,
+        position: 3,
       },
       {
         id: 4,
         text: 'задача 4',
         status: 3,
+        position: 4,
       },
     ];
 
-    store.dispatch(tasksActions.setTasks(tasksData));
+    store.dispatch(
+      tasksActions.setTasks({
+        title: '333',
+        data: tasksData,
+      })
+    );
 
     expect(store.getState().tasks).toEqual({
+      title: '333',
       tasks: {
         current: [
           {
             id: 1,
             text: 'задача 1',
             status: 1,
+            position: 1,
           },
           {
             id: 2,
             text: 'задача 2',
             status: 1,
+            position: 2,
           },
         ],
         inProgress: [
@@ -59,6 +72,7 @@ describe('Tasks slice', () => {
             id: 3,
             text: 'задача 3',
             status: 2,
+            position: 3,
           },
         ],
         completed: [
@@ -66,6 +80,7 @@ describe('Tasks slice', () => {
             id: 4,
             text: 'задача 4',
             status: 3,
+            position: 4,
           },
         ],
       },
@@ -83,6 +98,7 @@ describe('Tasks slice', () => {
         inProgress: null,
         completed: null,
       },
+      title: '333',
       isLoading: false,
       errorCode: 0,
     });
@@ -93,6 +109,7 @@ describe('Tasks slice', () => {
       id: 1,
       text: 'задача 1',
       status: 1,
+      position: 1,
     };
 
     store.dispatch(tasksActions.addTask(taskData));
@@ -111,6 +128,7 @@ describe('Tasks slice', () => {
           id: i,
           text: `задача ${i}`,
           status: 1,
+          position: i,
         })
       );
     }
@@ -119,8 +137,8 @@ describe('Tasks slice', () => {
 
     expect(store.getState().tasks.tasks).toEqual({
       current: [
-        { id: 2, text: 'задача 2', status: 1 },
-        { id: 4, text: 'задача 4', status: 1 },
+        { id: 2, text: 'задача 2', status: 1, position: 2 },
+        { id: 4, text: 'задача 4', status: 1, position: 4 },
       ],
       inProgress: null,
       completed: null,
@@ -139,8 +157,8 @@ describe('Tasks slice', () => {
       current: [],
       inProgress: null,
       completed: [
-        { id: 2, text: 'задача 2', status: 3 },
-        { id: 4, text: 'задача 4', status: 3 },
+        { id: 2, text: 'задача 2', status: 3, position: 2 },
+        { id: 4, text: 'задача 4', status: 3, position: 4 },
       ],
     });
   });
@@ -157,8 +175,8 @@ describe('Tasks slice', () => {
       current: [],
       inProgress: null,
       completed: [
-        { id: 2, text: 'задача 2', status: 3 },
-        { id: 4, text: 'задача 4 ****', status: 3 },
+        { id: 2, text: 'задача 2', status: 3, position: 2 },
+        { id: 4, text: 'задача 4 ****', status: 3, position: 4 },
       ],
     });
   });

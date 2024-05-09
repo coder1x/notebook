@@ -5,6 +5,7 @@ type Props = {
     index: number;
     color?: string;
   }[];
+  isLoading: boolean;
 };
 
 export default Props;

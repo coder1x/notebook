@@ -1,10 +1,23 @@
 import { call, put, takeLeading } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
-import { removeProject, addProject, getProjects, updateProjectText } from '@api/index';
+import {
+  removeProject,
+  addProject,
+  getProjects,
+  updateProjectText,
+  changePositionProject,
+} from '@api/index';
 import { projectsActions, projectsType } from '@store/slices';
 import { getDataToCookies } from '@helpers/index';
-import { AddProject, Data, Projects, RemoveProject, UpdateProjectText } from './projectsType';
+import {
+  AddProject,
+  Data,
+  Projects,
+  RemoveProject,
+  UpdateProjectText,
+  ChangePosition,
+} from './projectsType';
 
 function* errorHandler(data: Data) {
   if (!data.error) {
@@ -22,6 +35,24 @@ function* fetchGetProjects() {
     yield errorHandler(data);
 
     yield put(projectsActions.setProjects(data.value ?? []));
+  } catch (error) {
+    console.log('Error', error);
+  }
+}
+
+function* fetchGetNewPositionProjects(action: PayloadAction<ChangePosition>) {
+  const { from, to } = action.payload;
+
+  try {
+    const data: Projects = yield call(changePositionProject, {
+      token: getDataToCookies('TodoToken'),
+      from,
+      to,
+    });
+
+    yield errorHandler(data);
+
+    yield put(projectsActions.changePositionProjects(data.value ?? []));
   } catch (error) {
     console.log('Error', error);
   }
@@ -57,10 +88,13 @@ function* fetchAddProject(action: PayloadAction<string>) {
 
     yield errorHandler(data);
 
+    const { id, position } = data.value;
+
     yield put(
       projectsActions.addProject({
-        id: Number(data.value),
+        id: Number(id) ?? 0,
         text,
+        position: Number(position) ?? 0,
       })
     );
   } catch (error) {
@@ -90,6 +124,10 @@ function* sagaGetProjects() {
   yield takeLeading(projectsActions.fetchProjectsData.type, fetchGetProjects);
 }
 
+function* sagaGetNewPositionProjects() {
+  yield takeLeading(projectsActions.fetchProjectsPosition.type, fetchGetNewPositionProjects);
+}
+
 function* sagaAddProject() {
   yield takeLeading(projectsActions.fetchAddProject.type, fetchAddProject);
 }
@@ -102,4 +140,10 @@ function* sagaUpdateProjectText() {
   yield takeLeading(projectsActions.fetchEditProject.type, fetchUpdateText);
 }
 
-export { sagaAddProject, sagaRemoveProject, sagaGetProjects, sagaUpdateProjectText };
+export {
+  sagaAddProject,
+  sagaRemoveProject,
+  sagaGetProjects,
+  sagaUpdateProjectText,
+  sagaGetNewPositionProjects,
+};

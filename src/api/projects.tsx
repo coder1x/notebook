@@ -16,6 +16,18 @@ type UpdateTextData = {
   text: string;
 };
 
+type ChangePosition = {
+  token: string;
+  from: {
+    id: number;
+    position: number;
+  };
+  to: {
+    id: number;
+    position: number;
+  };
+};
+
 function getProjects(token: string) {
   return makeRequest(`projects/getProjects.php?token=${token}`);
 }
@@ -32,4 +44,8 @@ function updateProjectText(data: UpdateTextData) {
   return makeRequest('projects/updateText.php', getOptions(data, 'PATCH'));
 }
 
-export { addProject, removeProject, getProjects, updateProjectText };
+function changePositionProject(data: ChangePosition) {
+  return makeRequest('projects/changePosition.php', getOptions(data, 'PUT'));
+}
+
+export { addProject, removeProject, getProjects, updateProjectText, changePositionProject };

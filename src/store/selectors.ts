@@ -17,6 +17,7 @@ const errorCodeProjectsState = (state: RootState) => state.projects.errorCode;
 const isLoadingState = (state: RootState) => state.projects.isLoading;
 
 const tasksState = (state: RootState) => state.tasks.tasks;
+const projectTitleState = (state: RootState) => state.tasks.title;
 const errorCodeTasksState = (state: RootState) => state.tasks.errorCode;
 const isLoadingTasksState = (state: RootState) => state.tasks.isLoading;
 
@@ -35,4 +36,5 @@ export {
   isAuthorizedState,
   errorCodeTasksState,
   errorCodeProjectsState,
+  projectTitleState,
 };

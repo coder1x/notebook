@@ -23,6 +23,18 @@ type UpdateTextData = {
   text: string;
 };
 
+type ChangePosition = {
+  token: string;
+  from: {
+    id: number;
+    position: number;
+  };
+  to: {
+    id: number;
+    position: number;
+  };
+};
+
 function getTasks(token: string, projectId: string) {
   return makeRequest(`tasks/getTasks.php?token=${token}&projectId=${projectId}`);
 }
@@ -43,4 +55,8 @@ function updateTaskText(data: UpdateTextData) {
   return makeRequest('tasks/updateText.php', getOptions(data, 'PATCH'));
 }
 
-export { addTask, removeTask, getTasks, updateTaskStatus, updateTaskText };
+function changePositionTask(data: ChangePosition) {
+  return makeRequest('tasks/changePosition.php', getOptions(data, 'PUT'));
+}
+
+export { addTask, removeTask, getTasks, updateTaskStatus, updateTaskText, changePositionTask };

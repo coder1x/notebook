@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getProperty, setProperty } from '@helpers/index';
+import { tasksType } from '@store/slices';
 import {
   State,
   Task,
@@ -8,6 +9,7 @@ import {
   FetchAdd,
   FetchUpdateStatus,
   FetchUpdateText,
+  ChangePosition,
 } from './tasksType';
 
 const getIndex = (data: Task[] | null, id: number) => {
@@ -26,6 +28,7 @@ const initialState: State = {
     inProgress: null,
     completed: null,
   },
+  title: '',
   isLoading: true,
   errorCode: 0,
 };
@@ -34,14 +37,20 @@ const tasks = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    setTasks(state, action: PayloadAction<Task[]>) {
+    setTasks(
+      state,
+      action: PayloadAction<{
+        title: string;
+        data: tasksType.Task[];
+      }>
+    ) {
       const tasksTemp: DataTabs = {
         current: [],
         inProgress: [],
         completed: [],
       };
 
-      action.payload.forEach((item) => {
+      action.payload.data.forEach((item) => {
         switch (item.status) {
           case 1:
             tasksTemp.current.push(item);
@@ -57,6 +66,41 @@ const tasks = createSlice({
         }
       });
 
+      state.title = action.payload.title;
+      state.tasks = tasksTemp;
+      state.isLoading = false;
+    },
+
+    changePositionTasks(
+      state,
+      action: PayloadAction<{
+        title: string;
+        data: tasksType.Task[];
+      }>
+    ) {
+      const tasksTemp: DataTabs = {
+        current: [],
+        inProgress: [],
+        completed: [],
+      };
+
+      action.payload.data.forEach((item) => {
+        switch (item.status) {
+          case 1:
+            tasksTemp.current.push(item);
+            break;
+          case 2:
+            tasksTemp.inProgress.push(item);
+            break;
+          case 3:
+            tasksTemp.completed.push(item);
+            break;
+          default:
+            break;
+        }
+      });
+
+      state.title = action.payload.title;
       state.tasks = tasksTemp;
       state.isLoading = false;
     },
@@ -71,13 +115,14 @@ const tasks = createSlice({
     },
 
     addTask(state, action: PayloadAction<Task>) {
-      const { id, text, status } = action.payload;
+      const { id, text, status, position } = action.payload;
 
       if (Array.isArray(state.tasks.current)) {
         state.tasks.current.push({
           id,
           text,
           status,
+          position,
         });
       } else {
         state.tasks.current = [
@@ -85,6 +130,7 @@ const tasks = createSlice({
             id,
             text,
             status,
+            position,
           },
         ];
       }
@@ -216,6 +262,9 @@ const tasks = createSlice({
       //
     },
     fetchTasksData(state, action: PayloadAction<string>) {
+      state.isLoading = true;
+    },
+    fetchTasksPosition(state, action: PayloadAction<ChangePosition>) {
       state.isLoading = true;
     },
   },
