@@ -27,7 +27,7 @@ const pages = fs.readdirSync(pagesDir).map((file) => {
 // ---- HEAD
 const DESCRIPTION = 'Описание страницы (заглушка)';
 const KEYWORDS = 'Java Script, Type Script, WebPack, SCSS, PUG';
-const TITLE = 'Загаловок проекта';
+const TITLE = 'Заголовок проекта';
 const SOCIAL_LOGO_URL = 'https://frontendx.ru/social.webp';
 const SITE_URL = 'https://frontendx.ru/';
 
