@@ -1,6 +1,5 @@
-import { createElement, FC, MouseEventHandler, memo } from 'react';
+import { createElement, FC, memo } from 'react';
 import { Link } from 'react-router-dom';
-
 import { Modifier, Props } from './buttonType';
 
 const Button: FC<Props> = ({ tag, href = '/', options, text }) => {
@@ -18,17 +17,13 @@ const Button: FC<Props> = ({ tag, href = '/', options, text }) => {
   const className = `${'button'}${modifier[type] ?? ''}`;
 
   if (tag === 'Link') {
-    const functionTemp = () => {
-      //
-    };
-
-    const handleLinkClick = optionsClone.onClick ?? functionTemp;
     return (
-      <Link className={className} onClick={handleLinkClick as MouseEventHandler} to={href}>
+      <Link className={className} onClick={optionsClone.onClick} to={href}>
         {text}
       </Link>
     );
   }
+
   return createElement(
     'button',
     {

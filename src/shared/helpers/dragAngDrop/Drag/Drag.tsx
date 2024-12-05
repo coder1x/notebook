@@ -12,6 +12,9 @@ const Drag = ({ data, className = 'drag', children }: DragProps) => {
     (event: TouchEvent<HTMLDivElement>) => {
       if (!previewElement) return;
 
+      const element = event.target as HTMLDivElement;
+      element.classList.add('dragging');
+
       event.preventDefault();
       previewElement.style.position = 'absolute';
       previewElement.style.left = '-1000px';
@@ -52,6 +55,9 @@ const Drag = ({ data, className = 'drag', children }: DragProps) => {
 
   const handleTouchDragEnd = useCallback(
     (event: TouchEvent) => {
+      const element = event.target as HTMLDivElement;
+      element.classList.remove('dragging');
+
       const nodeElement = document.elementFromPoint(
         event.changedTouches[0].clientX,
         event.changedTouches[0].clientY
@@ -76,6 +82,9 @@ const Drag = ({ data, className = 'drag', children }: DragProps) => {
       if (!data.key) return;
 
       event.dataTransfer.setData('key', data.key);
+
+      const element = event.target as HTMLDivElement;
+      element.classList.add('dragging');
 
       if (!(previewElement instanceof HTMLImageElement)) return;
 
@@ -122,6 +131,11 @@ const Drag = ({ data, className = 'drag', children }: DragProps) => {
     previewElement.setAttribute('src', data.image);
   }, [data.image, previewElement]);
 
+  const handleDragEnd = useCallback((event: DragEvent<Element>) => {
+    const element = event.target as HTMLDivElement;
+    element.classList.remove('dragging');
+  }, []);
+
   return (
     <div
       className={className}
@@ -130,6 +144,7 @@ const Drag = ({ data, className = 'drag', children }: DragProps) => {
       onDragStart={handleDragStart}
       onTouchStart={handleTouchDragStart}
       onTouchMove={handleTouchDragMove}
+      onDragEnd={handleDragEnd}
       onTouchEnd={handleTouchDragEnd}>
       {children}
     </div>

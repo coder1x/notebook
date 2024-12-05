@@ -1,11 +1,11 @@
 {
   "name": "notebook",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": "true",
   "scripts": {
+    "start": "cross-env NODE_ENV=development webpack serve --mode development",
     "dev": "cross-env NODE_ENV=development webpack --mode development",
     "build": "cross-env NODE_ENV=production webpack --mode production",
-    "start": "cross-env NODE_ENV=development webpack serve --mode development",
     "stylelint": "stylelint \"src/**/*.scss\"",
     "stylelint:fix": "stylelint \"src/**/*.scss\" --fix",
     "test": "jest",

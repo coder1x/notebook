@@ -1,7 +1,5 @@
 import { FC, memo } from 'react';
-
 import { TodoItem, Placeholder } from '@components/index';
-
 import Props from './todoListType';
 
 const TodoList: FC<Props> = ({
@@ -26,8 +24,6 @@ const TodoList: FC<Props> = ({
         </li>
       ) : (
         cloneList.map((item) => {
-          // const project = array[(length -= 1)];
-
           if (Object.keys(item).length !== 0) {
             const { id, position, text } = item;
 

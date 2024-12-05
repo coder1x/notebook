@@ -5,6 +5,32 @@
   padding-right: 5px;
   padding-bottom: 15px;
 
+  &__drag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 10px;
+  }
+
+  .button-dnd {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding-left: 5px;
+    padding-right: 5px;
+    white-space: nowrap;
+    background-color: $dark-gray-10;
+    border: 1px solid $dark-gray-20;
+    cursor: pointer;
+  }
+
+  .dragging {
+    button {
+      background-color: $orange-75;
+    }
+  }
+
   &:nth-child(2n) {
     background-color: $dark-gray-10;
   }
